@@ -1,20 +1,11 @@
-﻿using System;
+﻿using Controller;
+using Model;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Controller;
-using Model;
 
 namespace hospital.View.UserControls
 {
@@ -23,9 +14,9 @@ namespace hospital.View.UserControls
     /// </summary>
     public partial class HandlingMedRecordUserControl : UserControl
     {
-        private MedicalRecordsController mc;
-        private PatientController pc;
-        private DoctorController dc;
+        private readonly MedicalRecordsController mc;
+        private readonly PatientController pc;
+        private readonly DoctorController dc;
         public ObservableCollection<Patient> Patients { get; set; }
         public ObservableCollection<Doctor> Doctors { get; set; }
 
@@ -33,14 +24,14 @@ namespace hospital.View.UserControls
         public HandlingMedRecordUserControl()
         {
             InitializeComponent();
-            this.DataContext = this;
+            DataContext = this;
             App app = Application.Current as App;
             mc = app.medicalRecordsController;
-            pc= app.patientController;
+            pc = app.patientController;
             dc = app.doctorController;
-            Patients =  pc.FindAll();
+            Patients = pc.FindAll();
             Doctors = dc.GetDoctors();
-            
+
             BloodTypes = new ObservableCollection<BloodType>(Enum.GetValues(typeof(BloodType)).Cast<BloodType>().ToList());
         }
 
@@ -53,29 +44,39 @@ namespace hospital.View.UserControls
             medRecUserControl.txtPhone.Text = p.PhoneNumber;
             medRecUserControl.txtId.Text = p.Id;
             if (med.DoctorUsername != null)
+            {
                 medRecUserControl.txtDoctor.Text = (dc.GetByUsername(med.DoctorUsername)).ToString();
+            }
+
             medRecUserControl.txtRecordId.Text = p.RecordId.ToString();
             medRecUserControl.txtDate.Text = p.DateOfBirth;
-            if(med.BloodType != 0)
-                medRecUserControl.txtBlood.Text = getBloodType(med.BloodType);
-            if(med.Note != null)
-                medRecUserControl.txtNote.Text = med.Note;
-
-            if(med.Alergies != null)
+            if (med.BloodType != 0)
             {
-                String[] tmp=med.Alergies.Split(',');
-                Allergens = new List<String>();
-                foreach (String s in tmp)
+                medRecUserControl.txtBlood.Text = getBloodType(med.BloodType);
+            }
+
+            if (med.Note != null)
+            {
+                medRecUserControl.txtNote.Text = med.Note;
+            }
+
+            if (med.Alergies != null)
+            {
+                string[] tmp = med.Alergies.Split(',');
+                Allergens = new List<string>();
+                foreach (string s in tmp)
                 {
-                    if(!s.Trim().Equals(""))
+                    if (!s.Trim().Equals(""))
+                    {
                         Allergens.Add(s.Trim());
+                    }
                 }
-                medRecUserControl.listAllergens.ItemsSource=Allergens;
+                medRecUserControl.listAllergens.ItemsSource = Allergens;
             }
 
             medRecUserControl.Visibility = Visibility.Visible;
         }
-        public List<String> Allergens { get; set; }
+        public List<string> Allergens { get; set; }
         private string getBloodType(BloodType type)
         {
             switch (type)
@@ -93,19 +94,19 @@ namespace hospital.View.UserControls
                     return "A+";
                     break;
                 case BloodType.bNegative:
-                    return "B-" ;
+                    return "B-";
                     break;
                 case BloodType.bPositive:
-                    return "B+" ;
+                    return "B+";
                     break;
                 case BloodType.oNegative:
-                    return "0-" ;
+                    return "0-";
                     break;
                 case BloodType.oPositive:
                     return "0+";
                     break;
                 case BloodType.hhNegative:
-                    return "HH-" ;
+                    return "HH-";
                     break;
                 default:
                     return "HH+";
@@ -125,12 +126,12 @@ namespace hospital.View.UserControls
                 Patient p = (Patient)dateGridHandlingMedicalRecord.SelectedItem;
                 editMedRecUserControl.cmbUsername.Text = p.Username;
                 MedicalRecord med = mc.FindById(p.RecordId);
-                mc.RecordId=med.RecordId;
-                if(med.DoctorUsername !=null)
+                mc.RecordId = med.RecordId;
+                if (med.DoctorUsername != null)
                 {
                     editMedRecUserControl.cmbDoctor.Text = dc.GetByUsername(med.DoctorUsername).ToString();
                 }
-                if(med.BloodType != 0)
+                if (med.BloodType != 0)
                 {
                     editMedRecUserControl.cmbBlood.Text = med.BloodType.ToString();
                 }
@@ -138,7 +139,7 @@ namespace hospital.View.UserControls
                 {
                     editMedRecUserControl.txtAllergens.Text = med.Alergies;
                 }
-                if(med.Note != null)
+                if (med.Note != null)
                 {
                     editMedRecUserControl.txtNote.Text = med.Note;
                 }
@@ -153,10 +154,10 @@ namespace hospital.View.UserControls
 
         private void txtSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var tbx = sender as TextBox;
+            TextBox tbx = sender as TextBox;
             if (tbx != null)
             {
-                var filteredList = Patients.Where(x => x.FirstName.ToLower().Contains(tbx.Text.ToLower()) || x.RecordId.ToString().ToLower().Contains(tbx.Text.ToLower()) || x.LastName.ToLower().Contains(tbx.Text.ToLower()) || x.DateOfBirth.ToLower().Contains(tbx.Text.ToLower()) || x.PhoneNumber.ToLower().Contains(tbx.Text.ToLower())).ToList();
+                List<Patient> filteredList = Patients.Where(x => x.FirstName.ToLower().Contains(tbx.Text.ToLower()) || x.RecordId.ToString().ToLower().Contains(tbx.Text.ToLower()) || x.LastName.ToLower().Contains(tbx.Text.ToLower()) || x.DateOfBirth.ToLower().Contains(tbx.Text.ToLower()) || x.PhoneNumber.ToLower().Contains(tbx.Text.ToLower())).ToList();
                 dateGridHandlingMedicalRecord.ItemsSource = null;
                 dateGridHandlingMedicalRecord.ItemsSource = filteredList;
             }

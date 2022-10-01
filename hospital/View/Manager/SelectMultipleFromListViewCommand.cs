@@ -1,18 +1,12 @@
 ﻿using Controller;
-using Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 
 namespace hospital.View.Manager
 {
     public class SelectMultipleFromListViewCommand : IDemoCommand
     {
-        private ListView roomListView;
-        private RoomController roomController;
+        private readonly ListView roomListView;
+        private readonly RoomController roomController;
 
         public SelectMultipleFromListViewCommand(ListView roomListView, RoomController roomController)
         {
@@ -21,7 +15,8 @@ namespace hospital.View.Manager
         }
         public void execute()
         {
-            App.Current.Dispatcher.Invoke((Action)delegate {
+            App.Current.Dispatcher.Invoke(delegate
+            {
                 roomListView.SelectedItems.Add(roomController.FindAll()[10]);
                 roomListView.SelectedItems.Add(roomController.FindAll()[11]);
             });

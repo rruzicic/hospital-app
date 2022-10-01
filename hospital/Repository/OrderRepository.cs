@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FileHandler;
 using Model;
-using FileHandler;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Repository
 {
-    public  class OrderRepository
+    public class OrderRepository
     {
         public OrderFileHandler orderFileHandler;
         public ObservableCollection<Order> orders;
@@ -34,8 +31,8 @@ namespace Repository
 
         public void Create(Order newOrder)
         {
-            this.orders.Add(newOrder);
-            orderFileHandler.Write(this.orders.ToList());
+            orders.Add(newOrder);
+            orderFileHandler.Write(orders.ToList());
         }
         public ObservableCollection<Order> FindAll()
         {
@@ -56,7 +53,7 @@ namespace Repository
         public bool DeleteById(int id)
         {
             bool retVal = orders.Remove(FindById(id));
-            orderFileHandler.Write(this.orders.ToList());
+            orderFileHandler.Write(orders.ToList());
             return retVal;
         }
     }

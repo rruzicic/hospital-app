@@ -1,21 +1,10 @@
 ﻿using Controller;
 using hospital.Controller;
 using hospital.Model;
-using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace hospital.View.PatientView
 {
@@ -24,9 +13,9 @@ namespace hospital.View.PatientView
     /// </summary>
     public partial class PatientHospitalPoll : Page
     {
-        private App app;
-        private PollController pbc;
-        private UserController uc;
+        private readonly App app;
+        private readonly PollController pbc;
+        private readonly UserController uc;
         public List<PollQuestion> Poll { get; set; }
         public PatientHospitalPoll()
         {
@@ -50,7 +39,7 @@ namespace hospital.View.PatientView
         private PollBlueprint FillPoll()
         {
             PollBlueprint poll = pbc.GetHospitalPollBlueprint();
-            foreach (var listIterator in lbPoll.Items)
+            foreach (object listIterator in lbPoll.Items)
             {
                 PollQuestion question = (PollQuestion)listIterator;
                 ListBoxItem item = (ListBoxItem)lbPoll.ItemContainerGenerator.ContainerFromItem(listIterator);
@@ -66,22 +55,31 @@ namespace hospital.View.PatientView
                     bool fiveChecked = (bool)((RadioButton)dataTemplate.FindName("rbFive", presenter)).IsChecked;
 
                     if (oneChecked)
+                    {
                         grade = 1;
+                    }
                     else if (twoChecked)
+                    {
                         grade = 2;
+                    }
                     else if (threeChecked)
+                    {
                         grade = 3;
+                    }
                     else if (fourChecked)
+                    {
                         grade = 4;
-                    else 
+                    }
+                    else
+                    {
                         grade = 5;
-
+                    }
 
                     foreach (PollCategory category in poll.Categories)
                     {
                         foreach (PollQuestion pollQuestion in category.PollQuestions)
                         {
-                            if(pollQuestion.Id == question.Id)
+                            if (pollQuestion.Id == question.Id)
                             {
                                 pollQuestion.Grade = grade;
                             }
@@ -115,7 +113,7 @@ namespace hospital.View.PatientView
         }
         private bool CheckIfFilled()
         {
-            foreach (var listIterator in lbPoll.Items)
+            foreach (object listIterator in lbPoll.Items)
             {
                 ListBoxItem item = (ListBoxItem)lbPoll.ItemContainerGenerator.ContainerFromItem(listIterator);
                 ContentPresenter presenter = FindVisualChild<ContentPresenter>(item);
@@ -131,7 +129,7 @@ namespace hospital.View.PatientView
                     {
                         return false;
                     }
-                    
+
                 }
             }
             return true;
@@ -151,7 +149,9 @@ namespace hospital.View.PatientView
                 {
                     childItem childOfChild = FindVisualChild<childItem>(child);
                     if (childOfChild != null)
+                    {
                         return childOfChild;
+                    }
                 }
             }
             return null;

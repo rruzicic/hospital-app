@@ -1,9 +1,5 @@
 ﻿using hospital.View;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -35,10 +31,11 @@ namespace hospital.VM
                 }
                 Main.GoBack();
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 Console.WriteLine(ex.Message);
             }
-           
+
         }
 
         public event EventHandler CanExecuteChanged;

@@ -1,11 +1,6 @@
 ﻿using Model;
 using Service;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Controller
 {
@@ -38,7 +33,7 @@ namespace Controller
         }
         public void FinishRequest(string resultRequest, int requestId)
         {
-            vacationRequestService.FinishRequest(resultRequest,requestId);
+            vacationRequestService.FinishRequest(resultRequest, requestId);
         }
     }
 }

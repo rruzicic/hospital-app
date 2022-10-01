@@ -1,44 +1,34 @@
-﻿using System;
+﻿using Controller;
+using hospital.Controller;
+using hospital.Model;
+using Model;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Model;
-using Controller;
 using ToastNotifications;
-using ToastNotifications.Position;
 using ToastNotifications.Lifetime;
 using ToastNotifications.Messages;
-using hospital.Model;
-using hospital.Controller;
+using ToastNotifications.Position;
 
 namespace hospital.View.UserControls
 {
     public partial class DelayAppointmentUserControl : UserControl
     {
-        private PatientController pc;
-        private AppointmentManagementController ac;
-        private DoctorController dc;
-        private NotificationController nc;
-        private ScheduledBasicRenovationController sbrc;
-        private RecommendedAppointmentController rc;
-        private AvailableAppointmentController aac;
+        private readonly PatientController pc;
+        private readonly AppointmentManagementController ac;
+        private readonly DoctorController dc;
+        private readonly NotificationController nc;
+        private readonly ScheduledBasicRenovationController sbrc;
+        private readonly RecommendedAppointmentController rc;
+        private readonly AvailableAppointmentController aac;
         public ObservableCollection<Patient> Patients { get; set; }
         public ObservableCollection<Doctor> Doctors { get; set; }
         public DelayAppointmentUserControl()
         {
             InitializeComponent();
-            this.DataContext = this;
+            DataContext = this;
             date.DisplayDateStart = DateTime.Today;
             newDate.DisplayDateStart = DateTime.Today;
             App app = Application.Current as App;
@@ -53,8 +43,7 @@ namespace hospital.View.UserControls
             Doctors = dc.GetDoctors();
         }
 
-
-        Notifier notifier = new Notifier(cfg =>
+        private readonly Notifier notifier = new Notifier(cfg =>
         {
             cfg.PositionProvider = new WindowPositionProvider(
                 parentWindow: Application.Current.MainWindow,
@@ -114,33 +103,50 @@ namespace hospital.View.UserControls
         private void date_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
             if (e.Source == date)
+            {
                 if (date.Text.Equals(""))
+                {
                     errDate.Text = "Choose one date";
+                }
                 else
+                {
                     errDate.Text = "";
+                }
+            }
+
             if (e.Source == newDate)
+            {
                 if (newDate.Text.Equals(""))
+                {
                     errNewDate.Text = "Choose one date";
+                }
                 else
+                {
                     errNewDate.Text = "";
+                }
+            }
         }
 
         private void time_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (e.Source == txtTime)
+            {
                 errTime.Text = "";
-            if (e.Source == txtNewTime)
-                errNewTime.Text = "";
+            }
 
+            if (e.Source == txtNewTime)
+            {
+                errNewTime.Text = "";
+            }
         }
 
         private void btnRecTwo_Click(object sender, RoutedEventArgs e)
         {
             rc.tryChangeAppointment(CurrentAppointment, (DateTime)newDate.SelectedDate, rc.RecommendedTwo.StartTime.ToString().Split(' ')[1]);
-            this.Visibility = Visibility.Collapsed;
+            Visibility = Visibility.Collapsed;
             cmbUsername.Text = "";
             date.Text = "";
-            txtTime.Value = new DateTime(DateTime.Now.Year,DateTime.Now.Month,DateTime.Now.Day,12,0,0);
+            txtTime.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 12, 0, 0);
             newDate.Text = "";
             txtNewTime.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 12, 0, 0);
             errNewDate.Text = "";
@@ -153,7 +159,7 @@ namespace hospital.View.UserControls
         private void btnRecOne_Click(object sender, RoutedEventArgs e)
         {
             rc.tryChangeAppointment(CurrentAppointment, (DateTime)newDate.SelectedDate, rc.RecommendedOne.StartTime.ToString().Split(' ')[1]);
-            this.Visibility = Visibility.Collapsed;
+            Visibility = Visibility.Collapsed;
             cmbUsername.Text = "";
             date.Text = "";
             txtTime.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 12, 0, 0);
@@ -173,16 +179,26 @@ namespace hospital.View.UserControls
                 btnShowRec.Visibility = Visibility.Collapsed;
                 notFree.Text = "";
                 if (((DateTime)txtNewTime.Value).Hour.Equals("6") && ((DateTime)txtNewTime.Value).Minute.Equals("30"))
+                {
                     btnRecOne.Visibility = Visibility.Collapsed;
+                }
                 else
+                {
                     btnRecOne.Visibility = Visibility.Visible;
+                }
+
                 if (((DateTime)txtNewTime.Value).Hour.Equals("7") && ((DateTime)txtNewTime.Value).Minute.Equals("00"))
+                {
                     btnRecTwo.Visibility = Visibility.Collapsed;
+                }
                 else
+                {
                     btnRecTwo.Visibility = Visibility.Visible;
-                ObservableCollection<Appointment> apointments = aac.GetFreeAppointmentsByDateAndDoctor((DateTime)newDate.SelectedDate, CurrentAppointment.DoctorUsername,cmbUsername.Text);
-                rc.FindFreeForward(apointments,(DateTime) txtNewTime.Value);
-                rc.FindFreeBack(apointments, (DateTime) txtNewTime.Value);
+                }
+
+                ObservableCollection<Appointment> apointments = aac.GetFreeAppointmentsByDateAndDoctor((DateTime)newDate.SelectedDate, CurrentAppointment.DoctorUsername, cmbUsername.Text);
+                rc.FindFreeForward(apointments, (DateTime)txtNewTime.Value);
+                rc.FindFreeBack(apointments, (DateTime)txtNewTime.Value);
                 recOne.Text = "Doctor: " + dc.GetByUsername(rc.RecommendedOne.DoctorUsername) + "\n" + rc.RecommendedOne.StartTime;
                 recTwo.Text = "Doctor: " + dc.GetByUsername(rc.RecommendedTwo.DoctorUsername) + "\n" + rc.RecommendedTwo.StartTime;
             }
@@ -190,18 +206,17 @@ namespace hospital.View.UserControls
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-            this.Visibility = Visibility.Collapsed;
+            Visibility = Visibility.Collapsed;
         }
-        public Appointment CurrentAppointment {get;set;}
+        public Appointment CurrentAppointment { get; set; }
         private void btnSubmit_Click(object sender, RoutedEventArgs e)
         {
             Console.WriteLine("AJDE");
             if (isValidate())
             {
-                Appointment oldAppointment;
                 bool sucess = false;
                 Console.WriteLine("GROBARI");
-                ObservableCollection<Appointment> appointments= ac.GetAppointmentByPatient(cmbUsername.Text);
+                ObservableCollection<Appointment> appointments = ac.GetAppointmentByPatient(cmbUsername.Text);
                 string dates = date.ToString().Split(' ')[0];
                 bool exists = false;
 
@@ -213,45 +228,45 @@ namespace hospital.View.UserControls
 
                 foreach (Appointment appointment in appointments)
                 {
-                        string hoursFromAppointment = appointment.StartTime.ToString().Split(' ')[1].Split(':')[0];
-                        string minutsFromAppointment = appointment.StartTime.ToString().Split(' ')[1].Split(':')[1];
-                        string dateFromAppointment = appointment.StartTime.ToString().Split(' ')[0];
+                    string hoursFromAppointment = appointment.StartTime.ToString().Split(' ')[1].Split(':')[0];
+                    string minutsFromAppointment = appointment.StartTime.ToString().Split(' ')[1].Split(':')[1];
+                    string dateFromAppointment = appointment.StartTime.ToString().Split(' ')[0];
                     Console.WriteLine(hoursFromAppointment + ":" + minutsFromAppointment + " / " + dateFromAppointment);
                     //pogresno si izvedao gde sta setujes kad otvaras prozor pa pravi problem
                     //Console.WriteLine(((DateTime)txtTime.Value).Hour + ":" + ((DateTime)txtTime.Value).Minute + " / " + dates);
-                        if (hoursFromAppointment.Equals(((DateTime) txtTime.Value).Hour) && minutsFromAppointment.Equals(((DateTime)txtTime.Value).Minute) && dates.Equals(dateFromAppointment))
-                        {
-                            exists = true;
-                            CurrentAppointment = appointment;
+                    if (hoursFromAppointment.Equals(((DateTime)txtTime.Value).Hour) && minutsFromAppointment.Equals(((DateTime)txtTime.Value).Minute) && dates.Equals(dateFromAppointment))
+                    {
+                        exists = true;
+                        CurrentAppointment = appointment;
                         Console.WriteLine("USAO SAM ODJE");
-                            List<ScheduledBasicRenovation> renovationList = sbrc.FindAll();
-                            bool canMake = true;
-                            foreach (ScheduledBasicRenovation renovation in renovationList)
+                        List<ScheduledBasicRenovation> renovationList = sbrc.FindAll();
+                        bool canMake = true;
+                        foreach (ScheduledBasicRenovation renovation in renovationList)
+                        {
+                            if (renovation._Room.id == dc.GetByUsername(appointment.DoctorUsername).OrdinationId && renovation._Interval._Start <= (DateTime)newDate.SelectedDate && renovation._Interval._End >= (DateTime)newDate.SelectedDate)
                             {
-                                if (renovation._Room.id == dc.GetByUsername(appointment.DoctorUsername).OrdinationId && renovation._Interval._Start <= (DateTime)newDate.SelectedDate && renovation._Interval._End >= (DateTime)newDate.SelectedDate)
-                                {
-                                    notifier.ShowError("Invalid time because of renovations");
-                                    canMake = false;
-                                }
-                            }
-
-                            if (canMake)
-                            {
-                                sucess = rc.tryChangeAppointment(appointment, (DateTime)newDate.SelectedDate, txtNewTime.Value.ToString().Split(' ')[1]);
-                                if (sucess)
-                                {
-                                    notifier.ShowSuccess("Appointment has been moved successfully.");
-                                    this.Visibility = Visibility.Collapsed;
-                                    return;
-                                }
-                                else
-                                {
-                                    btnShowRec.Visibility = Visibility.Visible;
-                                    notFree.Text = "Appointment is not free";
-                                    break;
-                                }
+                                notifier.ShowError("Invalid time because of renovations");
+                                canMake = false;
                             }
                         }
+
+                        if (canMake)
+                        {
+                            sucess = rc.tryChangeAppointment(appointment, (DateTime)newDate.SelectedDate, txtNewTime.Value.ToString().Split(' ')[1]);
+                            if (sucess)
+                            {
+                                notifier.ShowSuccess("Appointment has been moved successfully.");
+                                Visibility = Visibility.Collapsed;
+                                return;
+                            }
+                            else
+                            {
+                                btnShowRec.Visibility = Visibility.Visible;
+                                notFree.Text = "Appointment is not free";
+                                break;
+                            }
+                        }
+                    }
                 }
                 if (!exists)
                 {

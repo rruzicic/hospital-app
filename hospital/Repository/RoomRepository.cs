@@ -1,22 +1,20 @@
 using FileHandler;
 using hospital.Repository;
 using Model;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows;
 
 namespace Repository
 {
     public class RoomRepository : IRoomRepository
     {
-        ObservableCollection<Room> rooms;
+        private ObservableCollection<Room> rooms;
 
         public RoomRepository()
         {
             roomFileHandler = new RoomFileHandler();
-            rooms = new ObservableCollection<Room>(); 
+            rooms = new ObservableCollection<Room>();
         }
         public void Create(Model.Room room)
         {
@@ -25,27 +23,36 @@ namespace Repository
 
         public Room FindById(string id)
         {
-            foreach (Room room in rooms) {
+            foreach (Room room in rooms)
+            {
                 if (room.id.Equals(id))
+                {
                     return room;
+                }
             }
             return null;
         }
 
-        public Room FindByName(string name) {
+        public Room FindByName(string name)
+        {
             foreach (Room room in rooms)
             {
                 if (room._Name.Equals(name))
+                {
                     return room;
+                }
             }
             return null;
         }
 
-        public Room FindByPurpose(string purpose) {
+        public Room FindByPurpose(string purpose)
+        {
             foreach (Room room in rooms)
             {
                 if (room._Purpose.Equals(purpose))
+                {
                     return room;
+                }
             }
             return null;
         }
@@ -55,28 +62,39 @@ namespace Repository
             foreach (Room room in rooms)
             {
                 if (room._Purpose.Equals(purpose))
+                {
                     retVal.Add(room);
+                }
             }
             return retVal;
         }
 
-        public ObservableCollection<Room> FindRoomsByEquipmentType(string type) {
+        public ObservableCollection<Room> FindRoomsByEquipmentType(string type)
+        {
             ObservableCollection<Room> filteredRooms = new ObservableCollection<Room>();
-            foreach (Room room in rooms) {
-                foreach (Equipment eq in room.equipment) {
+            foreach (Room room in rooms)
+            {
+                foreach (Equipment eq in room.equipment)
+                {
                     if (eq.type.Contains(type))
+                    {
                         filteredRooms.Add(room);
+                    }
                 }
             }
             return filteredRooms;
         }
 
 
-        public ObservableCollection<Room> FindRoomsByEquipmentQuantity(int quantity) {
+        public ObservableCollection<Room> FindRoomsByEquipmentQuantity(int quantity)
+        {
             ObservableCollection<Room> filteredRooms = new ObservableCollection<Room>();
             foreach (Room room in rooms)
             {
-                if (RoomHasEnoughEquipment(quantity, room)) filteredRooms.Add(room);
+                if (RoomHasEnoughEquipment(quantity, room))
+                {
+                    filteredRooms.Add(room);
+                }
             }
             return filteredRooms;
         }
@@ -86,12 +104,15 @@ namespace Repository
             foreach (Equipment eq in room.equipment)
             {
                 if (eq.quantity >= quantity)
+                {
                     return true;
+                }
             }
             return false;
         }
 
-        public ObservableCollection<Room> FindRoomsByEquipmentTypeAndQuantity(string type, int quantity) {
+        public ObservableCollection<Room> FindRoomsByEquipmentTypeAndQuantity(string type, int quantity)
+        {
             ObservableCollection<Room> filteredRooms = new ObservableCollection<Room>();
             foreach (Room room in rooms)
             {
@@ -116,7 +137,8 @@ namespace Repository
         {
             foreach (Room r in rooms)
             {
-                if (r.id.Equals(id)) {
+                if (r.id.Equals(id))
+                {
                     r.id = room.id;
                     r._Name = room.name;
                     r.floor = room.floor;
@@ -124,7 +146,7 @@ namespace Repository
                     r._Purpose = room.purpose;
                     return true;
                 }
-                    
+
             }
             return false;
         }
@@ -134,13 +156,17 @@ namespace Repository
             foreach (Room room in rooms)
             {
                 if (room.id.Equals(id))
+                {
                     return rooms.Remove(room);
+                }
             }
             return false;
         }
 
-        public void LoadRoomData() {
-            if (roomFileHandler.Read() != null) {
+        public void LoadRoomData()
+        {
+            if (roomFileHandler.Read() != null)
+            {
                 foreach (Room room in roomFileHandler.Read())
                 {
                     rooms.Add(room);
@@ -148,7 +174,8 @@ namespace Repository
             }
         }
 
-        public void WriteRoomData() {
+        public void WriteRoomData()
+        {
             roomFileHandler.Write(rooms.ToList());
         }
 

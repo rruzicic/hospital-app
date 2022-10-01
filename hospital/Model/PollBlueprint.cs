@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace hospital.Model
 {
@@ -24,13 +21,10 @@ namespace hospital.Model
         public string Username { get => _username; set => _username = value; }
         public int AppointmentId
         {
-            get
-            {
-                return _appointmentId;
-            }
+            get => _appointmentId;
             set
             {
-                if(_type == PollType.DOCTOR_POLL)
+                if (_type == PollType.DOCTOR_POLL)
                 {
                     _appointmentId = value;
                 }

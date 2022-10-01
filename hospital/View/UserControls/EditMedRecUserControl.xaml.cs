@@ -1,19 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Controller;
+using Model;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Controller;
-using Model;
 
 namespace hospital.View.UserControls
 {
@@ -38,9 +26,9 @@ namespace hospital.View.UserControls
         {
             if (isCorected())
             {
-                String doctorUsername = dc.getByName(cmbDoctor.Text).Username;
+                string doctorUsername = dc.getByName(cmbDoctor.Text).Username;
                 mc.UpdateById(mc.RecordId, new MedicalRecord(cmbUsername.Text, txtAllergens.Text, doctorUsername, getBloodType(cmbBlood.Text), txtNote.Text));
-                this.Visibility = Visibility.Collapsed;
+                Visibility = Visibility.Collapsed;
                 cmbUsername.Text = "";
                 cmbDoctor.Text = "";
                 cmbBlood.Text = "";
@@ -56,7 +44,7 @@ namespace hospital.View.UserControls
             cmbBlood.Text = "";
             txtAllergens.Text = "";
             txtNote.Text = "";
-            this.Visibility = Visibility.Collapsed;
+            Visibility = Visibility.Collapsed;
         }
 
         private BloodType getBloodType(string txt)

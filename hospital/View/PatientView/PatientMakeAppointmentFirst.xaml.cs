@@ -1,21 +1,8 @@
 ﻿using Controller;
-using hospital.Controller;
-using hospital.Service;
 using Model;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace hospital.View.PatientView
 {
@@ -24,11 +11,11 @@ namespace hospital.View.PatientView
     /// </summary>
     public partial class PatientMakeAppointmentFirst : Page
     {
-        private AppointmentManagementController ac;
-        private RecommendedAppointmentController rac;
-        private AvailableAppointmentController aac;
-        private UserController uc;
-        private App app;
+        private readonly AppointmentManagementController ac;
+        private readonly RecommendedAppointmentController rac;
+        private readonly AvailableAppointmentController aac;
+        private readonly UserController uc;
+        private readonly App app;
         public PatientMakeAppointmentFirst()
         {
             InitializeComponent();

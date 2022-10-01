@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Timers;
+﻿using System.Timers;
 
 namespace hospital.Service
 {
     public class SystemTimer
     {
         public static Timer timer;
-        private ScheduledAdvancedRenovationService scheduledAdvancedRenovationService;
-        private ScheduledBasicRenovationService scheduledBasicRenovationService;
-        private ScheduledRelocationService scheduledRelocationService;
+        private readonly ScheduledAdvancedRenovationService scheduledAdvancedRenovationService;
+        private readonly ScheduledBasicRenovationService scheduledBasicRenovationService;
+        private readonly ScheduledRelocationService scheduledRelocationService;
 
         public SystemTimer(ScheduledAdvancedRenovationService scheduledAdvancedRenovationService, ScheduledBasicRenovationService scheduledBasicRenovationService,
             ScheduledRelocationService scheduledRelocationService)
@@ -32,12 +28,12 @@ namespace hospital.Service
         }
 
 
-        private void FireScheduledTask(Object source, ElapsedEventArgs e)
+        private void FireScheduledTask(object source, ElapsedEventArgs e)
         {
             scheduledAdvancedRenovationService.RenovationTracker();
             scheduledBasicRenovationService.RenovationTracker();
             scheduledRelocationService.RelocationTracker();
         }
     }
-    
+
 }

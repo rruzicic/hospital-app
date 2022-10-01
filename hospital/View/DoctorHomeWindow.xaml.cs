@@ -1,20 +1,10 @@
 ﻿using Controller;
 using Model;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using ToastNotifications;
 using ToastNotifications.Lifetime;
 using ToastNotifications.Messages;
@@ -28,16 +18,16 @@ namespace hospital.View
     public partial class DoctorHomeWindow : Window
     {
         public ObservableCollection<Appointment> Appointments { get; set; }
-        private AppointmentManagementController ac;
-        private DoctorController dc;
-        private UserController uc;
-        private NotificationController nc;
+        private readonly AppointmentManagementController ac;
+        private readonly DoctorController dc;
+        private readonly UserController uc;
+        private readonly NotificationController nc;
 
-        private Doctor loggedInDoctor;
+        private readonly Doctor loggedInDoctor;
         public DoctorHomeWindow()
         {
             InitializeComponent();
-            this.DataContext = this;
+            DataContext = this;
             App app = Application.Current as App;
             nc = app.notificationController;
             ac = app.appointmentController;
@@ -45,10 +35,12 @@ namespace hospital.View
             uc = app.userController;
 
             loggedInDoctor = dc.GetByUsername(uc.CurentLoggedUser.Username);
-           
 
-            System.Timers.Timer timer = new System.Timers.Timer();
-            timer.Interval = 6000; //1min = 60000ms
+
+            System.Timers.Timer timer = new System.Timers.Timer
+            {
+                Interval = 6000 //1min = 60000ms
+            };
             timer.Elapsed += new System.Timers.ElapsedEventHandler(OnTimedEvent);
             timer.Enabled = true;
 
@@ -60,22 +52,25 @@ namespace hospital.View
                 if (n.Username.Equals(uc.CurentLoggedUser.Username))
                 {
                     Timer preTimer;
-                    preTimer = new Timer(1000);
-                    preTimer.AutoReset = false;
+                    preTimer = new Timer(1000)
+                    {
+                        AutoReset = false
+                    };
                     preTimer.Elapsed += (sender, e_) => RunOneTimeNotification(sender, e_, n);
                     preTimer.Start();
                     nc.Delete(n);
                 }
             }
         }
-        public void RunOneTimeNotification(Object source, System.Timers.ElapsedEventArgs e, Notification notification)
+        public void RunOneTimeNotification(object source, System.Timers.ElapsedEventArgs e, Notification notification)
         {
             Dispatcher.Invoke(() =>
             {
                 notifier.ShowInformation(notification.Text);
             });
         }
-        Notifier notifier = new Notifier(cfg =>
+
+        private readonly Notifier notifier = new Notifier(cfg =>
         {
             cfg.PositionProvider = new WindowPositionProvider(
                 parentWindow: Application.Current.MainWindow,
@@ -97,7 +92,7 @@ namespace hospital.View
             {
                 if (a.StartTime <= DateTime.Now)
                 {
-                    if(!loggedInDoctor.myPatients.Contains(a.PatientUsername))
+                    if (!loggedInDoctor.myPatients.Contains(a.PatientUsername))
                     {
                         dc.addPatientToDoctorsList(a.PatientUsername, loggedInDoctor.Username);
                         //MessageBox.Show("DODAT PACIJENT U DOKTORA");
@@ -136,7 +131,7 @@ namespace hospital.View
             uc.CurentLoggedUser = null;
             MainWindow mw = new MainWindow();
             mw.Show();
-            this.Close();
+            Close();
         }
     }
 }

@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using hospital.Service;
+﻿using Model;
 using Service;
-using Model;
 using System.Collections.ObjectModel;
 
 namespace Controller
@@ -42,9 +36,9 @@ namespace Controller
             return userService.UpdateByUsername(username, user);
         }
 
-        public User SendDate(string username,string password)
+        public User SendDate(string username, string password)
         {
-           return CurentLoggedUser=userService.CheckCredentials(username, password);
+            return CurentLoggedUser = userService.CheckCredentials(username, password);
         }
     }
 }

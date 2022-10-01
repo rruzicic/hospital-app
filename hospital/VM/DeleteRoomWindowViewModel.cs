@@ -2,10 +2,6 @@
 using hospital.View;
 using Model;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -15,12 +11,13 @@ namespace hospital.VM
     public class DeleteRoomWindowViewModel
     {
 
-        private RoomController roomController;
+        private readonly RoomController roomController;
         public ICommand DeleteRoomCommand => new DeleteRoomCommand(this);
         public ICommand CancelDeleteRoomCommand => new CancelDeleteRoomCommand();
-        private Room room;
+        private readonly Room room;
 
-        public DeleteRoomWindowViewModel(Room room) {
+        public DeleteRoomWindowViewModel(Room room)
+        {
             App app = Application.Current as App;
             roomController = app.roomController;
             this.room = room;
@@ -44,7 +41,7 @@ namespace hospital.VM
     public class DeleteRoomCommand : ICommand
     {
         public event EventHandler CanExecuteChanged;
-        private DeleteRoomWindowViewModel deleteRoomWindowViewModel;
+        private readonly DeleteRoomWindowViewModel deleteRoomWindowViewModel;
 
         public DeleteRoomCommand(DeleteRoomWindowViewModel vm)
         {

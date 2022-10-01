@@ -1,9 +1,5 @@
 ﻿using hospital.View.Manager;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace hospital.VM
@@ -12,7 +8,8 @@ namespace hospital.VM
     {
         public ICommand DoctorReviewCommand => new DoctorReviewCommand();
         public ICommand HospitalReviewCommand => new HospitalReviewCommand();
-        public ReviewPageViewModel() {
+        public ReviewPageViewModel()
+        {
 
         }
     }

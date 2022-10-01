@@ -3,17 +3,14 @@ using hospital.Repository;
 using Model;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace hospital.Service
 {
     public class ScheduledBasicRenovationService
     {
-        private IScheduledBasicRenovationRepository scheduledRenovationRepository;
-        private TimeSchedulerService timeSchedulerService;
+        private readonly IScheduledBasicRenovationRepository scheduledRenovationRepository;
+        private readonly TimeSchedulerService timeSchedulerService;
 
         public ScheduledBasicRenovationService(IScheduledBasicRenovationRepository scheduledRenovationRepository, TimeSchedulerService timeSchedulerService)
         {
@@ -59,7 +56,9 @@ namespace hospital.Service
             foreach (ScheduledBasicRenovation renovation in renovations)
             {
                 if (renovation._Interval._End.CompareTo(now.Date) == 0)
+                {
                     DeleteById(renovation._Id);
+                }
             }
         }
     }

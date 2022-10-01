@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace hospital.Model
 {
@@ -19,30 +15,19 @@ namespace hospital.Model
 
         public DateTime _Start
         {
-            get
-            {
-                return start;
-            }
-            set
-            {
-                start = value;
-            }
+            get => start;
+            set => start = value;
         }
 
         public DateTime _End
         {
-            get
-            {
-                return end;
-            }
-            set
-            {
-                end = value;
-            }
+            get => end;
+            set => end = value;
 
         }
 
-        public bool IsOverlaping(TimeInterval interval) {
+        public bool IsOverlaping(TimeInterval interval)
+        {
             return DateIsInInterval(this, interval._Start.Date) || DateIsInInterval(this, interval._End.Date)
                        || IsInsideInterval(this, interval) || IsInsideInterval(interval, this);
         }

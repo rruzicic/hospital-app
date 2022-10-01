@@ -1,24 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Controller;
+using Model;
+using System;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Model;
-using Controller;
-using System.Collections.ObjectModel;
 using ToastNotifications;
-using ToastNotifications.Position;
 using ToastNotifications.Lifetime;
 using ToastNotifications.Messages;
+using ToastNotifications.Position;
 
 namespace hospital.View.UserControls
 {
@@ -35,7 +25,7 @@ namespace hospital.View.UserControls
             ac = app.appointmentController;
         }
 
-        Notifier notifier = new Notifier(cfg =>
+        private readonly Notifier notifier = new Notifier(cfg =>
         {
             cfg.PositionProvider = new WindowPositionProvider(
                 parentWindow: Application.Current.MainWindow,
@@ -51,29 +41,37 @@ namespace hospital.View.UserControls
         });
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-            this.Visibility = Visibility.Collapsed;
+            Visibility = Visibility.Collapsed;
             cmbUsername.Text = "";
             date.Text = "";
             txtTime.Text = "";
             errUsername.Text = "";
             errTime.Text = "";
-            errDate.Text =  "";
+            errDate.Text = "";
             notFree.Text = "";
         }
 
         private void time_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (e.Source == txtTime)
+            {
                 errTime.Text = "";
+            }
         }
 
         private void date_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
             if (e.Source == date)
+            {
                 if (date.Text.Equals(""))
+                {
                     errDate.Text = "Choose one date";
+                }
                 else
+                {
                     errDate.Text = "";
+                }
+            }
         }
 
         private void cmbUsername_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -95,7 +93,7 @@ namespace hospital.View.UserControls
                     {
                         ac.DeleteAppointment(appointment.Id);
                         notifier.ShowSuccess("Appointment successfully removed.");
-                        this.Visibility = Visibility.Collapsed;
+                        Visibility = Visibility.Collapsed;
                     }
                 }
 
@@ -108,13 +106,13 @@ namespace hospital.View.UserControls
 
         private void btnMake_Click(object sender, RoutedEventArgs e)
         {
-            this.Visibility = Visibility.Collapsed;
+            Visibility = Visibility.Collapsed;
             cmbUsername.Text = "";
             date.Text = "";
             txtTime.Text = "";
             errUsername.Text = "";
             errTime.Text = "";
-            errDate.Text =  "";
+            errDate.Text = "";
             notFree.Text = "";
         }
 

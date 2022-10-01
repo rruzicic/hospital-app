@@ -14,10 +14,7 @@ namespace Model
 
         public string Id
         {
-            get
-            {
-                return id;
-            }
+            get => id;
             set
             {
                 id = value;
@@ -27,10 +24,7 @@ namespace Model
 
         public string Name
         {
-            get
-            {
-                return name;
-            }
+            get => name;
             set
             {
                 name = value;
@@ -40,10 +34,7 @@ namespace Model
 
         public string Status
         {
-            get
-            {
-                return status;
-            }
+            get => status;
             set
             {
                 status = value;
@@ -53,10 +44,7 @@ namespace Model
 
         public List<string> Ingridients
         {
-            get
-            {
-                return ingridients;
-            }
+            get => ingridients;
             set
             {
                 ingridients = value;
@@ -66,7 +54,7 @@ namespace Model
 
         private List<Medicine> alternatives;
 
-        
+
 
         public Medicine() : base()
         {
@@ -80,11 +68,9 @@ namespace Model
             alternatives = new List<Medicine>();
         }
 
-        public List<Medicine> Alternatives {
-            get
-            {
-                return alternatives;
-            }
+        public List<Medicine> Alternatives
+        {
+            get => alternatives;
             set
             {
                 alternatives = value;
@@ -92,9 +78,11 @@ namespace Model
             }
         }
 
-        public string AlternativesToString() {
+        public string AlternativesToString()
+        {
             string alternativesToString = "";
-            foreach (Medicine alternative in alternatives) {
+            foreach (Medicine alternative in alternatives)
+            {
                 alternativesToString += alternative.ToString() + ", ";
             }
             return alternativesToString;

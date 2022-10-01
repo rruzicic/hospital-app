@@ -1,20 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using Controller;
+﻿using Controller;
 using hospital.Controller;
 using Model;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace hospital.View
 {
@@ -23,8 +15,8 @@ namespace hospital.View
     /// </summary>
     public partial class EditMedicineWindow : Window
     {
-        private MedicineController medicineController;
-        private IngridientsController ingridientsController;
+        private readonly MedicineController medicineController;
+        private readonly IngridientsController ingridientsController;
 
         public EditMedicineWindow()
         {
@@ -37,8 +29,12 @@ namespace hospital.View
 
         public void FillForm()
         {
-            Medicine medicine = this.DataContext as Medicine;
-            if (medicine == null) return;
+            Medicine medicine = DataContext as Medicine;
+            if (medicine == null)
+            {
+                return;
+            }
+
             alternativesField.ItemsSource = medicineController.FindAll();
             ingridientsField.ItemsSource = ingridientsController.FindAll();
             SetAllSelectedIngridients(medicine.Ingridients);
@@ -67,22 +63,27 @@ namespace hospital.View
         private Medicine GetMedicineOriginalReference(Medicine medicine)
         {
             ObservableCollection<Medicine> medicines = medicineController.FindAll();
-            foreach(Medicine med in medicines)
+            foreach (Medicine med in medicines)
             {
-                if (med.Id == medicine.Id) return med;
+                if (med.Id == medicine.Id)
+                {
+                    return med;
+                }
             }
             return null;
         }
 
         private void Cancel_Medicine_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void Close_Window(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
+            {
                 Close();
+            }
         }
 
         private void Edit_Medicine_Click(object sender, RoutedEventArgs e)
@@ -102,8 +103,10 @@ namespace hospital.View
         private void EditMedicine()
         {
             Medicine newMedicine = new Medicine(codeField.Text, nameField.Text, GetIngridients(), nameField.Text,
-                Int32.Parse(quanityField.Text));
-            newMedicine.Alternatives = GetAlternatives();
+                int.Parse(quanityField.Text))
+            {
+                Alternatives = GetAlternatives()
+            };
             medicineController.UpdateById(codeField.Text, newMedicine);
         }
 
@@ -117,23 +120,33 @@ namespace hospital.View
         private void CheckIfEditable()
         {
             if (medicineController.FindById(codeField.Text).Status.Equals("approved"))
+            {
                 throw new Exception("Editing an approved medicine is not allowed!");
+            }
         }
 
-        private void ValidateQuantity() {
+        private void ValidateQuantity()
+        {
             int value;
-            bool isValid = Int32.TryParse(quanityField.Text, out value);
+            bool isValid = int.TryParse(quanityField.Text, out value);
 
             if (!isValid)
+            {
                 throw new Exception("Quantity should be a number!");
+            }
 
             if (value < 0)
+            {
                 throw new Exception("Quantity should be positive!");
+            }
         }
-        
-        private void ValidateIngridients() {
+
+        private void ValidateIngridients()
+        {
             if (GetIngridients().Count == 0)
+            {
                 throw new Exception("There should be at least one ingredient!");
+            }
         }
 
         private List<string> GetIngridients()

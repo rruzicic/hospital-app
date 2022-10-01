@@ -1,6 +1,4 @@
-using Newtonsoft.Json;
 using System;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 
 namespace Model
@@ -16,7 +14,7 @@ namespace Model
         private string _roomId;
         private string _doctorNote;
         private string _patientNote;
-        
+
         public Appointment(int id, string doctorUsername, string patientUsername, DateTime startTime)
         {
             _id = id;
@@ -26,10 +24,7 @@ namespace Model
         }
         public int Id
         {
-            get
-            {
-                return _id;
-            }
+            get => _id;
             set
             {
                 _id = value;
@@ -76,7 +71,7 @@ namespace Model
         }
         public DateTime StartTime { get => _startTime; set => _startTime = value; }
         public string Description { get => _description; set => _description = value; }
-        public int Duration { get { return 30; } set => _duration = value; }
+        public int Duration { get => 30; set => _duration = value; }
         public string DoctorNote { get => _doctorNote; set => _doctorNote = value; }
         public string PatientNote { get => _patientNote; set => _patientNote = value; }
         public string RoomId
@@ -98,13 +93,7 @@ namespace Model
                 OnPropertyChanged();
             }
         }
-        public string AppointmentDisplayProperty
-        {
-            get
-            {
-                return _id.ToString() + " " + _doctorUsername + " " + _startTime.ToString();
-            }
-        }
+        public string AppointmentDisplayProperty => _id.ToString() + " " + _doctorUsername + " " + _startTime.ToString();
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string name = "")
         {

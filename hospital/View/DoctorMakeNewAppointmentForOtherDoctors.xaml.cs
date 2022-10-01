@@ -1,20 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using Controller;
+﻿using Controller;
 using hospital.Controller;
 using hospital.Model;
 using Model;
+using System;
+using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace hospital.View
 {
@@ -23,15 +14,15 @@ namespace hospital.View
     /// </summary>
     public partial class DoctorMakeNewAppointmentForOtherDoctors : Window
     {
-        private DoctorController dc;
-        private AppointmentManagementController ac;
-        private PatientController pc;
-        private RoomController rc;
-        private UserController uc;
-        private ScheduledBasicRenovationController sbrc;
-        private AvailableAppointmentController aac;
+        private readonly DoctorController dc;
+        private readonly AppointmentManagementController ac;
+        private readonly PatientController pc;
+        private readonly RoomController rc;
+        private readonly UserController uc;
+        private readonly ScheduledBasicRenovationController sbrc;
+        private readonly AvailableAppointmentController aac;
 
-        private Doctor loggedInDoctor;
+        private readonly Doctor loggedInDoctor;
         private Doctor selectedDoctor;
         private Patient selectedPatient;
         public DoctorMakeNewAppointmentForOtherDoctors()
@@ -50,16 +41,16 @@ namespace hospital.View
             cmbDoctor.ItemsSource = dc.GetDoctors();
             cmbOpRoom.ItemsSource = rc.FindAll(); // dodati proveru da izlistava samo "operation" sale
             loggedInDoctor = dc.GetByUsername(uc.CurentLoggedUser.Username);
-            
+
             cbOperation.IsEnabled = false;
-            this.DataContext = this;
+            DataContext = this;
         }
 
         private void btnShow_Click(object sender, RoutedEventArgs e)
         {
             if (cmbPatients.SelectedIndex != -1 && cmbDoctor.SelectedIndex != -1 && date.SelectedDate == null)
             {
-                this.DataContext = this;
+                DataContext = this;
                 selectedPatient = (Patient)cmbPatients.SelectedItem;
                 selectedDoctor = (Doctor)cmbDoctor.SelectedItem;
                 appointmentTable.ItemsSource = aac.GetFreeAppointmentsByDoctor(selectedDoctor.Username, "");
@@ -82,7 +73,7 @@ namespace hospital.View
                 if (canMake)
                 {
                     ac.CreateAppointment(selectedAppointment);
-                    this.Close();
+                    Close();
                 }
             }
         }
@@ -105,9 +96,13 @@ namespace hospital.View
             selectedAppointment.PatientUsername = selectedPatient.Username;
             selectedAppointment.Description = tbDescription.Text;
             if (cbOperation.IsChecked == true && cmbOpRoom.SelectedIndex != -1 && selectedDoctor.Specialization != Specialization.General)
+            {
                 selectedAppointment.RoomId = ((Room)cmbOpRoom.SelectedItem).id;
+            }
             else
+            {
                 selectedAppointment.RoomId = selectedDoctor.OrdinationId;
+            }
 
             return selectedAppointment;
         }
@@ -132,7 +127,7 @@ namespace hospital.View
         {
             selectedDoctor = (Doctor)cmbDoctor.SelectedItem;
             appointmentTable.ItemsSource = null;
-            if(selectedDoctor.Specialization != Specialization.General)
+            if (selectedDoctor.Specialization != Specialization.General)
             {
                 cbOperation.IsEnabled = true;
             }

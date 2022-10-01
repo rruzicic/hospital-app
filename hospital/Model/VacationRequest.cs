@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Model
 {
@@ -11,7 +7,7 @@ namespace Model
     public class VacationRequest
     {
         private string doctorId;
-        int id;
+        private int id;
         private DateTime startDate;
         private DateTime endDate;
         private bool isHighPriority;
@@ -33,17 +29,14 @@ namespace Model
             this.endDate = endDate;
             this.isHighPriority = isHighPriority;
             this.note = note;
-            this.status = Status.waiting;
+            status = Status.waiting;
             this.doctorId = doctorId;
             this.id = id;
         }
 
         public DateTime StartDate
         {
-            get
-            {
-                return startDate;
-            }
+            get => startDate;
             set
             {
                 startDate = value;
@@ -52,10 +45,7 @@ namespace Model
         }
         public DateTime EndDate
         {
-            get
-            {
-                return endDate;
-            }
+            get => endDate;
             set
             {
                 endDate = value;
@@ -64,10 +54,7 @@ namespace Model
         }
         public bool IsHighPriority
         {
-            get
-            {
-                return isHighPriority;
-            }
+            get => isHighPriority;
             set
             {
                 isHighPriority = value;
@@ -75,11 +62,8 @@ namespace Model
             }
         }
         public string Note
-        { 
-            get
-            {
-                return note;
-            }
+        {
+            get => note;
             set
             {
                 note = value;
@@ -88,10 +72,7 @@ namespace Model
         }
         public Status Status
         {
-            get
-            {
-                return status;
-            }
+            get => status;
             set
             {
                 status = value;
@@ -100,10 +81,7 @@ namespace Model
         }
         public string DoctorId
         {
-            get
-            {
-                return doctorId;
-            }
+            get => doctorId;
             set
             {
                 doctorId = value;
@@ -112,10 +90,7 @@ namespace Model
         }
         public int Id
         {
-            get
-            {
-                return id;
-            }
+            get => id;
             set
             {
                 id = value;
@@ -126,10 +101,19 @@ namespace Model
         {
             get
             {
-                if (status == Status.approved) return "Approved";
-                if (status == Status.rejected) return "Rejected";
+                if (status == Status.approved)
+                {
+                    return "Approved";
+                }
+
+                if (status == Status.rejected)
+                {
+                    return "Rejected";
+                }
                 else
+                {
                     return "Waiting";
+                }
             }
         }
 

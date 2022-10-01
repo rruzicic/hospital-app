@@ -2,19 +2,8 @@
 using hospital.Controller;
 using hospital.Model;
 using Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace hospital.View.Manager
 {
@@ -23,8 +12,8 @@ namespace hospital.View.Manager
     /// </summary>
     public partial class DoctorReviewWindow : Window
     {
-        private DoctorController doctorController;
-        private PollController pollController;
+        private readonly DoctorController doctorController;
+        private readonly PollController pollController;
         public DoctorReviewWindow()
         {
             InitializeComponent();
@@ -41,14 +30,17 @@ namespace hospital.View.Manager
             FillCategoryInfo();
         }
 
-        private void FillFinalGrade() {
+        private void FillFinalGrade()
+        {
             finalAverage.Content = pollController.CalculateDoctorFinalGrade(((Doctor)doctorsComboBox.SelectedItem).Username);
         }
-        private void FillCategories(int index) {
+        private void FillCategories(int index)
+        {
             category1.Content = pollController.GetDoctorPollBlueprint().Categories[index].Name + "  " + pollController.CalculateCategoryGrade(((Doctor)doctorsComboBox.SelectedItem).Username, pollController.GetDoctorPollBlueprint().Categories[index].Id);
         }
 
-        private void FillFirstCategoryQuestion() {
+        private void FillFirstCategoryQuestion()
+        {
             PollCategory category = pollController.GetDoctorPollBlueprint().Categories[0];
             category1Q1.Text = pollController.GetDoctorPollBlueprint().Categories[0].PollQuestions[0].Question;
             grades1.Text = pollController.CalculateDoctorQuestionGrade(((Doctor)doctorsComboBox.SelectedItem).Username, category.Id, category.PollQuestions[0].Id) + "/5";
@@ -92,7 +84,8 @@ namespace hospital.View.Manager
         private void FillGrades(PollCategory category, int question)
         {
             int[] gradesCount = pollController.CountEachGrade(((Doctor)doctorsComboBox.SelectedItem).Username, category.Id, category.PollQuestions[question].Id);
-            if (question == 0) {
+            if (question == 0)
+            {
                 g11.Text = gradesCount[0].ToString();
                 g12.Text = gradesCount[1].ToString();
                 g13.Text = gradesCount[2].ToString();

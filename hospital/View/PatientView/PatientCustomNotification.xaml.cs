@@ -1,20 +1,8 @@
 ﻿using Controller;
 using Model;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace hospital.View.PatientView
 {
@@ -23,9 +11,9 @@ namespace hospital.View.PatientView
     /// </summary>
     public partial class PatientCustomNotification : Page
     {
-        private App app;
-        private UserController uc;
-        private NotificationController nc;
+        private readonly App app;
+        private readonly UserController uc;
+        private readonly NotificationController nc;
         public PatientCustomNotification()
         {
             InitializeComponent();
@@ -46,11 +34,12 @@ namespace hospital.View.PatientView
             }
             else if ((bool)rbOneTime.IsChecked)
             {
-                if(dateStart.SelectedDate == null)
+                if (dateStart.SelectedDate == null)
                 {
                     lblWarning.Content = "Please select date!";
                     return false;
-                } else if (timeEnd.Value == null)
+                }
+                else if (timeEnd.Value == null)
                 {
                     lblWarning.Content = "Please enter time!";
                     return false;
@@ -62,7 +51,7 @@ namespace hospital.View.PatientView
                 int interval;
                 try
                 {
-                    interval = Int32.Parse(tbInterval.Text);
+                    interval = int.Parse(tbInterval.Text);
                 }
                 catch
                 {
@@ -89,14 +78,14 @@ namespace hospital.View.PatientView
                     lblWarning.Content = "Enter repetition interval!";
                     return false;
                 }
-                else if(interval <= 0)
+                else if (interval <= 0)
                 {
                     lblWarning.Content = "Interval has to be a positive integer!";
                     return false;
                 }
                 return true;
             }
-            
+
         }
 
         private void rbOneTime_Checked(object sender, RoutedEventArgs e)
@@ -174,7 +163,7 @@ namespace hospital.View.PatientView
             }
             else
             {
-                Notification n = new Notification(uc.CurentLoggedUser.Username, JoinDateAndTimeStart(), JoinDateAndTimeEnd(), Int32.Parse(tbInterval.Text), tbText.Text);
+                Notification n = new Notification(uc.CurentLoggedUser.Username, JoinDateAndTimeStart(), JoinDateAndTimeEnd(), int.Parse(tbInterval.Text), tbText.Text);
                 nc.Create(n);
                 SendNotificationToHomeWindow(n);
             }

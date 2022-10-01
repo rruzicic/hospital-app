@@ -1,19 +1,15 @@
 ﻿using hospital.FileHandler;
 using hospital.Model;
 using Repository;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace hospital.Repository
 {
     public class PollResultRepository
     {
-        private List<PollBlueprint> pollResults;
+        private readonly List<PollBlueprint> pollResults;
         public PollFileHandler pollFileHandler;
-        private AppointmentRepository appointmentRepository;
+        private readonly AppointmentRepository appointmentRepository;
 
         public PollResultRepository(AppointmentRepository appointmentRepository)
         {
@@ -68,11 +64,15 @@ namespace hospital.Repository
             return retVal;
         }
 
-        public List<PollBlueprint> FindPollResultsForDoctor(string id) {
+        public List<PollBlueprint> FindPollResultsForDoctor(string id)
+        {
             List<PollBlueprint> results = new List<PollBlueprint>();
-            foreach (PollBlueprint poll in GetDoctorPollResults()) {
-                if(appointmentRepository.FindById(poll.AppointmentId).DoctorUsername == id)
+            foreach (PollBlueprint poll in GetDoctorPollResults())
+            {
+                if (appointmentRepository.FindById(poll.AppointmentId).DoctorUsername == id)
+                {
                     results.Add(poll);
+                }
             }
             return results;
         }

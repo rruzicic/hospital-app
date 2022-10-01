@@ -1,24 +1,21 @@
 ﻿using hospital.Model;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace hospital.Repository
 {
     public class PollBlueprintRepository
     {
         public ObservableCollection<PollBlueprint> blueprints;
-        
+
         public PollBlueprintRepository()
         {
             blueprints = new ObservableCollection<PollBlueprint>();
-            PollBlueprint hospitalPoll = new PollBlueprint();
-            hospitalPoll.Type = PollType.HOSPITAL_POLL;
-            hospitalPoll.PollName = "Hospital poll";
-            hospitalPoll.Categories = new List<PollCategory>
+            PollBlueprint hospitalPoll = new PollBlueprint
+            {
+                Type = PollType.HOSPITAL_POLL,
+                PollName = "Hospital poll",
+                Categories = new List<PollCategory>
             {
                 new PollCategory(0, "Staff", new List<PollQuestion>()
                 {
@@ -38,13 +35,15 @@ namespace hospital.Repository
                     new PollQuestion(7, "How do you rate our appointment scheduling system?"),
                     new PollQuestion(8, "How do you rate our waiting rooms?")
                 }),
+            }
             };
             blueprints.Add(hospitalPoll);
 
-            PollBlueprint doctorPoll = new PollBlueprint();
-            doctorPoll.Type = PollType.DOCTOR_POLL;
-            doctorPoll.PollName = "Doctor poll";
-            doctorPoll.Categories = new List<PollCategory>()
+            PollBlueprint doctorPoll = new PollBlueprint
+            {
+                Type = PollType.DOCTOR_POLL,
+                PollName = "Doctor poll",
+                Categories = new List<PollCategory>()
             {
                 new PollCategory(0, "Doctor", new List<PollQuestion>()
                 {
@@ -64,6 +63,7 @@ namespace hospital.Repository
                     new PollQuestion(7, "How equiped was the ordination?"),
                     new PollQuestion(8, "How are you satasfied with our waiting room?"),
                 }),
+            }
             };
             blueprints.Add(doctorPoll);
         }

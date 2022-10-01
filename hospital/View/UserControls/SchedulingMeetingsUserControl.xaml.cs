@@ -1,40 +1,28 @@
-﻿using System;
+﻿using Controller;
+using Model;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Model;
-using Controller;
-using System.Collections.ObjectModel;
 using ToastNotifications;
+using ToastNotifications.Lifetime;
 using ToastNotifications.Messages;
 using ToastNotifications.Position;
-using ToastNotifications.Lifetime;
-using System.Data;
-using System.Collections;
 
 namespace hospital.View.UserControls
 {
     public partial class SchedulingMeetingsUserControl : UserControl
     {
-        private DoctorController _doctorController;
-        private RoomController _roomController;
-        private MeetingController _meetingController;
-        private List<string> _doctors = new List<string>();
+        private readonly DoctorController _doctorController;
+        private readonly RoomController _roomController;
+        private readonly MeetingController _meetingController;
+        private readonly List<string> _doctors = new List<string>();
         private Notifier Notifier { get; set; }
 
         public SchedulingMeetingsUserControl()
         {
-            this.DataContext = this;
+            DataContext = this;
             App app = Application.Current as App;
             _doctorController = app.doctorController;
             Doctors = _doctorController.GetDoctors();
@@ -60,7 +48,7 @@ namespace hospital.View.UserControls
             DateTime meetingTime = (DateTime)timePicker.Value;
             DateTime meetingStartTime = new DateTime(meetingDate.Year, meetingDate.Month, meetingDate.Day, meetingTime.Hour, meetingTime.Minute, 0);
 
-            Meeting newMeeting = new Meeting(_doctors, meetingStartTime, cbRooms.Text,txtReason.Text);
+            Meeting newMeeting = new Meeting(_doctors, meetingStartTime, cbRooms.Text, txtReason.Text);
             _meetingController.Create(newMeeting);
             Notifier.ShowSuccess("Meeting successfully scheduled");
             ResetFields();
@@ -76,7 +64,7 @@ namespace hospital.View.UserControls
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            Doctor selectedDoctor =(Doctor) dateGridHandlingDoctors.SelectedItem;
+            Doctor selectedDoctor = (Doctor)dateGridHandlingDoctors.SelectedItem;
             _doctors.Add(selectedDoctor.Username);
         }
 
@@ -109,4 +97,4 @@ namespace hospital.View.UserControls
             });
         }
     }
-    }
+}

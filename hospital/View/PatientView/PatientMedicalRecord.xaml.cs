@@ -1,19 +1,5 @@
 ﻿using Controller;
-using Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace hospital.View.PatientView
 {
@@ -22,11 +8,11 @@ namespace hospital.View.PatientView
     /// </summary>
     public partial class PatientMedicalRecord : Page
     {
-        private App app;
-        private PatientController pc;
-        private UserController uc;
-        private MedicalRecordsController mrc;
-        
+        private readonly App app;
+        private readonly PatientController pc;
+        private readonly UserController uc;
+        private readonly MedicalRecordsController mrc;
+
         public PatientMedicalRecord()
         {
             InitializeComponent();

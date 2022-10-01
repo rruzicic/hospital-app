@@ -1,18 +1,10 @@
 ﻿using Model;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace hospital.View.Manager
 {
@@ -22,7 +14,7 @@ namespace hospital.View.Manager
     public partial class SplitRoomWindow : Window
     {
         public List<Room> rooms { get; set; }
-        private bool demoStarted;
+        private readonly bool demoStarted;
         private Timer timer;
 
         public SplitRoomWindow(bool demoStarted)
@@ -32,7 +24,10 @@ namespace hospital.View.Manager
             scheduleBtn.IsEnabled = false;
             floor.IsEnabled = false;
             this.demoStarted = demoStarted;
-            if (demoStarted) StartDemo();
+            if (demoStarted)
+            {
+                StartDemo();
+            }
         }
 
         private void Schedule_Spliting(object sender, RoutedEventArgs e)
@@ -40,10 +35,13 @@ namespace hospital.View.Manager
             CreateRenovation();
         }
 
-        private void CreateRenovation() {
-            rooms = new List<Room>();
-            rooms.Add(new Room(newRoom1.Text, newPurpose1.Text, Int32.Parse(floor.Text), newCode1.Text));
-            rooms.Add(new Room(newRoom2.Text, newPurpose2.Text, Int32.Parse(floor.Text), newCode2.Text));
+        private void CreateRenovation()
+        {
+            rooms = new List<Room>
+            {
+                new Room(newRoom1.Text, newPurpose1.Text, int.Parse(floor.Text), newCode1.Text),
+                new Room(newRoom2.Text, newPurpose2.Text, int.Parse(floor.Text), newCode2.Text)
+            };
             Close();
         }
 
@@ -68,7 +66,8 @@ namespace hospital.View.Manager
             scheduleBtn.BorderBrush = Brushes.Pink;
         }
 
-        private void StartDemo() {
+        private void StartDemo()
+        {
             Console.WriteLine("Starting demo on new window");
             List<IDemoCommand> commands = new List<IDemoCommand> {
                 new FillTxtFieldCommand(newRoom1, "0"),
@@ -104,7 +103,7 @@ namespace hospital.View.Manager
                 new ActionExecuteCommand(FocusOnSaveButton),
                 new ActionExecuteCommand(CreateRenovation)
             };
-            timer = new Timer((Object o) => TimerCallback(commands, timer), null, 0, 500);
+            timer = new Timer((object o) => TimerCallback(commands, timer), null, 0, 500);
 
         }
 

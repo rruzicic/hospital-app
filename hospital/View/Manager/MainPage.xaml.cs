@@ -1,19 +1,7 @@
 ﻿using Controller;
 using hospital.View.Manager;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace hospital.View
 {
@@ -22,14 +10,16 @@ namespace hospital.View
     /// </summary>
     public partial class MainPage : Page
     {
-        private Frame Main;
-        private ManagerMainWindow mainWindow;
-        private UserController uc;
+        private readonly Frame Main;
+        private readonly ManagerMainWindow mainWindow;
+        private readonly UserController uc;
         public MainPage()
         {
             InitializeComponent();
-            foreach (Window win in Application.Current.Windows) {
-                if (win is ManagerMainWindow) {
+            foreach (Window win in Application.Current.Windows)
+            {
+                if (win is ManagerMainWindow)
+                {
                     Main = ((ManagerMainWindow)win).Main;
                     mainWindow = (ManagerMainWindow)win;
                 }
@@ -58,7 +48,7 @@ namespace hospital.View
             Main.Content = new RoomRenovationPage();
         }
 
-   
+
 
         private void Logout_Click(object sender, RoutedEventArgs e)
         {

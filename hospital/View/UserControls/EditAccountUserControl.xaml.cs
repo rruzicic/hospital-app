@@ -1,20 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Controller;
+using Model;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Controller;
-using Model;
 namespace hospital.View.UserControls
 {
     /// <summary>
@@ -24,12 +14,12 @@ namespace hospital.View.UserControls
     {
         public PatientController pc;
         public UserController uc;
-        private bool[] isCorrected = new bool[8];
+        private readonly bool[] isCorrected = new bool[8];
         public ObservableCollection<Model.Role> Roles { get; set; }
         public EditAccountUserControl()
         {
             InitializeComponent();
-            this.DataContext = this;
+            DataContext = this;
             App app = Application.Current as App;
             pc = app.patientController;
             uc = app.userController;
@@ -39,7 +29,7 @@ namespace hospital.View.UserControls
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-            this.Visibility = Visibility.Collapsed;
+            Visibility = Visibility.Collapsed;
         }
         private string getGender()
         {
@@ -61,7 +51,7 @@ namespace hospital.View.UserControls
                 {
                     pc.UpdateByUsername(pc.EditPatient.Username, new Patient(txtUsername.Text, txtFirstName.Text, txtLastName.Text, txtEmail.Text, txtId.Text, txtPhone.Text, txtDate.Text, getGender(), isBlocked()));
                     uc.UpdateByUsername(pc.EditPatient.Username, new User(txtUsername.Text, getRole(cmbRole.Text), isBlocked()));
-                    this.Visibility = Visibility.Collapsed;
+                    Visibility = Visibility.Collapsed;
                 }
             }
             catch (Exception ex)
@@ -98,7 +88,9 @@ namespace hospital.View.UserControls
                 return false;
             }
             else
+            {
                 return true;
+            }
         }
         private Model.Role getRole(string txt)
         {

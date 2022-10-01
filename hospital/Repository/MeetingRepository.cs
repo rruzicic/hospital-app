@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FileHandler;
 using Model;
-using FileHandler;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Repository
 {
@@ -35,8 +32,8 @@ namespace Repository
         public void Create(Meeting newMeeting)
         {
             newMeeting.Id = GetNewId();
-            this.meetings.Add(newMeeting);
-            meetingFileHandler.Write(this.meetings.ToList());
+            meetings.Add(newMeeting);
+            meetingFileHandler.Write(meetings.ToList());
         }
         public ObservableCollection<Meeting> FindAll()
         {
@@ -57,7 +54,7 @@ namespace Repository
         public bool DeleteById(int id)
         {
             bool retVal = meetings.Remove(FindById(id));
-            meetingFileHandler.Write(this.meetings.ToList());
+            meetingFileHandler.Write(meetings.ToList());
             return retVal;
         }
         public int GetNewId()
@@ -83,5 +80,5 @@ namespace Repository
 }
 
 
-    
+
 

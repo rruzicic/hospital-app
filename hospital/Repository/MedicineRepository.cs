@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using hospital.FileHandler;
+using Model;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using hospital.FileHandler;
-using Model;
 
 namespace Repository
 {
     public class MedicineRepository
     {
         public ObservableCollection<Medicine> medicineList;
-        private MedicineFileHandler medicineFileHandler;
+        private readonly MedicineFileHandler medicineFileHandler;
 
         public MedicineRepository()
         {
@@ -42,7 +38,8 @@ namespace Repository
             return null;
         }
 
-        public Medicine FindByName(string name) {
+        public Medicine FindByName(string name)
+        {
             foreach (Medicine medicine in medicineList)
             {
                 if (medicine.Name == name)

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Model;
+﻿using Model;
 using Repository;
+using System.Collections.ObjectModel;
 
 namespace Service
 {
@@ -29,7 +24,8 @@ namespace Service
             return medicineRepository.FindById(id);
         }
 
-        public Medicine FindByName(string name) {
+        public Medicine FindByName(string name)
+        {
             return medicineRepository.FindByName(name);
         }
         public bool UpdateById(string id, Medicine medicine)

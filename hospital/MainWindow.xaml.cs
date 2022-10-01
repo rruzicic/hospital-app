@@ -1,7 +1,7 @@
-﻿using hospital.View;
-using System.Windows;
+﻿using Controller;
+using hospital.View;
 using Model;
-using Controller;
+using System.Windows;
 
 namespace hospital
 {
@@ -23,7 +23,8 @@ namespace hospital
             {
                 labIncorect.Text = "The username or password you've entered is incorrect.";
                 txtPassword.Password = "";
-            }else if (u.IsBlocked)
+            }
+            else if (u.IsBlocked)
             {
                 labIncorect.Text = "User is blocked.";
                 txtPassword.Password = "";
@@ -36,22 +37,22 @@ namespace hospital
                 if (u.Role == Model.Role.Doctor)
                 {
                     new DoctorHomeWindow().Show();
-                    this.Close();
+                    Close();
                 }
                 else if (u.Role == Model.Role.Secretary)
                 {
                     new SecretaryHomeWindow().Show();
-                    this.Close();
+                    Close();
                 }
                 else if (u.Role == Model.Role.Manager)
                 {
                     new ManagerMainWindow().Show();
-                    this.Close();
+                    Close();
                 }
                 else if (u.Role == Model.Role.Patient)
                 {
                     new PatientHomeWindow().Show();
-                    this.Close();
+                    Close();
                 }
             }
 

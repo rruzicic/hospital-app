@@ -1,6 +1,5 @@
 using FileHandler;
 using Model;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -46,12 +45,14 @@ namespace Repository
         {
             return doctors;
         }
-        public Doctor getByName(string firsname,string lastname)
+        public Doctor getByName(string firsname, string lastname)
         {
-            foreach(Doctor doctor in doctors)
+            foreach (Doctor doctor in doctors)
             {
-                if(doctor.Name.Equals(firsname) && doctor.Surname.Equals(lastname))
+                if (doctor.Name.Equals(firsname) && doctor.Surname.Equals(lastname))
+                {
                     return doctor;
+                }
             }
             return null;
         }

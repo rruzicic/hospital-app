@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace hospital.Model
+﻿namespace hospital.Model
 {
     public class PollQuestion
     {
@@ -23,13 +17,10 @@ namespace hospital.Model
         public string Question { get => _question; set => _question = value; }
         public int Grade
         {
-            get
-            {
-                return _grade;
-            }
+            get => _grade;
             set
             {
-                if(value >= 1 && value <= 5)
+                if (value >= 1 && value <= 5)
                 {
                     _grade = value;
                 }

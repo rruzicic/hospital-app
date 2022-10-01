@@ -1,21 +1,10 @@
 ﻿using Controller;
+using hospital.Controller;
 using hospital.Model;
 using Model;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using hospital.Controller;
 
 namespace hospital.View
 {
@@ -24,12 +13,12 @@ namespace hospital.View
     /// </summary>
     public partial class DoctorEditAppointment : Window
     {
-        private AppointmentManagementController ac;
-        private RoomController rc;
-        private ScheduledBasicRenovationController sbrc;
-        private AvailableAppointmentController aac;
+        private readonly AppointmentManagementController ac;
+        private readonly RoomController rc;
+        private readonly ScheduledBasicRenovationController sbrc;
+        private readonly AvailableAppointmentController aac;
 
-        private Appointment selectedAppointment;
+        private readonly Appointment selectedAppointment;
         public DoctorEditAppointment()
         {
             InitializeComponent();
@@ -38,7 +27,7 @@ namespace hospital.View
             rc = app.roomController;
             aac = app.availableAppointmentController;
             sbrc = app.scheduledBasicRenovationController;
-            this.DataContext = this;
+            DataContext = this;
             foreach (Window window in Application.Current.Windows)
             {
                 if (window.GetType() == typeof(DoctorAppointmentsWindow))
@@ -56,7 +45,7 @@ namespace hospital.View
                     }
                 }
             }
-            
+
         }
 
         private void btnShow_Click(object sender, RoutedEventArgs e)
@@ -74,13 +63,15 @@ namespace hospital.View
                 Appointment updatedAppointment = (Appointment)appointmentTable.SelectedItem;
                 updatedAppointment.Description = tbDescription.Text;
                 if (cmbOpRoom.SelectedIndex != -1)
+                {
                     updatedAppointment.RoomId = ((Room)cmbOpRoom.SelectedItem).id;
+                }
 
                 bool canMake = checkRenovations(updatedAppointment);
                 if (canMake)
                 {
                     ac.UpdateAppointment(selectedAppointment, updatedAppointment);
-                    this.Close();
+                    Close();
                 }
             }
         }
@@ -100,7 +91,7 @@ namespace hospital.View
 
         private void cbOperation_Checked(object sender, RoutedEventArgs e)
         {
-            if(cbOperation.IsChecked == true)
+            if (cbOperation.IsChecked == true)
             {
                 cmbOpRoom.IsEnabled = true;
             }

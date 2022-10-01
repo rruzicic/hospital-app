@@ -4,7 +4,6 @@ using Service;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace Controller
 {
@@ -14,20 +13,20 @@ namespace Controller
         private readonly UserService userService;
         public Patient EditPatient { get; set; }
 
-        public PatientController(PatientService _sevice,UserService uc)
+        public PatientController(PatientService _sevice, UserService uc)
         {
             patientService = _sevice;
             userService = uc;
         }
         public bool Create(Patient patient)
         {
-           isValidate(patient);
-           return patientService.Create(patient);
+            isValidate(patient);
+            return patientService.Create(patient);
         }
 
         public ObservableCollection<Patient> FindAll()
         {
-           return patientService.FindAll();
+            return patientService.FindAll();
         }
 
         public Patient FindById(string id)
@@ -42,7 +41,7 @@ namespace Controller
 
         public bool UpdateByUsername(string username, Patient patient)
         {
-            isValidate(username,patient);
+            isValidate(username, patient);
             return patientService.UpdateById(username, patient);
         }
 
@@ -108,9 +107,9 @@ namespace Controller
                 }
             }
         }
-        private void isValidate(string oldUsername,Patient patient)
+        private void isValidate(string oldUsername, Patient patient)
         {
-            if(patient.FirstName.Trim().Equals(""))
+            if (patient.FirstName.Trim().Equals(""))
             {
                 throw new Exception("Input first name");
             }
@@ -120,16 +119,19 @@ namespace Controller
                 throw new Exception("Input surname");
             }
 
-           foreach(User p in userService.FindAll())
+            foreach (User p in userService.FindAll())
             {
 
-                    if (p.Username.Equals(oldUsername))
-                        return;
+                if (p.Username.Equals(oldUsername))
+                {
+                    return;
+                }
+
                 if (p.Username.Equals(patient.Username))
                 {
                     throw new Exception("Username already exists !");
                 }
-                
+
             }
         }
     }

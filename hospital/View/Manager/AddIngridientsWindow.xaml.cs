@@ -1,12 +1,11 @@
 ﻿using hospital.Controller;
-using System;
 using System.Windows;
 
 namespace hospital.View
 {
     public partial class AddIngridientsWindow : Window
     {
-        private IngridientsController ingridientsController;
+        private readonly IngridientsController ingridientsController;
         public AddIngridientsWindow()
         {
             InitializeComponent();
@@ -17,7 +16,8 @@ namespace hospital.View
         private void Add_New_Ingridients(object sender, RoutedEventArgs e)
         {
             string[] ingridients = newIngridients.Text.Split(',');
-            foreach (string ingridient in ingridients) {
+            foreach (string ingridient in ingridients)
+            {
                 ingridientsController.Create(ingridient);
             }
             Close();

@@ -1,20 +1,11 @@
 ﻿using Controller;
 using Model;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace hospital.View
 {
@@ -25,17 +16,17 @@ namespace hospital.View
     {
         public ObservableCollection<Appointment> Appointments { get; set; }
         public ObservableCollection<VacationRequest> Requests { get; set; }
-        private CalendarDateRange invalidDates;
-        private Doctor loggedInDoctor;
-        private VacationRequestController vc;
-        private UserController uc;
-        private AppointmentManagementController ac;
-        private DoctorController dc;
-        
+        private readonly CalendarDateRange invalidDates;
+        private readonly Doctor loggedInDoctor;
+        private readonly VacationRequestController vc;
+        private readonly UserController uc;
+        private readonly AppointmentManagementController ac;
+        private readonly DoctorController dc;
+
         public DoctorVacationWindow()
         {
             InitializeComponent();
-            this.DataContext = this;
+            DataContext = this;
             App app = Application.Current as App;
             vc = app.vacationRequestController;
             uc = app.userController;
@@ -65,7 +56,7 @@ namespace hospital.View
                 if (appointment.StartTime > dpStartDate.SelectedDate && appointment.StartTime < dpEndDate.SelectedDate)
                 {
                     MessageBox.Show("You have appointments at that time");
-                    return true;                 
+                    return true;
                 }
             }
             return false;
@@ -96,13 +87,13 @@ namespace hospital.View
         {
             bool isOveralappingWithAppointments = checkOverlapWithAppointments();
             bool isOverlappingWithOtherDoctorWithSameSpecialization = checkOverlapWithOtherDoctorWithSameSpecialization();
-            
-            if(isOveralappingWithAppointments == false && cbHighPriority.IsChecked == true && dpStartDate.SelectedDate < dpEndDate.SelectedDate)
+
+            if (isOveralappingWithAppointments == false && cbHighPriority.IsChecked == true && dpStartDate.SelectedDate < dpEndDate.SelectedDate)
             {
                 generateRequest();
                 MessageBox.Show("High priority vacation request sent!");
             }
-            else if(isOverlappingWithOtherDoctorWithSameSpecialization == false && isOveralappingWithAppointments == false && dpEndDate.SelectedDate != null && dpStartDate.SelectedDate != null && dpStartDate.SelectedDate < dpEndDate.SelectedDate)
+            else if (isOverlappingWithOtherDoctorWithSameSpecialization == false && isOveralappingWithAppointments == false && dpEndDate.SelectedDate != null && dpStartDate.SelectedDate != null && dpStartDate.SelectedDate < dpEndDate.SelectedDate)
             {
                 generateRequest();
                 MessageBox.Show("Vacation request sent!");
@@ -134,8 +125,10 @@ namespace hospital.View
 
         private void btnInfo_Click(object sender, RoutedEventArgs e)
         {
-            if(tableRequests.SelectedIndex != 1)
+            if (tableRequests.SelectedIndex != 1)
+            {
                 new DoctorVacationViewWindow().Show();
+            }
         }
     }
 }

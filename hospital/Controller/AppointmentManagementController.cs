@@ -1,11 +1,9 @@
+using hospital.DTO;
 using Model;
+using Service;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Diagnostics;
-using Service;
-using hospital.DTO;
 
 namespace Controller
 {

@@ -1,18 +1,15 @@
 ﻿using hospital.FileHandler;
 using hospital.Model;
 using Model;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace hospital.Repository
 {
     public class ScheduledAdvancedRenovationRepository : IScheduledAdvancedRenovationRepository
     {
-        private List<ScheduledAdvancedRenovation> renovations;
-        private ScheduledAdvancedRenovationFileHandler renovationFileHandler;
+        private readonly List<ScheduledAdvancedRenovation> renovations;
+        private readonly ScheduledAdvancedRenovationFileHandler renovationFileHandler;
 
         public ScheduledAdvancedRenovationRepository()
         {
@@ -23,7 +20,7 @@ namespace hospital.Repository
         public void Create(ScheduledAdvancedRenovation renovation)
         {
             renovations.Add(renovation);
-            renovationFileHandler.Write(this.renovations.ToList());
+            renovationFileHandler.Write(renovations.ToList());
         }
 
         public ScheduledAdvancedRenovation FindById(string id)
@@ -31,7 +28,9 @@ namespace hospital.Repository
             foreach (ScheduledAdvancedRenovation renovation in renovations)
             {
                 if (renovation._Id.Equals(id))
+                {
                     return renovation;
+                }
             }
             return null;
         }
@@ -50,7 +49,7 @@ namespace hospital.Repository
                     ren._Room = renovation._Room;
                     ren._Interval = renovation._Interval;
                     ren._Description = renovation._Description;
-                    renovationFileHandler.Write(this.renovations.ToList());
+                    renovationFileHandler.Write(renovations.ToList());
                     return true;
                 }
             }
@@ -61,14 +60,17 @@ namespace hospital.Repository
         {
             ScheduledAdvancedRenovation renovation = FindById(id);
             renovations.Remove(renovation);
-            renovationFileHandler.Write(this.renovations.ToList());
+            renovationFileHandler.Write(renovations.ToList());
             return true;
         }
 
-        public List<ScheduledAdvancedRenovation> FindForSpecifiedRoom(Room room) {
+        public List<ScheduledAdvancedRenovation> FindForSpecifiedRoom(Room room)
+        {
             List<ScheduledAdvancedRenovation> scheduledAdvancedRenovations = new List<ScheduledAdvancedRenovation>();
-            foreach (ScheduledAdvancedRenovation renovation in renovations) {
-                if (renovation._Room.id.Equals(room.id) || renovation.rooms[0].id.Equals(room.id) || renovation.rooms[1].id.Equals(room.id)) {
+            foreach (ScheduledAdvancedRenovation renovation in renovations)
+            {
+                if (renovation._Room.id.Equals(room.id) || renovation.rooms[0].id.Equals(room.id) || renovation.rooms[1].id.Equals(room.id))
+                {
                     scheduledAdvancedRenovations.Add(renovation);
                 }
             }

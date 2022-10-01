@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
 namespace hospital.View.Manager
 {
     public class FillTxtFieldCommand : IDemoCommand
     {
-        private TextBox box;
-        private string text;
+        private readonly TextBox box;
+        private readonly string text;
         public FillTxtFieldCommand(TextBox box, string text)
         {
             this.box = box;
@@ -18,7 +13,8 @@ namespace hospital.View.Manager
         }
         public void execute()
         {
-            App.Current.Dispatcher.Invoke((Action)delegate {
+            App.Current.Dispatcher.Invoke(delegate
+            {
                 box.Text = text;
             });
         }

@@ -2,16 +2,13 @@
 using hospital.Repository;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace hospital.Service
 {
     public class PollService
     {
-        private PollBlueprintRepository pollBlueprintRepository;
-        private PollResultRepository pollResultRepository;
+        private readonly PollBlueprintRepository pollBlueprintRepository;
+        private readonly PollResultRepository pollResultRepository;
 
         public PollService(PollBlueprintRepository _pbr, PollResultRepository _prr)
         {

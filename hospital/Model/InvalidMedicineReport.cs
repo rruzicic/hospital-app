@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Model
+﻿namespace Model
 {
     public class InvalidMedicineReport
     {
@@ -21,36 +15,18 @@ namespace Model
         }
         public int Id
         {
-            get
-            {
-                return id;
-            }
-            set
-            {
-                id = value;
-            }
+            get => id;
+            set => id = value;
         }
         public string MedicineId
         {
-            get
-            {
-                return medicineId;
-            }
-            set
-            {
-                medicineId = value;
-            }
+            get => medicineId;
+            set => medicineId = value;
         }
         public string Note
         {
-            get
-            {
-                return note;
-            }
-            set
-            {
-                note = value;
-            }
+            get => note;
+            set => note = value;
         }
     }
 }

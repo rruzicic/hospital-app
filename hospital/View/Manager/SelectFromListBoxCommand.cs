@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
 namespace hospital.View.Manager
 {
     public class SelectFromListBoxCommand : IDemoCommand
     {
-        private ListView roomRenovationListView;
-        private int index;
+        private readonly ListView roomRenovationListView;
+        private readonly int index;
         public SelectFromListBoxCommand(ListView roomRenovationListView, int index)
         {
             this.roomRenovationListView = roomRenovationListView;
@@ -18,7 +13,8 @@ namespace hospital.View.Manager
         }
         public void execute()
         {
-            App.Current.Dispatcher.Invoke((Action)delegate {
+            App.Current.Dispatcher.Invoke(delegate
+            {
                 roomRenovationListView.SelectedIndex = index;
             });
         }

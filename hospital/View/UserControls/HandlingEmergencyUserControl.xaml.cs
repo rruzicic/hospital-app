@@ -1,24 +1,15 @@
-﻿using System;
+﻿using Controller;
+using Model;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Model;
-using Controller;
 using ToastNotifications;
+using ToastNotifications.Lifetime;
 using ToastNotifications.Messages;
 using ToastNotifications.Position;
-using ToastNotifications.Lifetime;
 
 namespace hospital.View.UserControls
 {
@@ -29,15 +20,15 @@ namespace hospital.View.UserControls
     {
         public ObservableCollection<Patient> Patients { get; set; }
         public ObservableCollection<Specialization> Specializations { get; set; }
-        private PatientController _patientController;
-        private AppointmentManagementController _appointmentController;
-        private EmergencyController _emergencyController;
+        private readonly PatientController _patientController;
+        private readonly AppointmentManagementController _appointmentController;
+        private readonly EmergencyController _emergencyController;
 
         private Notifier Notifier { get; set; }
         public HandlingEmergencyUserControl()
         {
             InitializeComponent();
-            this.DataContext = this;
+            DataContext = this;
             App app = Application.Current as App;
             _patientController = app.patientController;
             _emergencyController = app.emergencyController;
@@ -59,9 +50,10 @@ namespace hospital.View.UserControls
             {
                 try
                 {
-                    _emergencyController.TryMakeEmergencyAppointment(cmbPatient.Text, GetSpecialization(cmbSpecialization.Text),(bool)cbOperation.IsChecked);
+                    _emergencyController.TryMakeEmergencyAppointment(cmbPatient.Text, GetSpecialization(cmbSpecialization.Text), (bool)cbOperation.IsChecked);
                     Notifier.ShowSuccess("Successfully scheduled an emergency.");
-                }catch(Exception ex)
+                }
+                catch (Exception ex)
                 {
                     err.Text = ex.Message;
                     Console.WriteLine(ex.Message);
@@ -89,7 +81,7 @@ namespace hospital.View.UserControls
                 case "Neurologist":
                     return Specialization.Neurologist;
                     break;
-                default :
+                default:
                     return Specialization.Oncologist;
             }
         }
@@ -99,8 +91,8 @@ namespace hospital.View.UserControls
             cmbPatient.Text = "";
             cmbSpecialization.Text = "";
             cbOperation.IsChecked = false;
-            btnShowRec.Visibility= Visibility.Collapsed;
-            err.Visibility= Visibility.Collapsed;
+            btnShowRec.Visibility = Visibility.Collapsed;
+            err.Visibility = Visibility.Collapsed;
 
         }
         private bool isValidate()
@@ -111,7 +103,7 @@ namespace hospital.View.UserControls
             {
                 isCorrected[i] = true;
             }
-            
+
             if (cmbPatient.Text.Equals(""))
             {
                 errPatient.Text = "Choose one option";
@@ -122,7 +114,7 @@ namespace hospital.View.UserControls
                 errPatient.Text = "";
                 isCorrected[0] = true;
             }
-            
+
             if (cmbSpecialization.Text.Equals(""))
             {
                 errSpecialization.Text = "Choose one option";
@@ -158,7 +150,7 @@ namespace hospital.View.UserControls
         public static List<Appointment> NewAppointments { get; set; }
         private void btnShowRec_Click(object sender, RoutedEventArgs e)
         {
-            
+
             suggestedDelayUserControl.Visibility = Visibility.Visible;
 
             OldAppointments = _emergencyController.FindAppointmentsForCancelation();
@@ -170,52 +162,70 @@ namespace hospital.View.UserControls
         private void PewviewButton(List<Appointment> appointments)
         {
             if (appointments.Count == 1)
+            {
                 suggestedDelayUserControl.btnSuggestedOne.Visibility = Visibility.Visible;
+            }
             else if (appointments.Count == 2)
             {
                 suggestedDelayUserControl.btnSuggestedOne.Visibility = Visibility.Visible;
                 suggestedDelayUserControl.btnSuggestedTwo.Visibility = Visibility.Visible;
             }
             else if (appointments.Count == 3)
-            {   
+            {
                 suggestedDelayUserControl.btnSuggestedOne.Visibility = Visibility.Visible;
                 suggestedDelayUserControl.btnSuggestedTwo.Visibility = Visibility.Visible;
                 suggestedDelayUserControl.btnSuggestedThree.Visibility = Visibility.Visible;
             }
-            
+
         }
-        private void PreviewAppointment(List<Appointment> appointments,bool isOld)
+        private void PreviewAppointment(List<Appointment> appointments, bool isOld)
         {
-            if(isOld)
-                for (int i = 1; i < appointments.Count+1; i++)
+            if (isOld)
+            {
+                for (int i = 1; i < appointments.Count + 1; i++)
                 {
                     SetOldValueOnButton("old" + i, appointments);
                 }
+            }
             else
+            {
                 for (int i = 1; i < appointments.Count + 1; i++)
                 {
                     SetOldValueOnButton("new" + i, appointments);
                 }
+            }
         }
 
         private void SetOldValueOnButton(string button, List<Appointment> appointments)
         {
             if (button == "old1")
+            {
                 suggestedDelayUserControl.old1.Text = "Patient: " + appointments[0].PatientUsername + "\n" + "Doctor: " + appointments[0].DoctorUsername + "\n" + appointments[0].StartTime;
+            }
             else if (button == "old2")
+            {
                 suggestedDelayUserControl.old2.Text = "Patient: " + appointments[1].PatientUsername + "\n" + "Doctor: " + appointments[1].DoctorUsername + "\n" + appointments[1].StartTime;
+            }
             else if (button == "old3")
+            {
                 suggestedDelayUserControl.old3.Text = "Patient: " + appointments[2].PatientUsername + "\n" + "Doctor: " + appointments[2].DoctorUsername + "\n" + appointments[2].StartTime;
+            }
             else if (button == "new1")
+            {
                 suggestedDelayUserControl.new1.Text = "Patient: " + appointments[0].PatientUsername + "\n" + "Doctor: " + appointments[0].DoctorUsername + "\n" + appointments[0].StartTime;
+            }
             else if (button == "new2")
+            {
                 suggestedDelayUserControl.new2.Text = "Patient: " + appointments[1].PatientUsername + "\n" + "Doctor: " + appointments[1].DoctorUsername + "\n" + appointments[1].StartTime;
+            }
             else if (button == "new3")
+            {
                 suggestedDelayUserControl.new3.Text = "Patient: " + appointments[2].PatientUsername + "\n" + "Doctor: " + appointments[2].DoctorUsername + "\n" + appointments[2].StartTime;
+            }
         }
 
 
-        
+
 
         private Notifier GetNotifier()
         {

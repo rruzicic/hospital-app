@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace Model
 {
-    public class Patient : User , INotifyPropertyChanged
+    public class Patient : User, INotifyPropertyChanged
     {
         private string firstName;
         private string lastName;
@@ -33,22 +31,22 @@ namespace Model
         }
 
         public Patient() { }
-        public Patient(string _username,string fName, string lName,string email, string patientId,string phone,string date,string gender,bool blocked)
+        public Patient(string _username, string fName, string lName, string email, string patientId, string phone, string date, string gender, bool blocked)
         {
             Username = _username;
             FirstName = fName;
             LastName = lName;
             Email = email;
             id = patientId;
-            phoneNumber= phone;
-            dateOfBirth= date;
+            phoneNumber = phone;
+            dateOfBirth = date;
             isGuest = false;
             Gender = gender;
             IsBlocked = blocked;
         }
 
 
-        public Patient(string firstName,string surname,string username)
+        public Patient(string firstName, string surname, string username)
         {
             //constructor for guest account
             FirstName = firstName;
@@ -58,26 +56,27 @@ namespace Model
         }
         public string Id
         {
-            get { return id;}
+            get => id;
             set { id = value; OnPropertyChanged(""); }
         }
-        public string Gender { get { return gender; } set { gender = value; OnPropertyChanged(""); } }
-        public string Email { get { return email; } set { email = value; OnPropertyChanged(""); } }
-        public string FirstName { get { return firstName; } set { firstName = value; OnPropertyChanged(""); } }
-        public string LastName { get { return lastName; } set { lastName = value; OnPropertyChanged(""); } }
-        public string DateOfBirth { get { return dateOfBirth; } set { dateOfBirth = value; OnPropertyChanged(""); } }
-        public string PhoneNumber { get { return phoneNumber; } set { phoneNumber = value; OnPropertyChanged(""); } }
-        public bool IsGuest { get { return isGuest; } set { isGuest = value; OnPropertyChanged(""); } }
-        public string Username { get { return base.Username; } set { base.Username = value; OnPropertyChanged(""); } }
+        public string Gender { get => gender; set { gender = value; OnPropertyChanged(""); } }
+        public string Email { get => email; set { email = value; OnPropertyChanged(""); } }
+        public string FirstName { get => firstName; set { firstName = value; OnPropertyChanged(""); } }
+        public string LastName { get => lastName; set { lastName = value; OnPropertyChanged(""); } }
+        public string DateOfBirth { get => dateOfBirth; set { dateOfBirth = value; OnPropertyChanged(""); } }
+        public string PhoneNumber { get => phoneNumber; set { phoneNumber = value; OnPropertyChanged(""); } }
+        public bool IsGuest { get => isGuest; set { isGuest = value; OnPropertyChanged(""); } }
+        public string Username { get => base.Username; set { base.Username = value; OnPropertyChanged(""); } }
         public override string ToString()
         {
             return base.Username;
         }
-        public int RecordId { get { return recordID; } set { recordID = value; OnPropertyChanged(""); } }
+        public int RecordId { get => recordID; set { recordID = value; OnPropertyChanged(""); } }
 
-        public List<DateTime> DelayOrCancelAppointment {
+        public List<DateTime> DelayOrCancelAppointment
+        {
             get
-            { 
+            {
                 if (delayOrCancelAppointment != null)
                 {
                     return delayOrCancelAppointment;
@@ -87,7 +86,8 @@ namespace Model
                     delayOrCancelAppointment = new List<DateTime>();
                     return delayOrCancelAppointment;
                 }
-            } 
-            set { delayOrCancelAppointment = value; } }
+            }
+            set => delayOrCancelAppointment = value;
+        }
     }
 }

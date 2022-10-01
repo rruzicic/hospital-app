@@ -5,17 +5,11 @@ using hospital.View.Manager;
 using Model;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace hospital.View
 {
@@ -24,10 +18,10 @@ namespace hospital.View
     /// </summary>
     public partial class BasicRenovationWindow : Window
     {
-        private RoomController roomController;
-        private ScheduledBasicRenovationController scheduledBasicRenovationController;
+        private readonly RoomController roomController;
+        private readonly ScheduledBasicRenovationController scheduledBasicRenovationController;
         private Timer timer;
-        private bool timer_Elapsed = false;
+        private readonly bool timer_Elapsed = false;
 
         public BasicRenovationWindow()
         {
@@ -39,37 +33,45 @@ namespace hospital.View
             ScheduleBtn.IsEnabled = false;
         }
 
-        public void loadRooms() {
-            foreach (Room room in roomController.FindAll()) {
+        public void loadRooms()
+        {
+            foreach (Room room in roomController.FindAll())
+            {
                 roomRenovationListView.Items.Add(room._Name);
             }
         }
 
         private void Show_Appointments_Click(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter) {
+            if (e.Key == Key.Enter)
+            {
                 ListAppointments();
             }
-           
+
         }
 
-        private void ListAppointments() {
+        private void ListAppointments()
+        {
             int renovationDuration = 0;
             try
             {
-                renovationDuration = Int32.Parse(durationRenovation.Text);
+                renovationDuration = int.Parse(durationRenovation.Text);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 durationRenovation.Foreground = Brushes.Red;
             }
             try
             {
-                if (roomRenovationListView.SelectedItem == null) throw new Exception();
+                if (roomRenovationListView.SelectedItem == null)
+                {
+                    throw new Exception();
+                }
+
                 Room room = roomController.FindRoomByName(roomRenovationListView.SelectedItem.ToString());
                 renovationListView.ItemsSource = scheduledBasicRenovationController.FindFreeTimeIntervals(room, renovationDuration);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 roomRenovationListView.Foreground = Brushes.Red;
             }
@@ -80,13 +82,14 @@ namespace hospital.View
             SaveRenovation();
         }
 
-        private void SaveRenovation() {
+        private void SaveRenovation()
+        {
             Room room = roomController.FindRoomByName(roomRenovationListView.SelectedItem.ToString());
             TimeInterval interval = (TimeInterval)renovationListView.SelectedItem;
             string description = descriptionInput.Text;
             ScheduledBasicRenovation renovation = new ScheduledBasicRenovation(scheduledBasicRenovationController.FindAll().Count.ToString(), room, interval, description);
             scheduledBasicRenovationController.Create(renovation);
-            this.Close();
+            Close();
         }
 
         private void FocusOnSaveButton()
@@ -97,7 +100,7 @@ namespace hospital.View
 
         private void Cancel_Renovation_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void Validate(object sender, SelectionChangedEventArgs e)
@@ -123,7 +126,9 @@ namespace hospital.View
         private void Close_Window(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
+            {
                 Close();
+            }
         }
 
         private void Start_Demo(object sender, RoutedEventArgs e)
@@ -147,11 +152,15 @@ namespace hospital.View
 
             };
 
-            timer = new Timer((Object o) => TimerCallback(commands), null, 0,  1000);
+            timer = new Timer((object o) => TimerCallback(commands), null, 0, 1000);
         }
         private void TimerCallback(List<IDemoCommand> commands)
         {
-            if (commands.Count == 0) return;
+            if (commands.Count == 0)
+            {
+                return;
+            }
+
             commands[0].execute();
             commands.RemoveAt(0);
         }

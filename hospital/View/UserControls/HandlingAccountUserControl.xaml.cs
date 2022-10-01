@@ -1,20 +1,10 @@
-﻿using System;
+﻿using Controller;
+using Model;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Controller;
-using System.Collections.ObjectModel;
-using Model;
 
 namespace hospital.View.UserControls
 {
@@ -26,7 +16,7 @@ namespace hospital.View.UserControls
         public HandlingAccountUserControl()
         {
             InitializeComponent();
-            this.DataContext = this;
+            DataContext = this;
             App app = Application.Current as App;
             pc = app.patientController;
             uc = app.userController;
@@ -51,12 +41,12 @@ namespace hospital.View.UserControls
             addAccountUserControl.txtPhone.Clear();
             addAccountUserControl.txtId.Clear();
             addAccountUserControl.txtEmail.Clear();
-            addAccountUserControl.radioFemale.IsChecked=false;
+            addAccountUserControl.radioFemale.IsChecked = false;
             addAccountUserControl.radioMale.IsChecked = true;
-            addAccountUserControl.txtDate.Text="";
+            addAccountUserControl.txtDate.Text = "";
             addAccountUserControl.txtUsername.Clear();
             addAccountUserControl.txtPassword.Clear();
-            
+
             //reset error labels
             addAccountUserControl.errFristname.Text = "";
             addAccountUserControl.errLastname.Text = "";
@@ -85,7 +75,8 @@ namespace hospital.View.UserControls
                 editAccountUserControl.txtEmail.Text = p.Email;
                 editAccountUserControl.txtUsername.Text = p.Username;
 
-                if (p.Gender.Equals("Male")) {
+                if (p.Gender.Equals("Male"))
+                {
                     editAccountUserControl.radioMale.IsChecked = true;
                     editAccountUserControl.radioFemale.IsChecked = false;
                 }
@@ -95,13 +86,21 @@ namespace hospital.View.UserControls
                     editAccountUserControl.radioFemale.IsChecked = true;
                 }
                 if (p.Role == Model.Role.Patient)
+                {
                     editAccountUserControl.cmbRole.SelectedIndex = 0;
+                }
                 else if (p.Role == Model.Role.Doctor)
+                {
                     editAccountUserControl.cmbRole.SelectedIndex = 1;
+                }
                 else if (p.Role == Model.Role.Secretary)
+                {
                     editAccountUserControl.cmbRole.SelectedIndex = 2;
+                }
                 else if (p.Role == Model.Role.Manager)
+                {
                     editAccountUserControl.cmbRole.SelectedIndex = 3;
+                }
 
                 editAccountUserControl.txtDate.Text = p.DateOfBirth;
                 if (p.IsBlocked)
@@ -112,16 +111,16 @@ namespace hospital.View.UserControls
                 {
                     editAccountUserControl.cbBlocked.IsChecked = false;
                 }
-                editAccountUserControl.Visibility=Visibility.Visible;
+                editAccountUserControl.Visibility = Visibility.Visible;
             }
         }
 
         private void txtSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var tbx = sender as TextBox;
+            TextBox tbx = sender as TextBox;
             if (tbx != null)
             {
-                var filteredList = Patients.Where(x => x.FirstName.ToLower().Contains(tbx.Text.ToLower()) || x.Username.ToLower().Contains(tbx.Text.ToLower()) || x.LastName.ToLower().Contains(tbx.Text.ToLower()) || x.Email.ToLower().Contains(tbx.Text.ToLower()) || x.PhoneNumber.ToLower().Contains(tbx.Text.ToLower())).ToList();
+                List<Patient> filteredList = Patients.Where(x => x.FirstName.ToLower().Contains(tbx.Text.ToLower()) || x.Username.ToLower().Contains(tbx.Text.ToLower()) || x.LastName.ToLower().Contains(tbx.Text.ToLower()) || x.Email.ToLower().Contains(tbx.Text.ToLower()) || x.PhoneNumber.ToLower().Contains(tbx.Text.ToLower())).ToList();
                 dateGridHandlingAccount.ItemsSource = null;
                 dateGridHandlingAccount.ItemsSource = filteredList;
             }

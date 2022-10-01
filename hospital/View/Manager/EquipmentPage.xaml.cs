@@ -1,19 +1,8 @@
 ﻿using Controller;
-using Model;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace hospital.View
 {
@@ -22,7 +11,7 @@ namespace hospital.View
     /// </summary>
     public partial class EquipmentPage : Page
     {
-        private UserController uc;
+        private readonly UserController uc;
         public EquipmentPage()
         {
             InitializeComponent();
@@ -48,28 +37,32 @@ namespace hospital.View
             mw.Show();
         }
 
-        private void FillDataGrid() {
-            List<DamiEquipment> equipment = new List<DamiEquipment>();
-            equipment.Add(new DamiEquipment("DentCo", "Dentist chair", 50));
-            equipment.Add(new DamiEquipment("DentCo", "Dentist chair", 50));
-            equipment.Add(new DamiEquipment("DentCo", "Dentist chair", 50));
-            equipment.Add(new DamiEquipment("DentCo", "Dentist chair", 50));
-            equipment.Add(new DamiEquipment("DentCo", "Dentist chair", 50));
-            equipment.Add(new DamiEquipment("DentCo", "Dentist chair", 50));
-            equipment.Add(new DamiEquipment("DentCo", "Dentist chair", 50));
-            equipment.Add(new DamiEquipment("DentCo", "Dentist chair", 50));
+        private void FillDataGrid()
+        {
+            List<DamiEquipment> equipment = new List<DamiEquipment>
+            {
+                new DamiEquipment("DentCo", "Dentist chair", 50),
+                new DamiEquipment("DentCo", "Dentist chair", 50),
+                new DamiEquipment("DentCo", "Dentist chair", 50),
+                new DamiEquipment("DentCo", "Dentist chair", 50),
+                new DamiEquipment("DentCo", "Dentist chair", 50),
+                new DamiEquipment("DentCo", "Dentist chair", 50),
+                new DamiEquipment("DentCo", "Dentist chair", 50),
+                new DamiEquipment("DentCo", "Dentist chair", 50)
+            };
             equipmentDataGrid.ItemsSource = equipment;
         }
     }
 
-    public class DamiEquipment{
+    public class DamiEquipment
+    {
         public string manufacturer { get; set; }
         public string type { get; set; }
         public int quantity { get; set; }
 
         public DamiEquipment(string name, string type, int quantity)
         {
-            this.manufacturer = name;
+            manufacturer = name;
             this.type = type;
             this.quantity = quantity;
         }

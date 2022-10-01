@@ -2,10 +2,6 @@
 using hospital.View;
 using Model;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -18,18 +14,19 @@ namespace hospital.VM
 
         public string name { get; set; }
         public string id { get; set; }
-        public string purpose { get;  set; }
+        public string purpose { get; set; }
         public string floor { get; set; }
 
-        private RoomController roomController;
+        private readonly RoomController roomController;
 
-        public AddRoomWindowViewModel() {
+        public AddRoomWindowViewModel()
+        {
             App app = Application.Current as App;
             roomController = app.roomController;
         }
         public void AddNewRoom()
         {
-            Room newRoom = new Room(name, purpose, Int32.Parse(floor), id);
+            Room newRoom = new Room(name, purpose, int.Parse(floor), id);
             try
             {
                 roomController.Create(newRoom);
@@ -45,9 +42,10 @@ namespace hospital.VM
     public class AddRoomCommand : ICommand
     {
         public event EventHandler CanExecuteChanged;
-        private AddRoomWindowViewModel addRoomWindowViewModel;
+        private readonly AddRoomWindowViewModel addRoomWindowViewModel;
 
-        public AddRoomCommand(AddRoomWindowViewModel vm) {
+        public AddRoomCommand(AddRoomWindowViewModel vm)
+        {
             addRoomWindowViewModel = vm;
         }
 
@@ -68,7 +66,8 @@ namespace hospital.VM
         private AddRoomWindow window;
         public event EventHandler CanExecuteChanged;
 
-        public CancelRoomCommand() {
+        public CancelRoomCommand()
+        {
             RetrieveAddRoomWindow();
         }
 

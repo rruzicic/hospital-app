@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Model;
 using Repository;
-using Model;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace Service
@@ -41,7 +38,7 @@ namespace Service
         public List<DateTime> FindAllMeetingsStartTime()
         {
             List<DateTime> meetingsStartTimes = new List<DateTime>();
-            foreach(Meeting meeting in FindAll())
+            foreach (Meeting meeting in FindAll())
             {
                 meetingsStartTimes.Add(meeting.Date);
             }

@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Repository;
+﻿using hospital.Repository;
 using Model;
+using Repository;
+using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading;
-using hospital.Repository;
 
 namespace Service
 {
@@ -17,7 +14,7 @@ namespace Service
         private readonly IRoomRepository _roomRepository;
         private ObservableCollection<Order> _orders;
 
-        public OrderService(OrderRepository orderRepo,IRoomRepository roomRepo) { _orderRepository = orderRepo; _roomRepository = roomRepo; }
+        public OrderService(OrderRepository orderRepo, IRoomRepository roomRepo) { _orderRepository = orderRepo; _roomRepository = roomRepo; }
 
         public void Create(Order newOrder)
         {
@@ -29,9 +26,13 @@ namespace Service
         {
             _orders = _orderRepository.FindAll();
             if (_orders.Count == 0)
+            {
                 return 100;
+            }
             else
+            {
                 return _orders[_orders.Count - 1].Id + 1;
+            }
         }
         public ObservableCollection<Order> FindAll()
         {

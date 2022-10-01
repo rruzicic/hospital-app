@@ -1,12 +1,8 @@
 ﻿using FileHandler;
 using Model;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace Repository
 {
@@ -14,7 +10,7 @@ namespace Repository
     {
         public ObservableCollection<InvalidMedicineReport> invalidMedicineReports;
         public InvalidMedicineReportFileHandler invalidMedicineReportFileHandler;
-        private MedicineRepository medicineRepository;
+        private readonly MedicineRepository medicineRepository;
         public InvalidMedicineReportRepository(MedicineRepository medicineRepository)
         {
             invalidMedicineReportFileHandler = new InvalidMedicineReportFileHandler();
@@ -34,7 +30,7 @@ namespace Repository
             invalidMedicineReport.Id = generateId();
             invalidMedicineReports.Add(invalidMedicineReport);
             medicineRepository.FindById(invalidMedicineReport.MedicineId).Status = "rejected";
-            invalidMedicineReportFileHandler.Write(this.invalidMedicineReports.ToList());
+            invalidMedicineReportFileHandler.Write(invalidMedicineReports.ToList());
             return true;
         }
         private int generateId()
@@ -43,7 +39,9 @@ namespace Repository
             foreach (InvalidMedicineReport report in FindAll())
             {
                 if (report.Id > maxId)
+                {
                     maxId = report.Id;
+                }
             }
             return maxId + 1;
         }
@@ -76,7 +74,7 @@ namespace Repository
         public bool DeleteById(int id)
         {
             invalidMedicineReports.Remove(FindById(id));
-            invalidMedicineReportFileHandler.Write(this.invalidMedicineReports.ToList());
+            invalidMedicineReportFileHandler.Write(invalidMedicineReports.ToList());
             return true;
         }
 

@@ -1,34 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Controller;
+using Model;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Model;
-using Controller;
-using System.Collections.ObjectModel;
-using System.Data;
-using System.ComponentModel;
 
 namespace hospital.View.UserControls
 {
     public partial class RevisionOfRestUserControl : UserControl
     {
-        private VacationRequestController _vacationRequestController;
-        private DoctorController _doctorController;
+        private readonly VacationRequestController _vacationRequestController;
+        private readonly DoctorController _doctorController;
         private ObservableCollection<VacationRequest> _vacationRequests;
         private VacationRequest _currentSelected;
         public RevisionOfRestUserControl()
         {
-            this.DataContext = this;
+            DataContext = this;
             App app = Application.Current as App;
             _vacationRequestController = app.vacationRequestController;
             _doctorController = app.doctorController;
@@ -37,15 +23,15 @@ namespace hospital.View.UserControls
         }
         public ObservableCollection<VacationRequest> VacationRequests
         {
-            get { return _vacationRequests; }
-            set { _vacationRequests = value; }
+            get => _vacationRequests;
+            set => _vacationRequests = value;
         }
         private void dateGridHandlingRest_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             _currentSelected = (VacationRequest)dateGridHandlingRest.SelectedItem;
             if (_currentSelected != null)
             {
-                if(_currentSelected.Status == Status.approved || _currentSelected.Status == Status.rejected)
+                if (_currentSelected.Status == Status.approved || _currentSelected.Status == Status.rejected)
                 {
                     btnApprove.IsEnabled = false;
                     btnReject.IsEnabled = false;

@@ -1,17 +1,13 @@
 ﻿using Model;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace hospital.Repository
 {
     public interface IRoomRepository
     {
         void Create(Room room);
-        Room FindById(string id );
+        Room FindById(string id);
         Room FindByName(string name);
         Room FindByPurpose(string purpose);
         List<Room> FindRoomsByPurpose(string purpose);

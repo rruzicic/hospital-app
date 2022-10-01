@@ -5,18 +5,11 @@ using hospital.View.Manager;
 using Model;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace hospital.View
 {
@@ -25,8 +18,8 @@ namespace hospital.View
     /// </summary>
     public partial class AdvancedRenovationWindow : Window
     {
-        private RoomController roomController;
-        private ScheduledAdvancedRenovationController scheduledAdvancedRenovationController;
+        private readonly RoomController roomController;
+        private readonly ScheduledAdvancedRenovationController scheduledAdvancedRenovationController;
         private Timer timer;
         private bool demoStarted;
 
@@ -48,13 +41,14 @@ namespace hospital.View
             }
         }
 
-        private void ListAppointments() {
-            int renovationDuration = Int32.Parse(durationRenovation.Text);
+        private void ListAppointments()
+        {
+            int renovationDuration = int.Parse(durationRenovation.Text);
             try
             {
                 CheckTypeOfAdvancedRenovation(renovationDuration);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 DisplayError();
             }
@@ -63,16 +57,22 @@ namespace hospital.View
         private void CheckTypeOfAdvancedRenovation(int renovationDuration)
         {
             if (listViewRooms.SelectedItems.Count >= 2)
+            {
                 ListIntervalsWhenMerge(renovationDuration);
+            }
             else
+            {
                 ListIntervalsWhenSplit(renovationDuration);
+            }
         }
 
         private void ListIntervalsWhenMerge(int renovationDuration)
         {
-            List<Room> rooms = new List<Room>();
-            rooms.Add((Room)listViewRooms.SelectedItems[0]);
-            rooms.Add((Room)listViewRooms.SelectedItems[1]);
+            List<Room> rooms = new List<Room>
+            {
+                (Room)listViewRooms.SelectedItems[0],
+                (Room)listViewRooms.SelectedItems[1]
+            };
             renovationListView.ItemsSource = scheduledAdvancedRenovationController.FindIntervalsForMergingRooms(rooms, renovationDuration);
         }
 
@@ -91,7 +91,9 @@ namespace hospital.View
         private void Close_Window(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
+            {
                 Close();
+            }
         }
 
         private void Schedule_Advanced_Renovation(object sender, RoutedEventArgs e)
@@ -101,12 +103,14 @@ namespace hospital.View
                 ScheduleMergeRenovation();
 
             }
-            else if (splitBtn.IsChecked == true) {
+            else if (splitBtn.IsChecked == true)
+            {
                 ScheduleSplitRenovation();
             }
         }
 
-        public void ScheduleMergeRenovation() {
+        public void ScheduleMergeRenovation()
+        {
             MergeRoomsWindow mergeRoomsWindow = new MergeRoomsWindow(demoStarted);
             mergeRoomsWindow.floor.Text = ((Room)listViewRooms.SelectedItems[0]).floor.ToString();
             if (mergeRoomsWindow.ShowDialog() == false && IsMergeFormFilled(mergeRoomsWindow.room))
@@ -122,7 +126,7 @@ namespace hospital.View
             if (splitRoomWindow.ShowDialog() == false && IsSplitFormFilled(splitRoomWindow.rooms))
             {
                 CreateSplitRenovation(splitRoomWindow.rooms, (TimeInterval)renovationListView.SelectedItem);
-                if(demoStarted)
+                if (demoStarted)
                 {
                     MergeDemo();
                 }
@@ -131,7 +135,11 @@ namespace hospital.View
 
         private bool IsMergeFormFilled(Room room)
         {
-            if (room == null) return false;
+            if (room == null)
+            {
+                return false;
+            }
+
             if (room._Name == null || room.id == null || room._Purpose == null)
             {
                 return false;
@@ -141,7 +149,11 @@ namespace hospital.View
 
         private bool IsSplitFormFilled(List<Room> rooms)
         {
-            if (rooms == null  || rooms[0] == null || rooms[1] == null ) return false;
+            if (rooms == null || rooms[0] == null || rooms[1] == null)
+            {
+                return false;
+            }
+
             if (rooms[0]._Name == null || rooms[0].id == null || rooms[0]._Purpose == null || rooms[1]._Name == null || rooms[1].id == null || rooms[1]._Purpose == null)
             {
                 return false;
@@ -170,14 +182,19 @@ namespace hospital.View
         private int GenerateId()
         {
             if (scheduledAdvancedRenovationController.FindAll().Count == 0)
+            {
                 return 0;
-            return Int32.Parse(scheduledAdvancedRenovationController.FindAll()[scheduledAdvancedRenovationController.FindAll().Count - 1]._Id) + 1;
+            }
+
+            return int.Parse(scheduledAdvancedRenovationController.FindAll()[scheduledAdvancedRenovationController.FindAll().Count - 1]._Id) + 1;
         }
 
         private void ValidateId(string id)
         {
             if (roomController.FindRoomById(id) != null)
+            {
                 throw new Exception("Room with this id already exists!");
+            }
         }
 
         private void IsFormFilled(object sender, SelectionChangedEventArgs e)
@@ -200,11 +217,13 @@ namespace hospital.View
             scheduleBtn.IsEnabled = false;
         }
 
-        private void SelectSplitRadioBtn() {
+        private void SelectSplitRadioBtn()
+        {
             splitBtn.IsChecked = true;
         }
 
-        private void SelectMergeRadioBtn() {
+        private void SelectMergeRadioBtn()
+        {
             mergeBtn.IsChecked = true;
         }
 
@@ -220,7 +239,8 @@ namespace hospital.View
             SplitDemo();
         }
 
-        private void SplitDemo() {
+        private void SplitDemo()
+        {
             List<IDemoCommand> commands = new List<IDemoCommand>
             {
                 new SelectFromListBoxCommand(listViewRooms, 10),
@@ -239,10 +259,11 @@ namespace hospital.View
                 new ActionExecuteCommand(FocusOnSaveButton),
                 new ActionExecuteCommand(ScheduleSplitRenovation),
             };
-            timer = new Timer((Object o) => TimerCallback(commands, timer), null, 0, 500);
+            timer = new Timer((object o) => TimerCallback(commands, timer), null, 0, 500);
         }
 
-        private void MergeDemo() {
+        private void MergeDemo()
+        {
             listViewRooms.ItemsSource = roomController.FindAll();
 
             List<IDemoCommand> commands = new List<IDemoCommand> {
@@ -263,7 +284,7 @@ namespace hospital.View
                 new ActionExecuteCommand(FocusOnSaveButton),
                 new ActionExecuteCommand(ScheduleMergeRenovation)
             };
-            timer = new Timer((Object o) => TimerCallback(commands, timer), null, 0, 500);
+            timer = new Timer((object o) => TimerCallback(commands, timer), null, 0, 500);
         }
 
         private void TimerCallback(List<IDemoCommand> commands, Timer timer)
@@ -278,7 +299,7 @@ namespace hospital.View
                 command.execute();
                 return;
             }
-            if(commands.Count == 0)
+            if (commands.Count == 0)
             {
                 timer.Dispose();
                 return;
@@ -287,7 +308,8 @@ namespace hospital.View
             commands.RemoveAt(0);
         }
 
-        private void CleanAfterDemo() {
+        private void CleanAfterDemo()
+        {
             durationRenovation.Text = "";
             renovationListView.Items.Clear();
             description.Text = "";
@@ -298,7 +320,7 @@ namespace hospital.View
         {
             IsFormFilledValidation();
         }
-     }
-
-
     }
+
+
+}

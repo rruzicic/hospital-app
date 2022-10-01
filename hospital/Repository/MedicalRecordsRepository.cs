@@ -1,9 +1,7 @@
-using Model;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using FileHandler;
 using Model;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Repository
@@ -31,7 +29,7 @@ namespace Repository
         public void Create(MedicalRecord medicalRecord)
         {
             medicalRecords.Add(medicalRecord);
-            medicalRecordFileHandler.Write(this.medicalRecords.ToList());
+            medicalRecordFileHandler.Write(medicalRecords.ToList());
         }
 
         public ObservableCollection<MedicalRecord> FindAll()
@@ -53,29 +51,32 @@ namespace Repository
 
         public bool DeleteById(int id)
         {
-            bool retVal= medicalRecords.Remove(FindById(id));
-            medicalRecordFileHandler.Write(this.medicalRecords.ToList());
+            bool retVal = medicalRecords.Remove(FindById(id));
+            medicalRecordFileHandler.Write(medicalRecords.ToList());
             return retVal;
         }
 
         public bool UpdateById(int id, MedicalRecord medicalRecord)
         {
             MedicalRecord med = FindById(id);
-            if(med.DoctorUsername != null)
+            if (med.DoctorUsername != null)
+            {
                 med.DoctorUsername = medicalRecord.DoctorUsername;
+            }
+
             med.BloodType = medicalRecord.BloodType;
             med.Alergies = medicalRecord.Alergies;
             med.Note = medicalRecord.Note;
-            medicalRecordFileHandler.Write(this.medicalRecords.ToList());
+            medicalRecordFileHandler.Write(medicalRecords.ToList());
             return true;
         }
 
-        
+
 
         public bool AddTheraphy(int id, Therapy therapy)
         {
             FindById(id).Therapy.Add(therapy);
-            medicalRecordFileHandler.Write(this.medicalRecords.ToList());
+            medicalRecordFileHandler.Write(medicalRecords.ToList());
             return true;
         }
 
@@ -148,7 +149,7 @@ namespace Repository
                 medicalRecords.Clear();
             }
         }
-        
+
 
 
     }

@@ -1,44 +1,34 @@
-﻿using System;
+﻿using Controller;
+using hospital.Controller;
+using hospital.Model;
+using Model;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Controller;
-using Model;
 using ToastNotifications;
 using ToastNotifications.Lifetime;
 using ToastNotifications.Messages;
 using ToastNotifications.Position;
-using hospital.Controller;
-using hospital.Model;
 
 namespace hospital.View.UserControls
 {
     public partial class MakeAppointmentUserControl : UserControl
     {
-        private PatientController pc;
-        private AppointmentManagementController ac;
-        private DoctorController dc;
-        private ScheduledBasicRenovationController sbrc;
-        private RecommendedAppointmentController rc;
-        private AvailableAppointmentController aac;
-        private VacationRequestController vc;
+        private readonly PatientController pc;
+        private readonly AppointmentManagementController ac;
+        private readonly DoctorController dc;
+        private readonly ScheduledBasicRenovationController sbrc;
+        private readonly RecommendedAppointmentController rc;
+        private readonly AvailableAppointmentController aac;
+        private readonly VacationRequestController vc;
         public ObservableCollection<Patient> Patients { get; set; }
         public ObservableCollection<Doctor> Doctors { get; set; }
         public MakeAppointmentUserControl()
         {
             InitializeComponent();
-            this.DataContext=this;
+            DataContext = this;
             date.DisplayDateStart = DateTime.Today;
             App app = Application.Current as App;
             pc = app.patientController;
@@ -51,7 +41,8 @@ namespace hospital.View.UserControls
             Patients = pc.FindAll();
             Doctors = dc.GetDoctors();
         }
-        Notifier notifier = new Notifier(cfg =>
+
+        private readonly Notifier notifier = new Notifier(cfg =>
         {
             cfg.PositionProvider = new WindowPositionProvider(
                 parentWindow: Application.Current.MainWindow,
@@ -85,12 +76,12 @@ namespace hospital.View.UserControls
                 }
                 if (canMake)
                 {
-                    DateTime tmp = (DateTime) date.SelectedDate;
+                    DateTime tmp = (DateTime)date.SelectedDate;
                     DateTime tmp1 = (DateTime)txtTime.Value;
-                    DateTime newDate = new DateTime(tmp.Year,tmp.Month,tmp.Day, tmp1.Hour, tmp1.Minute,0);
-                    if (rc.TryMakeAppointment(cmbUsername.Text, newDate, (Doctor) cmbDoctor.SelectedItem))
+                    DateTime newDate = new DateTime(tmp.Year, tmp.Month, tmp.Day, tmp1.Hour, tmp1.Minute, 0);
+                    if (rc.TryMakeAppointment(cmbUsername.Text, newDate, (Doctor)cmbDoctor.SelectedItem))
                     {
-                        this.Visibility = Visibility.Collapsed;
+                        Visibility = Visibility.Collapsed;
                         ResetFields();
                         notifier.ShowSuccess("Appointment successfully scheduled");
                         return;
@@ -105,9 +96,9 @@ namespace hospital.View.UserControls
 
         private bool CheckVacations()
         {
-            foreach(VacationRequest vacation in vc.FindAll())
+            foreach (VacationRequest vacation in vc.FindAll())
             {
-                if (vacation.DoctorId == ((Doctor)cmbDoctor.SelectedItem).Username && vacation.StartDate < ((DateTime)date.SelectedDate) && vacation.EndDate> ((DateTime)date.SelectedDate) && vacation.Status == Status.approved)
+                if (vacation.DoctorId == ((Doctor)cmbDoctor.SelectedItem).Username && vacation.StartDate < ((DateTime)date.SelectedDate) && vacation.EndDate > ((DateTime)date.SelectedDate) && vacation.Status == Status.approved)
                 {
                     notFree.Text = "Doctor is on vacation";
                     return true;
@@ -170,16 +161,16 @@ namespace hospital.View.UserControls
             //time
             //if (txtTime.Text.Equals(""))
             //{
-               // errTime.Text = "Must be filled";
-               // isCorrected[3] = false;
+            // errTime.Text = "Must be filled";
+            // isCorrected[3] = false;
             //}
             //else
-           // {
+            // {
             //    errTime.Text = "";
             //    isCorrected[3] = true;
-           // }
+            // }
             //radio
-            if(radioDoctor.IsChecked == false && radioTime.IsChecked == false)
+            if (radioDoctor.IsChecked == false && radioTime.IsChecked == false)
             {
                 errPriority.Text = "Choose one option";
                 isCorrected[4] = false;
@@ -207,9 +198,13 @@ namespace hospital.View.UserControls
         private void date_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
             if (date.Text.Equals(""))
+            {
                 errDate.Text = "Choose one date";
+            }
             else
+            {
                 errDate.Text = "";
+            }
         }
 
         private void time_TextChanged(object sender, TextChangedEventArgs e)
@@ -235,17 +230,27 @@ namespace hospital.View.UserControls
                 {
                     btnShowRec.Visibility = Visibility.Collapsed;
                     notFree.Text = "";
-                    if (((DateTime) txtTime.Value).Hour.Equals("6") && ((DateTime)txtTime.Value).Minute.Equals("30"))
+                    if (((DateTime)txtTime.Value).Hour.Equals("6") && ((DateTime)txtTime.Value).Minute.Equals("30"))
+                    {
                         btnRecOne.Visibility = Visibility.Collapsed;
+                    }
                     else
+                    {
                         btnRecOne.Visibility = Visibility.Visible;
+                    }
+
                     if (((DateTime)txtTime.Value).Hour.Equals("7") && ((DateTime)txtTime.Value).Minute.Equals("00"))
+                    {
                         btnRecTwo.Visibility = Visibility.Collapsed;
+                    }
                     else
+                    {
                         btnRecTwo.Visibility = Visibility.Visible;
-                    ObservableCollection<Appointment> apointments = aac.GetFreeAppointmentsByDateAndDoctor((DateTime)date.SelectedDate, ((Doctor)cmbDoctor.SelectedItem).Username,cmbUsername.Text);
-                    rc.FindFreeForward(apointments, (DateTime) txtTime.Value);
-                    rc.FindFreeBack(apointments, (DateTime) txtTime.Value);
+                    }
+
+                    ObservableCollection<Appointment> apointments = aac.GetFreeAppointmentsByDateAndDoctor((DateTime)date.SelectedDate, ((Doctor)cmbDoctor.SelectedItem).Username, cmbUsername.Text);
+                    rc.FindFreeForward(apointments, (DateTime)txtTime.Value);
+                    rc.FindFreeBack(apointments, (DateTime)txtTime.Value);
                     recOne.Text = "Doctor: " + dc.GetByUsername(rc.RecommendedOne.DoctorUsername) + "\n" + rc.RecommendedOne.StartTime;
                     recTwo.Text = "Doctor: " + dc.GetByUsername(rc.RecommendedTwo.DoctorUsername) + "\n" + rc.RecommendedTwo.StartTime;
                 }
@@ -255,8 +260,8 @@ namespace hospital.View.UserControls
                     notFree.Text = "";
                     btnRecOne.Visibility = Visibility.Visible;
                     btnRecTwo.Visibility = Visibility.Visible;
-                    ObservableCollection<Appointment> apointments = aac.GetFreeAppointmentsByDate((DateTime)date.SelectedDate,cmbUsername.Text);
-                    rc.FindRecByTime(apointments,(DateTime) txtTime.Value);
+                    ObservableCollection<Appointment> apointments = aac.GetFreeAppointmentsByDate((DateTime)date.SelectedDate, cmbUsername.Text);
+                    rc.FindRecByTime(apointments, (DateTime)txtTime.Value);
                     recOne.Text = "Doctor: " + dc.GetByUsername(rc.RecommendedOne.DoctorUsername) + "\n" + rc.RecommendedOne.StartTime;
                     recTwo.Text = "Doctor: " + dc.GetByUsername(rc.RecommendedTwo.DoctorUsername) + "\n" + rc.RecommendedTwo.StartTime;
                 }
@@ -264,7 +269,7 @@ namespace hospital.View.UserControls
         }
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-            this.Visibility = Visibility.Collapsed;
+            Visibility = Visibility.Collapsed;
             cmbDoctor.Text = "";
             cmbUsername.Text = "";
             date.Text = "";
@@ -273,18 +278,18 @@ namespace hospital.View.UserControls
             radioTime.IsChecked = false;
             errDate.Text = "";
             btnRecOne.Visibility = Visibility.Collapsed;
-            btnRecTwo.Visibility = Visibility.Collapsed;    
+            btnRecTwo.Visibility = Visibility.Collapsed;
         }
 
         private void btnRecTwo_Click(object sender, RoutedEventArgs e)
         {
             ac.CreateAppointment(rc.RecommendedTwo);
             notifier.ShowSuccess("Appointment successfully scheduled");
-            this.Visibility = Visibility.Collapsed;
+            Visibility = Visibility.Collapsed;
             cmbDoctor.Text = "";
             cmbUsername.Text = "";
             date.Text = "";
-            txtTime.Value = new DateTime(DateTime.Now.Year,DateTime.Now.Month,DateTime.Now.Day,12,0,0);
+            txtTime.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 12, 0, 0);
             radioDoctor.IsChecked = false;
             radioTime.IsChecked = false;
             errDate.Text = "";
@@ -296,11 +301,11 @@ namespace hospital.View.UserControls
         {
             ac.CreateAppointment(rc.RecommendedOne);
             notifier.ShowSuccess("Appointment successfully scheduled");
-            this.Visibility = Visibility.Collapsed;
+            Visibility = Visibility.Collapsed;
             cmbDoctor.Text = "";
             cmbUsername.Text = "";
             date.Text = "";
-            txtTime.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day,12,0,0);
+            txtTime.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 12, 0, 0);
             radioDoctor.IsChecked = false;
             radioTime.IsChecked = false;
             errDate.Text = "";

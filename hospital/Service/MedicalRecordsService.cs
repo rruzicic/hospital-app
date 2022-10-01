@@ -1,6 +1,5 @@
 using Model;
 using Repository;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -17,13 +16,13 @@ namespace Service
         }
         public void Create(MedicalRecord medicalRecord)
         {
-            medicalRecordsRepository.Create(medicalRecord); 
+            medicalRecordsRepository.Create(medicalRecord);
 
         }
 
         public ObservableCollection<MedicalRecord> FindAll()
         {
-             return medicalRecordsRepository.FindAll();
+            return medicalRecordsRepository.FindAll();
         }
 
         public MedicalRecord FindById(int id)
@@ -49,7 +48,10 @@ namespace Service
             MedicalRecord record = FindById(recordId);
             List<string> allergies = new List<string>();
             if (record.Alergies != null)
+            {
                 allergies = record.Alergies.Split(',').ToList<string>();
+            }
+
             foreach (string ingridient in medicine.Ingridients)
             {
                 if (allergies.Contains(ingridient) || allergies.Contains(medicine.Name))

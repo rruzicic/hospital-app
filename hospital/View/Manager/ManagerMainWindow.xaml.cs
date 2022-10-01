@@ -8,7 +8,7 @@ namespace hospital.View
     /// </summary>
     public partial class ManagerMainWindow : Window
     {
-        private UserController uc;
+        private readonly UserController uc;
         public ManagerMainWindow()
         {
             InitializeComponent();
@@ -17,6 +17,6 @@ namespace hospital.View
             Main.Content = new MainPage();
         }
 
-      
+
     }
 }

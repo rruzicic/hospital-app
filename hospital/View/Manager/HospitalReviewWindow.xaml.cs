@@ -1,18 +1,7 @@
 ﻿using hospital.Controller;
 using hospital.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace hospital.View.Manager
 {
@@ -21,7 +10,7 @@ namespace hospital.View.Manager
     /// </summary>
     public partial class HospitalReviewWindow : Window
     {
-        private PollController pollController;
+        private readonly PollController pollController;
         public HospitalReviewWindow()
         {
             InitializeComponent();
@@ -37,7 +26,7 @@ namespace hospital.View.Manager
         }
         private void FillCategories(int index)
         {
-            category1.Content = pollController.GetHospitalPollBlueprint().Categories[index].Name +"  "+ pollController.CalculateHospitalCategoryGrade(pollController.GetDoctorPollBlueprint().Categories[index].Id);
+            category1.Content = pollController.GetHospitalPollBlueprint().Categories[index].Name + "  " + pollController.CalculateHospitalCategoryGrade(pollController.GetDoctorPollBlueprint().Categories[index].Id);
         }
 
         private void FillFirstCategoryQuestion()
@@ -119,7 +108,8 @@ namespace hospital.View.Manager
                 FillFirstCategoryQuestion();
                 FillCategories(0);
             }
-            else if (categoryComboBox.SelectedIndex == 1) {
+            else if (categoryComboBox.SelectedIndex == 1)
+            {
                 FillSecondCategoryQuestion();
                 FillCategories(1);
             }

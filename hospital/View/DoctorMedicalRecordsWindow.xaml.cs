@@ -1,20 +1,10 @@
 ﻿using Controller;
 using Model;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace hospital.View
 {
@@ -23,13 +13,13 @@ namespace hospital.View
     /// </summary>
     public partial class DoctorMedicalRecordsWindow : Window
     {
-        private DoctorController dc;
-        private MedicalRecordsController mrc;
-        private UserController uc;
-        private PatientController pc;
-        private AppointmentManagementController ac;
+        private readonly DoctorController dc;
+        private readonly MedicalRecordsController mrc;
+        private readonly UserController uc;
+        private readonly PatientController pc;
+        private readonly AppointmentManagementController ac;
 
-        private Doctor loggedInDoctor;
+        private readonly Doctor loggedInDoctor;
         private Patient selectedPatient;
 
         public ObservableCollection<Appointment> appointments { get; set; }
@@ -38,7 +28,7 @@ namespace hospital.View
         public DoctorMedicalRecordsWindow()
         {
             InitializeComponent();
-            this.DataContext = this;
+            DataContext = this;
             App app = Application.Current as App;
             dc = app.doctorController;
             mrc = app.medicalRecordsController;
@@ -64,11 +54,11 @@ namespace hospital.View
 
         private void btnSubmit_Click(object sender, RoutedEventArgs e)
         {
-            if(cmbPatients.SelectedIndex != -1)
+            if (cmbPatients.SelectedIndex != -1)
             {
                 MedicalRecord newMedRec = new MedicalRecord(selectedPatient.Id, tbAlergies.Text, null, getBloodType(cmbBloodType.Text), tbNotes.Text);
                 mrc.UpdateById(selectedPatient.RecordId, newMedRec);
-                this.Close();
+                Close();
             }
         }
 
@@ -109,6 +99,6 @@ namespace hospital.View
             }
         }
 
-       
+
     }
 }

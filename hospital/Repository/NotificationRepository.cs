@@ -1,12 +1,8 @@
-﻿using System;
+﻿using FileHandler;
+using Model;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Timers;
-using FileHandler;
-using Model;
 
 namespace Repository
 {

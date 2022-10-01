@@ -5,8 +5,8 @@ namespace hospital
 {
     public class MyICommand : ICommand
     {
-        Action _TargetExecuteMethod;
-        Func<bool> _TargetCanExecuteMethod;
+        private readonly Action _TargetExecuteMethod;
+        private readonly Func<bool> _TargetCanExecuteMethod;
 
         public MyICommand(Action executeMethod)
         {
@@ -53,9 +53,8 @@ namespace hospital
 
     public class MyICommand<T> : ICommand
     {
-
-        Action<T> _TargetExecuteMethod;
-        Func<T, bool> _TargetCanExecuteMethod;
+        private readonly Action<T> _TargetExecuteMethod;
+        private readonly Func<T, bool> _TargetCanExecuteMethod;
 
         public MyICommand(Action<T> executeMethod)
         {

@@ -1,11 +1,9 @@
-using hospital;
 using hospital.DTO;
 using Model;
 using Repository;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Windows;
 
 namespace Service
 {
@@ -14,11 +12,11 @@ namespace Service
         private readonly PatientRepository patientRepository;
         private readonly MedicalRecordsRepository medicalRecordsRepository;
         private readonly UserRepository userRepository;
-        private  ObservableCollection<MedicalRecord> medicalRecords;
-        
+        private ObservableCollection<MedicalRecord> medicalRecords;
 
-        public PatientService(PatientRepository _repo,MedicalRecordsRepository mec,UserRepository uc)
-        { 
+
+        public PatientService(PatientRepository _repo, MedicalRecordsRepository mec, UserRepository uc)
+        {
             patientRepository = _repo;
             medicalRecordsRepository = mec;
             userRepository = uc;
@@ -57,9 +55,13 @@ namespace Service
         {
             medicalRecords = medicalRecordsRepository.FindAll();
             if (medicalRecords.Count == 0)
+            {
                 return 333;
+            }
             else
+            {
                 return medicalRecords[medicalRecords.Count - 1].RecordId + 1;
+            }
         }
 
         public List<TherapyDTO> FindCurrentMonthTherapies(string id)
@@ -69,7 +71,7 @@ namespace Service
             foreach (Therapy t in mr.Therapy)
             {
                 DateTime iterator = t.TimeStart;
-                while(iterator < t.TimeEnd)
+                while (iterator < t.TimeEnd)
                 {
                     iterator = iterator.AddHours(t.Interval);
                     therapies.Add(new TherapyDTO(t.Medicine.Name, iterator));

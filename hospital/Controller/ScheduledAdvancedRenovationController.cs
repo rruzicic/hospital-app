@@ -1,17 +1,13 @@
 ﻿using hospital.Model;
 using hospital.Service;
 using Model;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace hospital.Controller
 {
     public class ScheduledAdvancedRenovationController
     {
-        private ScheduledAdvancedRenovationService renovationService;
+        private readonly ScheduledAdvancedRenovationService renovationService;
 
         public ScheduledAdvancedRenovationController(ScheduledAdvancedRenovationService renovationService)
         {
@@ -43,15 +39,18 @@ namespace hospital.Controller
             return renovationService.DeleteById(id);
         }
 
-        public List<TimeInterval> FindIntervalsForMergingRooms(List<Room> rooms, int renovationDuration) {
+        public List<TimeInterval> FindIntervalsForMergingRooms(List<Room> rooms, int renovationDuration)
+        {
             return renovationService.FindIntervalsForMergingRooms(rooms, renovationDuration);
         }
 
-        public List<TimeInterval> FindIntervalsForSplitingRoom(Room room, int renovationDuration) {
+        public List<TimeInterval> FindIntervalsForSplitingRoom(Room room, int renovationDuration)
+        {
             return renovationService.FindIntervalsForSplitingRoom(room, renovationDuration);
         }
 
-        public void RenovationTracker() {
+        public void RenovationTracker()
+        {
             renovationService.RenovationTracker();
         }
     }

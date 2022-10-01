@@ -10,7 +10,7 @@ namespace hospital.View
     {
         public MedicinePage()
         {
-            this.DataContext = new MedicinePageViewModel();
+            DataContext = new MedicinePageViewModel();
             InitializeComponent();
         }
     }

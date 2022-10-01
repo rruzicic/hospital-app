@@ -1,19 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Controller;
+using Model;
+using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Controller;
-using Model;
 using ToastNotifications;
 using ToastNotifications.Lifetime;
 using ToastNotifications.Messages;
@@ -26,7 +16,7 @@ namespace hospital.View.UserControls
     /// </summary>
     public partial class OrderEquipmentUserControl : UserControl
     {
-        private OrderController _orderController;
+        private readonly OrderController _orderController;
         private Notifier Notifier { get; set; }
         public OrderEquipmentUserControl()
         {
@@ -40,7 +30,7 @@ namespace hospital.View.UserControls
         {
             if (isValidate())
             {
-                Equipment newEquipment = new Equipment(txtType.Text, Int32.Parse(txtQuantity.Text));
+                Equipment newEquipment = new Equipment(txtType.Text, int.Parse(txtQuantity.Text));
                 Notifier.ShowSuccess("Order successfully");
                 _orderController.Create(new Order(DateTime.Now, newEquipment));
             }
@@ -48,7 +38,7 @@ namespace hospital.View.UserControls
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-            this.Visibility = Visibility.Collapsed;
+            Visibility = Visibility.Collapsed;
             txtQuantity.Text = "";
             txtType.Text = "";
             errQuantity.Text = "";
@@ -58,16 +48,25 @@ namespace hospital.View.UserControls
         private void time_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (e.Source == txtType)
+            {
                 errType.Text = "";
+            }
 
             if (e.Source == txtQuantity)
             {
                 if (!txtQuantity.Text.Contains("-"))
+                {
                     errQuantity.Text = "";
+                }
                 else
+                {
                     errQuantity.Text = "Quantity can't be negative";
+                }
+
                 if (txtQuantity.Text.Any(char.IsLetter))
+                {
                     errQuantity.Text = "Must be number";
+                }
             }
         }
 

@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Service;
-using Model;
-using System.Collections.ObjectModel;
-using Repository;
-using DTO;
+﻿using DTO;
 using hospital.Service;
+using Model;
+using Repository;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Service
 {
@@ -20,30 +17,31 @@ namespace Service
         private readonly DoctorService doctorService;
         private readonly RoomService _roomService;
         private EmergencyDTO _emergencyDTO;
-        private RecommendedAppointmentService _recommendedAppointmentService;
+        private readonly RecommendedAppointmentService _recommendedAppointmentService;
 
         public EmergencyService(AppointmentManagementService appointmentService, NotificationRepository notificationRepository, DoctorService doctorService, RoomService roomService, RecommendedAppointmentService rc, AvailableAppointmentService availableAppointmentService)
         {
-            this._notificationRepository = notificationRepository;
+            _notificationRepository = notificationRepository;
             this.doctorService = doctorService;
-            this._roomService = roomService;
-            this._appointmentService = appointmentService;
-            this._recommendedAppointmentService = rc;
+            _roomService = roomService;
+            _appointmentService = appointmentService;
+            _recommendedAppointmentService = rc;
             _availableAppointmentService = availableAppointmentService;
         }
 
 
-        public void MoveAppointemntAndMakeNotification(Appointment oldAppointment, Appointment newAppoitnemnt) 
+        public void MoveAppointemntAndMakeNotification(Appointment oldAppointment, Appointment newAppoitnemnt)
         {
             _appointmentService.Update(oldAppointment, newAppoitnemnt);
             try
             {
                 TryMakeEmergencyAppointment(_emergencyDTO.PatientUsername, _emergencyDTO.RequiredSpecialization, _emergencyDTO.IsOperation);
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
-            MakeNotification(oldAppointment.PatientUsername,oldAppointment.DoctorUsername);
+            MakeNotification(oldAppointment.PatientUsername, oldAppointment.DoctorUsername);
         }
 
         public List<DateTime> MakeTimeSlotsNextTwoHours()
@@ -86,12 +84,14 @@ namespace Service
                     availableAppointment.Add(CheckFreeAppointmentNextTwoHours(appointment));
                 }
                 else
+                {
                     continue;
+                }
             }
             return SortAppointmentByTime(availableAppointment);
         }
 
-        private Appointment CheckFreeAppointmentNextTwoHours( Appointment appointment)
+        private Appointment CheckFreeAppointmentNextTwoHours(Appointment appointment)
         {
             foreach (DateTime dateTime in MakeTimeSlotsNextTwoHours())
             {
@@ -129,11 +129,17 @@ namespace Service
 
             List<Doctor> requiredDoctor = doctorService.GetDoctorsBySpecialization(requiredSpecialization);
 
-            if (requiredDoctor.Count == 0) throw new Exception("There is no doctor with such a specialization");
+            if (requiredDoctor.Count == 0)
+            {
+                throw new Exception("There is no doctor with such a specialization");
+            }
 
             ObservableCollection<Appointment> availableAppointment = FindAvailableAppointmentsNextTwoHours(requiredDoctor, patientUsername);
 
-            if (availableAppointment.Count == 0) throw new Exception("No free appointments");
+            if (availableAppointment.Count == 0)
+            {
+                throw new Exception("No free appointments");
+            }
 
             if (isOperation)
             {
@@ -145,9 +151,9 @@ namespace Service
                 MakeNotification(patientUsername, availableAppointment[0].DoctorUsername);
             }
         }
-        private void MakeNotification(string patientUsername,string doctorUsername)
+        private void MakeNotification(string patientUsername, string doctorUsername)
         {
-            _notificationRepository.Create(new Notification(patientUsername,"New emergency !"));
+            _notificationRepository.Create(new Notification(patientUsername, "New emergency !"));
             _notificationRepository.Create(new Notification(doctorUsername, "New emergency !"));
         }
         private DateTime FindNearestBusyTimeSlot()
@@ -172,7 +178,9 @@ namespace Service
             foreach (Appointment appointment in _appointmentService.GetAll())
             {
                 if (appointment.StartTime == firstBusyTimeSlot)
+                {
                     appointmentsForCancelation.Add(appointment);
+                }
             }
             return appointmentsForCancelation;
         }

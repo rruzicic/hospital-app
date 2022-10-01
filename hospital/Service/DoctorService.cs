@@ -1,8 +1,7 @@
-using System;
-using System.Collections.Generic;
 using Model;
-using System.Collections.ObjectModel;
 using Repository;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Service
 {
@@ -28,7 +27,7 @@ namespace Service
         {
             string firstname = name.Split(' ')[0];
             string lastname = name.Split(' ')[1];
-            return doctorRepository.getByName(firstname,lastname);
+            return doctorRepository.getByName(firstname, lastname);
         }
         public void addPatientToDoctorsList(string patientId, string doctorUsername)
         {
@@ -43,9 +42,9 @@ namespace Service
         {
             List<Doctor> requiredDoctors = new List<Doctor>();
 
-            foreach(Doctor doctor in doctorRepository.FindAll())
+            foreach (Doctor doctor in doctorRepository.FindAll())
             {
-                if(doctor.Specialization == requiredSpecialization)
+                if (doctor.Specialization == requiredSpecialization)
                 {
                     requiredDoctors.Add(doctor);
                 }

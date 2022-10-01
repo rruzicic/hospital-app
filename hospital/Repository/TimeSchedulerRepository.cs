@@ -3,17 +3,14 @@ using Model;
 using Repository;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace hospital.Repository
 {
     public class TimeSchedulerRepository
     {
-        private AppointmentRepository appointmentRepository;
-        private IScheduledBasicRenovationRepository scheduledBasicRenovationRepository;
-        private IScheduledAdvancedRenovationRepository scheduledAdvancedRenovationRepository;
+        private readonly AppointmentRepository appointmentRepository;
+        private readonly IScheduledBasicRenovationRepository scheduledBasicRenovationRepository;
+        private readonly IScheduledAdvancedRenovationRepository scheduledAdvancedRenovationRepository;
 
         public TimeSchedulerRepository(AppointmentRepository appointmentRepository, IScheduledBasicRenovationRepository scheduledBasicRenovationRepository, IScheduledAdvancedRenovationRepository scheduledAdvancedRenovationRepository)
         {
@@ -39,7 +36,11 @@ namespace hospital.Repository
             DateTime last = now.AddDays(7);
             while (true)
             {
-                if (last.CompareTo(now.AddDays(relocationDuration)) < 0) break;
+                if (last.CompareTo(now.AddDays(relocationDuration)) < 0)
+                {
+                    break;
+                }
+
                 freeTimeIntervals.Add(new TimeInterval(now, now.AddDays(relocationDuration)));
                 now = now.AddDays(1);
             }
@@ -137,7 +138,11 @@ namespace hospital.Repository
 
             while (true)
             {
-                if (last.Date.CompareTo(now.Date.AddDays(renovationDuration)) < 0) break;
+                if (last.Date.CompareTo(now.Date.AddDays(renovationDuration)) < 0)
+                {
+                    break;
+                }
+
                 freeTimeIntervals.Add(new TimeInterval(now.Date, now.Date.AddDays(renovationDuration)));
                 now = now.Date.AddDays(1);
             }
@@ -151,7 +156,9 @@ namespace hospital.Repository
             foreach (TimeInterval interval in forDeleting)
             {
                 if (freeTimeIntervals.Contains(interval))
+                {
                     freeTimeIntervals.Remove(interval);
+                }
             }
         }
     }

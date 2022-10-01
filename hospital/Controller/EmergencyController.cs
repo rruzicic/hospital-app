@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Model;
 using Service;
-using Model;
+using System.Collections.Generic;
 
 namespace Controller
 {
@@ -14,7 +10,7 @@ namespace Controller
 
         public EmergencyController(EmergencyService emergencyService)
         {
-            this._emergencyService = emergencyService;
+            _emergencyService = emergencyService;
         }
 
         public void TryMakeEmergencyAppointment(string patientUsername, Specialization requiredSpecialization, bool isOperation)
@@ -31,7 +27,7 @@ namespace Controller
         }
         public void MoveAppointemntAndMakeNotification(Appointment oldAppointment, Appointment newAppoitnemnt)
         {
-            _emergencyService.MoveAppointemntAndMakeNotification((Appointment)oldAppointment, (Appointment)newAppoitnemnt);
+            _emergencyService.MoveAppointemntAndMakeNotification(oldAppointment, newAppoitnemnt);
         }
     }
 }

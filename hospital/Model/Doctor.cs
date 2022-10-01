@@ -1,4 +1,3 @@
-using Model;
 using System.Collections.ObjectModel;
 
 namespace Model

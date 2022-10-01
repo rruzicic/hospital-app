@@ -1,11 +1,6 @@
 ﻿using Model;
 using Repository;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Service
 {
@@ -42,9 +37,13 @@ namespace Service
         public void FinishRequest(string resultRequest, int requestId)
         {
             if (resultRequest.Equals("reject"))
+            {
                 RejectRequest(requestId);
+            }
             else
+            {
                 ApproveRequest(requestId);
+            }
         }
         private void ApproveRequest(int requestId)
         {
@@ -53,15 +52,15 @@ namespace Service
         }
         private void RejectRequest(int requestId)
         {
-            ChangeStatusOfRequest(requestId,Status.rejected);
+            ChangeStatusOfRequest(requestId, Status.rejected);
             MakeNotification(requestId, "Your vacation request was rejected.");
 
         }
-        private void ChangeStatusOfRequest(int requestId,Status status)
+        private void ChangeStatusOfRequest(int requestId, Status status)
         {
             _vacationRequestRepository.UpdateStatus(requestId, status);
         }
-        private void MakeNotification(int requestId,string notificationText)
+        private void MakeNotification(int requestId, string notificationText)
         {
             Notification notification = new Notification(FindById(requestId).DoctorId, notificationText);
             _notificationRepository.Create(notification);

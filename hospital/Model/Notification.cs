@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Timers;
-using System.Windows;
 
 namespace Model
 {
@@ -17,7 +12,7 @@ namespace Model
 
 
         public Notification() { }
-        public Notification(string username,string text)
+        public Notification(string username, string text)
         {
             _username = username;
             _text = text;
@@ -38,10 +33,10 @@ namespace Model
             _text = text;
         }
 
-        public string Username { get { return _username; } set { _username = value; } }
-        public DateTime StartTime { get { return _startTime; } set { _startTime = value; } }
-        public DateTime EndTime { get { return _endTime; } set { _endTime = value; } }
-        public int Interval { get { return _interval; } set { _interval = value; } }
-        public string Text { get { return _text; } set { _text = value; } }
+        public string Username { get => _username; set => _username = value; }
+        public DateTime StartTime { get => _startTime; set => _startTime = value; }
+        public DateTime EndTime { get => _endTime; set => _endTime = value; }
+        public int Interval { get => _interval; set => _interval = value; }
+        public string Text { get => _text; set => _text = value; }
     }
 }

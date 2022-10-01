@@ -1,19 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Controller;
+using Model;
+using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Controller;
-using Model;
 namespace hospital.View.UserControls
 {
     /// <summary>
@@ -32,7 +23,7 @@ namespace hospital.View.UserControls
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-            this.Visibility = Visibility.Collapsed;
+            Visibility = Visibility.Collapsed;
         }
 
 
@@ -97,7 +88,7 @@ namespace hospital.View.UserControls
                 if (isValidate())
                 {
                     pc.Create(new Patient(txtFirstname.Text, txtLastname.Text, txtUsername.Text));
-                    this.Visibility = Visibility.Collapsed;
+                    Visibility = Visibility.Collapsed;
                 }
             }
             catch (Exception ex)

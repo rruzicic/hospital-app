@@ -16,16 +16,16 @@ namespace Model
 
         public MedicalRecord(string patientUsername, string _allergens, string _choosen, BloodType bt, string note)
         {
-            this.PatientUsername = patientUsername;
-            this.Note = note;
-            this.Alergies = _allergens;
-            this.DoctorUsername = _choosen;
-            this.BloodType = bt;
+            PatientUsername = patientUsername;
+            Note = note;
+            Alergies = _allergens;
+            DoctorUsername = _choosen;
+            BloodType = bt;
         }
         public MedicalRecord(string patientsUsername, int id)
         {
-            this.PatientUsername = patientsUsername;
-            this.RecordId = id;
+            PatientUsername = patientsUsername;
+            RecordId = id;
         }
         public MedicalRecord() { }
 
@@ -38,27 +38,29 @@ namespace Model
             }
         }
 
-        public int RecordId { get { return recordId; } set { recordId = value; OnPropertyChanged(""); } }
-        public string Note { get { return note; } set { note = value; OnPropertyChanged(""); } }
-        public string Alergies { get { return alergies; } set { alergies = value; OnPropertyChanged(""); } }
-        public string DoctorUsername { get { return doctorUsername; } set { doctorUsername = value; OnPropertyChanged(""); } }
-        public string PatientUsername { get { return patientUsername; } set { patientUsername = value; OnPropertyChanged(""); } }
-        public BloodType BloodType { get { return bloodType; } set { bloodType = value; OnPropertyChanged(""); } }
+        public int RecordId { get => recordId; set { recordId = value; OnPropertyChanged(""); } }
+        public string Note { get => note; set { note = value; OnPropertyChanged(""); } }
+        public string Alergies { get => alergies; set { alergies = value; OnPropertyChanged(""); } }
+        public string DoctorUsername { get => doctorUsername; set { doctorUsername = value; OnPropertyChanged(""); } }
+        public string PatientUsername { get => patientUsername; set { patientUsername = value; OnPropertyChanged(""); } }
+        public BloodType BloodType { get => bloodType; set { bloodType = value; OnPropertyChanged(""); } }
 
         public List<Therapy> Therapy
-        { 
-            get 
+        {
+            get
             {
                 if (therapy == null)
+                {
                     therapy = new List<Therapy>();
-                
-                return therapy; 
-            } 
-            set 
-            { 
-                therapy = value; 
-                OnPropertyChanged(""); 
-            } 
+                }
+
+                return therapy;
+            }
+            set
+            {
+                therapy = value;
+                OnPropertyChanged("");
+            }
         }
     }
 }

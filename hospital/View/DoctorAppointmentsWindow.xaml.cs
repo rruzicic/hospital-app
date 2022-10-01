@@ -1,21 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using Controller;
+﻿using Controller;
 using hospital.View.UserControls;
 using Model;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Windows;
+using System.Windows.Data;
 
 namespace hospital.View
 {
@@ -25,15 +14,15 @@ namespace hospital.View
     public partial class DoctorAppointmentsWindow : Window
     {
         public ObservableCollection<Appointment> Appointments { get; set; }
-        private AppointmentManagementController ac;
-        private UserController uc;
-        private DoctorController dc;
+        private readonly AppointmentManagementController ac;
+        private readonly UserController uc;
+        private readonly DoctorController dc;
 
-        private Doctor loggedInDoctor;
+        private readonly Doctor loggedInDoctor;
         public DoctorAppointmentsWindow()
         {
             InitializeComponent();
-            this.DataContext = this;
+            DataContext = this;
             App app = Application.Current as App;
             ac = app.appointmentController;
             uc = app.userController;
@@ -76,7 +65,7 @@ namespace hospital.View
 
         private void Info_Click(object sender, RoutedEventArgs e)
         {
-            if(Table.SelectedIndex != -1)
+            if (Table.SelectedIndex != -1)
             {
                 new DoctorViewInfoWindow().Show();
             }

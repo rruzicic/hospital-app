@@ -1,20 +1,15 @@
 ﻿using Controller;
-using Repository;
-using Service;
-using Controller;
-using System;
-using System.Windows;
-using hospital.Model;
 using hospital.Controller;
 using hospital.Repository;
 using hospital.Service;
+using Repository;
+using Service;
+using System;
 using System.Threading;
+using System.Windows;
 using ToastNotifications;
-using ToastNotifications.Position;
 using ToastNotifications.Lifetime;
-using System.Collections.Generic;
-using hospital.View;
-using Syncfusion.UI.Xaml.Scheduler;
+using ToastNotifications.Position;
 
 namespace hospital
 {
@@ -53,7 +48,7 @@ namespace hospital
 
         public Notifier Notifier { get; set; }
 
-        Thread orderThread;
+        private readonly Thread orderThread;
         public App()
         {
             // consider sorting App() so that it contains all repositories, file handlers, services and controllers IN THAT ORDER
@@ -68,7 +63,7 @@ namespace hospital
 
             AppointmentRepository appointmentRepository = new AppointmentRepository();
             scheduledBasicRenovationRepository = new ScheduledBasicRenovationRepository();
-           // TimeSchedulerService timeSchedulerService = new TimeSchedulerService(appointmentRepository, scheduledBasicRenovationRepository);
+            // TimeSchedulerService timeSchedulerService = new TimeSchedulerService(appointmentRepository, scheduledBasicRenovationRepository);
 
             scheduledBasicRenovationRepository = new ScheduledBasicRenovationRepository();
             scheduledAdvancedRenovationRepository = new ScheduledAdvancedRenovationRepository();
@@ -77,8 +72,8 @@ namespace hospital
 
             ScheduledBasicRenovationService scheduledBasicRenovationService = new ScheduledBasicRenovationService(scheduledBasicRenovationRepository, timeSchedulerService);
             scheduledBasicRenovationController = new ScheduledBasicRenovationController(scheduledBasicRenovationService);
-           // ScheduledBasicRenovationService scheduledBasicRenovationService = new ScheduledBasicRenovationService(scheduledBasicRenovationRepository, timeSchedulerService);
-           // scheduledBasicRenovationController = new ScheduledBasicRenovationController(scheduledBasicRenovationService);
+            // ScheduledBasicRenovationService scheduledBasicRenovationService = new ScheduledBasicRenovationService(scheduledBasicRenovationRepository, timeSchedulerService);
+            // scheduledBasicRenovationController = new ScheduledBasicRenovationController(scheduledBasicRenovationService);
 
             roomRepository = new RoomRepository();
             RoomService roomService = new RoomService(roomRepository, appointmentRepository, scheduledBasicRenovationService);
@@ -91,7 +86,7 @@ namespace hospital
 
 
             OrderRepository orderRepository = new OrderRepository();
-            OrderService orderService = new OrderService(orderRepository,roomRepository);
+            OrderService orderService = new OrderService(orderRepository, roomRepository);
             orderController = new OrderController(orderService);
 
             NotificationRepository notificationRepository = new NotificationRepository();
@@ -124,7 +119,7 @@ namespace hospital
             medicineController = new MedicineController(medicineService);
 
             VacationRequestRepository vacationRequestRepository = new VacationRequestRepository();
-            VacationRequestService vacationRequestService = new VacationRequestService(vacationRequestRepository,notificationRepository);
+            VacationRequestService vacationRequestService = new VacationRequestService(vacationRequestRepository, notificationRepository);
             vacationRequestController = new VacationRequestController(vacationRequestService);
 
 
@@ -132,7 +127,7 @@ namespace hospital
             InvalidMedicineReportService invalidMedicineReportService = new InvalidMedicineReportService(invalidMedicineReportRepository);
             invalidMedicineReportController = new InvalidMedicineReportController(invalidMedicineReportService);
 
-            
+
             RecommendedAppointmentService recommendedAppointmentService = new RecommendedAppointmentService(appointmentService, notificationRepository, doctorRepository, availableAppointmentService);
             recommendedAppointmentController = new RecommendedAppointmentController(recommendedAppointmentService);
 
@@ -148,7 +143,7 @@ namespace hospital
             IngridientsRepository ingridientsRepository = new IngridientsRepository();
             IngridientsService ingridientsService = new IngridientsService(ingridientsRepository);
             ingridientsController = new IngridientsController(ingridientsService);
-            
+
             roomRepository.LoadRoomData();
             scheduledRelocationRepository.LoadRelocationData();
             scheduledBasicRenovationRepository.LoadRenovationData();

@@ -3,19 +3,11 @@ using hospital.Controller;
 using hospital.Model;
 using Model;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace hospital.View
 {
@@ -24,9 +16,8 @@ namespace hospital.View
     /// </summary>
     public partial class EquipmentRelocationWindow : Window
     {
-
-        RoomController roomController;
-        ScheduledRelocationController scheduledRelocationController;
+        private readonly RoomController roomController;
+        private readonly ScheduledRelocationController scheduledRelocationController;
 
         public EquipmentRelocationWindow()
         {
@@ -45,10 +36,11 @@ namespace hospital.View
             {
                 try
                 {
-                    int duration = Int32.Parse(relocationDuration);
+                    int duration = int.Parse(relocationDuration);
                     relocationListView.ItemsSource = scheduledRelocationController.FindRelocationIntervals(duration);
                 }
-                catch (Exception ex) {
+                catch (Exception)
+                {
                     MessageBox.Show("Invalid input for duration!");
                 }
             }
@@ -64,22 +56,24 @@ namespace hospital.View
             try
             {
                 ValidateQuantity();
-                ScheduledRelocation scheduledRelocation = new ScheduledRelocation(id, fromRoomSelected, toRoomSelected, equip, Int32.Parse(quantity.Text), relocation);
+                ScheduledRelocation scheduledRelocation = new ScheduledRelocation(id, fromRoomSelected, toRoomSelected, equip, int.Parse(quantity.Text), relocation);
                 scheduledRelocationController.Create(scheduledRelocation);
-                MoveEquipmentFromOriginalRoom(fromRoomSelected, equip, Int32.Parse(quantity.Text));
-                this.Close();
+                MoveEquipmentFromOriginalRoom(fromRoomSelected, equip, int.Parse(quantity.Text));
+                Close();
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 MessageBox.Show(ex.Message);
             }
         }
 
         private void Cancel_Relocation_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
 
-        private void MoveEquipmentFromOriginalRoom(Room fromRoomSelected, string equip, int equipmentQuantity) {
+        private void MoveEquipmentFromOriginalRoom(Room fromRoomSelected, string equip, int equipmentQuantity)
+        {
             foreach (Equipment eq in fromRoomSelected.equipment)
             {
                 if (eq.type.Equals(equip))
@@ -89,14 +83,16 @@ namespace hospital.View
                         ValidateQuantityInput(eq, equipmentQuantity);
                         SubstractQuantity(eq, equipmentQuantity, fromRoomSelected);
                     }
-                    catch(Exception ex) {
+                    catch (Exception ex)
+                    {
                         MessageBox.Show(ex.Message);
                     }
                 }
             }
         }
 
-        private void SubstractQuantity(Equipment eq, int equipmentQuantity, Room fromRoomSelected) {
+        private void SubstractQuantity(Equipment eq, int equipmentQuantity, Room fromRoomSelected)
+        {
             eq.quantity -= equipmentQuantity;
             if (eq.quantity == 0)
             {
@@ -106,7 +102,8 @@ namespace hospital.View
             }
         }
 
-        private void ValidateQuantityInput(Equipment eq, int equipmentQuantity) {
+        private void ValidateQuantityInput(Equipment eq, int equipmentQuantity)
+        {
             if (eq.quantity < equipmentQuantity)
             {
                 throw new Exception("Room doesn't have enough equipment!");
@@ -116,26 +113,36 @@ namespace hospital.View
         private void ValidateQuantity()
         {
             int value;
-            bool isValid = Int32.TryParse(quantity.Text, out value);
+            bool isValid = int.TryParse(quantity.Text, out value);
 
             if (!isValid)
+            {
                 throw new Exception("Quantity should be a number!");
+            }
 
             if (value < 0)
+            {
                 throw new Exception("Quantity should be positive!");
+            }
         }
 
-        private void loadRoomsToComboBoxes() {
-            foreach (Room room in roomController.FindAll()) {
+        private void loadRoomsToComboBoxes()
+        {
+            foreach (Room room in roomController.FindAll())
+            {
                 fromRoom.Items.Add(room._Name);
                 toRoom.Items.Add(room._Name);
             }
         }
 
-        private void loadEquipmentToComboBox(string roomName) {
-            foreach (Room room in roomController.FindAll()) {
-                if (room._Name.Equals(roomName)) {
-                    foreach (Equipment eq in room.equipment) {
+        private void loadEquipmentToComboBox(string roomName)
+        {
+            foreach (Room room in roomController.FindAll())
+            {
+                if (room._Name.Equals(roomName))
+                {
+                    foreach (Equipment eq in room.equipment)
+                    {
                         equipment.Items.Add(eq.type);
                     }
                 }
@@ -145,7 +152,10 @@ namespace hospital.View
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (fromRoom.SelectedIndex != -1 && toRoom.SelectedIndex != -1 && equipment.SelectedIndex != -1 && !quantity.Text.Equals("") && relocationListView.SelectedIndex != -1)
+            {
                 scheduleBtn.IsEnabled = true;
+            }
+
             string roomName = fromRoom.SelectedItem.ToString();
             equipment.Items.Clear();
             quantity.Text = "";
@@ -162,7 +172,8 @@ namespace hospital.View
             ValidateInputs();
         }
 
-        private void ValidateInputs() {
+        private void ValidateInputs()
+        {
             if (fromRoom.SelectedIndex != -1 && toRoom.SelectedIndex != -1 && equipment.SelectedIndex != -1 && !quantity.Text.Equals("") && relocationListView.SelectedIndex != -1)
             {
                 scheduleBtn.IsEnabled = true;
@@ -173,8 +184,11 @@ namespace hospital.View
 
         private void equipmentChosen(object sender, SelectionChangedEventArgs e)
         {
-            if (equipment.SelectedItem == null) return;
-            
+            if (equipment.SelectedItem == null)
+            {
+                return;
+            }
+
             foreach (Room room in roomController.FindAll())
             {
                 if (room._Name.Equals(fromRoom.SelectedItem.ToString()))
@@ -185,18 +199,23 @@ namespace hospital.View
             ValidateInputs();
         }
 
-        private void DisplayRoomEquipment(Room room) {
+        private void DisplayRoomEquipment(Room room)
+        {
             foreach (Equipment eq in room.equipment)
             {
                 if (eq.type.Equals(equipment.SelectedItem.ToString()))
+                {
                     quantity.Text = eq.quantity.ToString();
+                }
             }
         }
 
         private void Close_Window(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
+            {
                 Close();
+            }
         }
     }
 }

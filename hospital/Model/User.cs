@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Model
 {
-    public class User: INotifyPropertyChanged
+    public class User : INotifyPropertyChanged
     {
         private string username;
         private string password;
@@ -21,21 +21,21 @@ namespace Model
             }
         }
         public User() { }
-        public User(string _username,string _password,Role role,bool blocked)
+        public User(string _username, string _password, Role role, bool blocked)
         {
-            this.username = _username;
-            this.password = ComputeSha256Hash(_password);
-            this.isBlocked=blocked;
+            username = _username;
+            password = ComputeSha256Hash(_password);
+            isBlocked = blocked;
             this.role = role;
         }
         public User(string _username, Role role, bool blocked)
         {
-            this.username = _username;
-            this.isBlocked = blocked;
+            username = _username;
+            isBlocked = blocked;
             this.role = role;
         }
 
-        static string ComputeSha256Hash(string rawData)
+        private static string ComputeSha256Hash(string rawData)
         {
             // Create a SHA256   
             using (SHA256 sha256Hash = SHA256.Create())
@@ -54,25 +54,25 @@ namespace Model
         }
         public string Username
         {
-            get { return username; }
+            get => username;
             set { username = value; OnPropertyChanged(""); }
         }
         public string Password
         {
-            get { return password; }
+            get => password;
             set { password = value; OnPropertyChanged(""); }
-            }
+        }
         public bool IsBlocked
         {
-            get { return isBlocked; }
-            set { isBlocked = value; OnPropertyChanged(""); } 
+            get => isBlocked;
+            set { isBlocked = value; OnPropertyChanged(""); }
         }
 
         public Role Role
         {
-            get { return role; }
+            get => role;
             set { role = value; OnPropertyChanged(""); }
-            }
+        }
 
     }
 }

@@ -1,25 +1,15 @@
-﻿using hospital.Model;
+﻿using Controller;
+using hospital.View.PatientView;
 using Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using ToastNotifications;
 using ToastNotifications.Lifetime;
 using ToastNotifications.Messages;
 using ToastNotifications.Position;
-using Controller;
-using hospital.View.PatientView;
 
 namespace hospital.View
 {
@@ -28,11 +18,11 @@ namespace hospital.View
     /// </summary>
     public partial class PatientHomeWindow : Window
     {
-        private NotificationController nc;
-        private MedicalRecord mr;
-        private User current;
-        private List<Timer> timers;
-        private App app;
+        private readonly NotificationController nc;
+        private readonly MedicalRecord mr;
+        private readonly User current;
+        private readonly List<Timer> timers;
+        private readonly App app;
 
         public PatientHomeWindow()
         {
@@ -71,14 +61,14 @@ namespace hospital.View
                 }
             }
         }
-        
+
         public void StartNotification(Notification notification)
         {
             if (notification.StartTime != DateTime.MinValue && notification.EndTime == DateTime.MinValue)
             {
                 StartOneTimeNotification(notification);
             }
-            else if(notification.StartTime != DateTime.MinValue && notification.EndTime != DateTime.MinValue)
+            else if (notification.StartTime != DateTime.MinValue && notification.EndTime != DateTime.MinValue)
             {
                 StartPeriodicalNotification(notification);
             }
@@ -98,7 +88,7 @@ namespace hospital.View
             }
         }
 
-        public void RunOneTimeNotification(Object source, System.Timers.ElapsedEventArgs e, Notification notification)
+        public void RunOneTimeNotification(object source, System.Timers.ElapsedEventArgs e, Notification notification)
         {
             Dispatcher.Invoke(() =>
             {
@@ -131,7 +121,7 @@ namespace hospital.View
             return iterator;
         }
 
-        public void RunPeriodically(Object source, System.Timers.ElapsedEventArgs e, Notification notification)
+        public void RunPeriodically(object source, System.Timers.ElapsedEventArgs e, Notification notification)
         {
             Dispatcher.Invoke(() =>
             {
@@ -141,7 +131,7 @@ namespace hospital.View
             timer.Elapsed += (sender, e_) => NotifyPeriodically(sender, e_, timer, notification);
         }
 
-        public void NotifyPeriodically(Object source, System.Timers.ElapsedEventArgs e, Timer timer, Notification notification)
+        public void NotifyPeriodically(object source, System.Timers.ElapsedEventArgs e, Timer timer, Notification notification)
         {
             Dispatcher.Invoke(() =>
             {
@@ -156,15 +146,17 @@ namespace hospital.View
 
         private Timer MakeTimer(double interval, bool autoReset, bool enabled)
         {
-            Timer timer = new Timer(interval);
-            timer.AutoReset = autoReset;
-            timer.Enabled = enabled;
+            Timer timer = new Timer(interval)
+            {
+                AutoReset = autoReset,
+                Enabled = enabled
+            };
             timer.Start();
             timers.Add(timer);
             return timer;
         }
 
-        Notifier notifier = new Notifier(cfg =>
+        private readonly Notifier notifier = new Notifier(cfg =>
         {
             cfg.PositionProvider = new WindowPositionProvider(
                 parentWindow: Application.Current.MainWindow,
@@ -178,7 +170,7 @@ namespace hospital.View
 
             cfg.Dispatcher = Application.Current.Dispatcher;
         });
-        
+
         private void KillAllTimers()
         {
             foreach (Timer timer in timers)

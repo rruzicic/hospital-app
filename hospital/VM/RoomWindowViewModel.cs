@@ -2,12 +2,8 @@
 using hospital.View;
 using Model;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -21,42 +17,49 @@ namespace hospital.VM
         public ICommand DeleteCommand => new DeleteCommand();
         public ICommand SearchCommand => new SearchCommand(this);
         public ObservableCollection<Room> rooms;
-        private RoomController roomController;
+        private readonly RoomController roomController;
 
         private string quantitySearch = "";
         private string typeSearch = "";
 
-        public string QuantitySearch {
-            get { return quantitySearch; }
-            set { 
+        public string QuantitySearch
+        {
+            get => quantitySearch;
+            set
+            {
                 quantitySearch = value;
                 //Filter();
                 OnPropertyChanged("QuantitySearch");
             }
         }
 
-        public ObservableCollection<Room> Rooms {
-            get { return rooms; }
-            set {
+        public ObservableCollection<Room> Rooms
+        {
+            get => rooms;
+            set
+            {
                 if (rooms != value)
                 {
 
                     rooms = value;
-                
-                }                    
+
+                }
             }
         }
 
-        public string TypeSearch {
-            get { return typeSearch; }
-            set {
+        public string TypeSearch
+        {
+            get => typeSearch;
+            set
+            {
                 typeSearch = value;
                 //Filter();
                 OnPropertyChanged("TypeSearch");
             }
         }
 
-        public RoomWindowViewModel() {
+        public RoomWindowViewModel()
+        {
             App app = Application.Current as App;
             roomController = app.roomController;
             Rooms = roomController.FindAll();
@@ -77,9 +80,13 @@ namespace hospital.VM
                 Rooms = roomController.FindRoomsByEquipmentType(typeSearch);
             }
             else if (!quantitySearch.Equals("") && typeSearch.Equals(""))
-                Rooms = roomController.FindRoomsByEquipmentQuantity(Int32.Parse(quantitySearch));
+            {
+                Rooms = roomController.FindRoomsByEquipmentQuantity(int.Parse(quantitySearch));
+            }
             else if (!quantitySearch.Equals("") && !typeSearch.Equals(""))
-                Rooms = roomController.FindRoomsByEquipmentTypeAndQuantity(typeSearch, Int32.Parse(quantitySearch));
+            {
+                Rooms = roomController.FindRoomsByEquipmentTypeAndQuantity(typeSearch, int.Parse(quantitySearch));
+            }
             else
             {
                 Rooms = roomController.FindAll();
@@ -146,9 +153,10 @@ namespace hospital.VM
     public class SearchCommand : ICommand
     {
         public event EventHandler CanExecuteChanged;
-        private RoomWindowViewModel viewModel;
+        private readonly RoomWindowViewModel viewModel;
 
-        public SearchCommand(RoomWindowViewModel vm) {
+        public SearchCommand(RoomWindowViewModel vm)
+        {
             viewModel = vm;
         }
 

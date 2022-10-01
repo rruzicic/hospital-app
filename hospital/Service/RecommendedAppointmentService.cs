@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Repository;
-using Model;
-using System.Collections.ObjectModel;
+﻿using hospital.Service;
 using hospital.View.UserControls;
-using hospital.Service;
+using Model;
+using Repository;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 
 namespace Service
@@ -45,7 +42,11 @@ namespace Service
             {
                 appointments.AddRange(FillAppointmentsWithTimeslotsByDoctor(time, patientUsername));
             }
-            if (FoundDefaultDoctorsAppointment(allTimeSlots, doctor)) appointments.RemoveAll(x => !x.DoctorUsername.Equals(doctor.Username));
+            if (FoundDefaultDoctorsAppointment(allTimeSlots, doctor))
+            {
+                appointments.RemoveAll(x => !x.DoctorUsername.Equals(doctor.Username));
+            }
+
             return new ObservableCollection<Appointment>(appointments);
         }
 
@@ -139,7 +140,7 @@ namespace Service
         }
         private List<DateTime> ExpandDoctorTimeframePre(DateTime startDate)
         {
-            
+
             DateTime startDatePrev = startDate.CompareTo(DateTime.Today.AddDays(-4)) < 0 ? DateTime.Today.AddDays(1) : startDate.AddDays(-4);
             return AddTimeSlots(startDatePrev, startDate);
         }
@@ -186,7 +187,7 @@ namespace Service
         public void FindFreeBack(ObservableCollection<Appointment> apointments, DateTime time)
         {
             time = new DateTime(DateTime.Now.Year, time.Month, time.Day,
-                (time.Minute == 30) ? time.Hour : time.Hour-1,
+                (time.Minute == 30) ? time.Hour : time.Hour - 1,
                 (time.Minute == 30) ? 0 : 30, 0);
 
             for (int i = 0; i < apointments.Count; i++)
@@ -200,7 +201,7 @@ namespace Service
             FindFreeBack(apointments, time);
         }
 
-        public void FindRecByTime(ObservableCollection<Appointment> apointments,DateTime time)
+        public void FindRecByTime(ObservableCollection<Appointment> apointments, DateTime time)
         {
             bool oneRecFilled = false;
             foreach (Appointment appointment in apointments)
@@ -221,7 +222,9 @@ namespace Service
             }
             FindFreeBack(apointments, time);
             if (!oneRecFilled)
+            {
                 FindFreeForward(apointments, time);
+            }
         }
 
         public bool TryChangeAppointment(Appointment oldAppointment, DateTime newDate, string newTime)
@@ -249,7 +252,7 @@ namespace Service
 
         private void MakeNotificationForDelayAppointment(Appointment appointment)
         {
-            _notificationRepository.Create(new Notification(appointment.PatientUsername,"Your appointment has delayed."));
+            _notificationRepository.Create(new Notification(appointment.PatientUsername, "Your appointment has delayed."));
             _notificationRepository.Create(new Notification(appointment.DoctorUsername, "Your appointment has delayed."));
         }
     }

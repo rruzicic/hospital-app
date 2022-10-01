@@ -1,20 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Controller;
+using Model;
+using System;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Controller;
-using System.Collections.ObjectModel;
-using Model;
 
 namespace hospital.View.UserControls
 {
@@ -23,7 +13,7 @@ namespace hospital.View.UserControls
     /// </summary>
     public partial class AddMedRecUserControl : UserControl
     {
-        
+
         public PatientController pc;
         public DoctorController dc;
         public MedicalRecordsController mc;
@@ -35,11 +25,11 @@ namespace hospital.View.UserControls
         public AddMedRecUserControl()
         {
             InitializeComponent();
-            this.DataContext = this;
+            DataContext = this;
             App app = Application.Current as App;
             pc = app.patientController;
             //ako ima vec karton ne moze da pravi jos jedan
-            ObservableCollection<Patient>  p = pc.FindAll();
+            ObservableCollection<Patient> p = pc.FindAll();
             Patients = new ObservableCollection<Patient>();
             foreach (Patient pat in p)
             {
@@ -56,19 +46,20 @@ namespace hospital.View.UserControls
             mc = app.medicalRecordsController;
             Doctors = dc.GetDoctors();
             BloodTypes = new ObservableCollection<BloodType>(Enum.GetValues(typeof(BloodType)).Cast<BloodType>().ToList());
-            
+
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-            this.Visibility= Visibility.Collapsed;
+            Visibility = Visibility.Collapsed;
         }
 
         private void btnSubmit_Click(object sender, RoutedEventArgs e)
         {
-            if (isCorected()) { 
+            if (isCorected())
+            {
                 mc.Create(new MedicalRecord(cmbUsername.Text, txtAllergens.Text, cmbDoctor.Text, getBloodType(cmbBlood.Text), txtNote.Text));
-                this.Visibility=Visibility.Collapsed;
+                Visibility = Visibility.Collapsed;
             }
         }
 
@@ -153,7 +144,7 @@ namespace hospital.View.UserControls
 
             return (isCorrected[0] && isCorrected[1] && isCorrected[2]);
         }
-       
-       
+
+
     }
 }

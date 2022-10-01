@@ -1,22 +1,18 @@
 ﻿using hospital.Model;
 using hospital.Service;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace hospital.Controller
 {
     public class PollController
     {
-        private PollService pollService;
-        
+        private readonly PollService pollService;
+
         public PollController(PollService _pollService)
         {
             pollService = _pollService;
         }
-        
+
         public PollBlueprint GetHospitalPollBlueprint()
         {
             return pollService.GetHospitalPollBlueprint();
@@ -30,9 +26,9 @@ namespace hospital.Controller
         public List<PollQuestion> GetHospitalPollQuestions()
         {
             List<PollQuestion> retVal = new List<PollQuestion>();
-            foreach(PollCategory category in GetHospitalPollBlueprint().Categories)
+            foreach (PollCategory category in GetHospitalPollBlueprint().Categories)
             {
-                foreach(PollQuestion question in category.PollQuestions)
+                foreach (PollQuestion question in category.PollQuestions)
                 {
                     retVal.Add(question);
                 }
@@ -68,11 +64,13 @@ namespace hospital.Controller
             pollService.SavePoll(poll);
         }
 
-        public List<PollBlueprint> FindPollResultsForHospital() {
+        public List<PollBlueprint> FindPollResultsForHospital()
+        {
             return pollService.GetHospitalPollResults();
         }
 
-        public List<PollBlueprint> FindPollResultsForDoctor(string id) {
+        public List<PollBlueprint> FindPollResultsForDoctor(string id)
+        {
             return pollService.FindPollResultsForDoctor(id);
         }
 
@@ -91,8 +89,9 @@ namespace hospital.Controller
             return pollService.CalculateAverageForQuestion(FindPollResultsForDoctor(doctorId), categoryId, questionId);
         }
 
-        public int[] CountEachGrade(string doctorId, int categoryId, int questionId) {
-            return pollService.CalculateCountOfEachGrade(FindPollResultsForDoctor(doctorId), categoryId, questionId); 
+        public int[] CountEachGrade(string doctorId, int categoryId, int questionId)
+        {
+            return pollService.CalculateCountOfEachGrade(FindPollResultsForDoctor(doctorId), categoryId, questionId);
         }
 
         public double CalculateHospitalFinalGrade()
@@ -112,7 +111,7 @@ namespace hospital.Controller
 
         public int[] CountEachHospitalGrade(int categoryId, int questionId)
         {
-            return pollService.CalculateCountOfEachGrade(FindPollResultsForHospital(),categoryId, questionId);
+            return pollService.CalculateCountOfEachGrade(FindPollResultsForHospital(), categoryId, questionId);
         }
     }
 }

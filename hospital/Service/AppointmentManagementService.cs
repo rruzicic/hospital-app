@@ -1,13 +1,9 @@
+using hospital.DTO;
 using Model;
+using Repository;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Repository;
-using hospital;
-using System.Windows;
-using Controller;
-using System.Linq;
-using hospital.DTO;
 
 namespace Service
 {
@@ -64,7 +60,7 @@ namespace Service
 
         public ObservableCollection<Appointment> GetByDoctor(string doctorUsername)
         {
-            if(_appointmentRepository.FindAll() == null)
+            if (_appointmentRepository.FindAll() == null)
             {
                 throw new Exception();
             }
@@ -96,9 +92,9 @@ namespace Service
         public List<Appointment> GetAppointmenetsBetweenDate(DateTime startDate, DateTime endDate)
         {
             List<Appointment> appointments = new List<Appointment>();
-            foreach(Appointment appointment in GetAll())
+            foreach (Appointment appointment in GetAll())
             {
-                if(appointment.StartTime >= startDate && appointment.StartTime <= endDate)
+                if (appointment.StartTime >= startDate && appointment.StartTime <= endDate)
                 {
                     appointments.Add(appointment);
                 }

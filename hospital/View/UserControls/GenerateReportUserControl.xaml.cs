@@ -1,39 +1,27 @@
-﻿using Syncfusion.Pdf;
+﻿using Controller;
+using Model;
+using Syncfusion.Pdf;
 using Syncfusion.Pdf.Graphics;
+using Syncfusion.Pdf.Grid;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data;
+using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.ComponentModel;
-using System.Drawing;
-using Syncfusion.Pdf.Grid;
-using System.Data;
-using Controller;
-using Model;
 
 namespace hospital.View.UserControls
 {
     public partial class GenerateReportUserControl : UserControl
     {
-        private AppointmentManagementController _appointmentManagementController;
-        private PatientController _patientController;
-        private DoctorController _doctorController;
+        private readonly AppointmentManagementController _appointmentManagementController;
+        private readonly PatientController _patientController;
+        private readonly DoctorController _doctorController;
         public GenerateReportUserControl()
         {
             InitializeComponent();
             App app = Application.Current as App;
             _appointmentManagementController = app.appointmentController;
-            _patientController = app.patientController; 
+            _patientController = app.patientController;
             _doctorController = app.doctorController;
         }
 
@@ -61,7 +49,7 @@ namespace hospital.View.UserControls
                 dataTable.Columns.Add("Room");
                 foreach (Appointment appointment in _appointmentManagementController.GetAppointmenetsBetweenDate((DateTime)dpFrom.SelectedDate, (DateTime)dpTo.SelectedDate))
                 {
-                    dataTable.Rows.Add(new object[] {appointment.Id.ToString(),(_patientController.FindById(appointment.PatientUsername)).FirstName + " " + (_patientController.FindById(appointment.PatientUsername)).LastName, _doctorController.GetByUsername(appointment.DoctorUsername).ToString(),appointment.StartTime.ToString().Split(' ')[0], appointment.StartTime.ToString().Split(' ')[1],"30",appointment.RoomId });
+                    dataTable.Rows.Add(new object[] { appointment.Id.ToString(), (_patientController.FindById(appointment.PatientUsername)).FirstName + " " + (_patientController.FindById(appointment.PatientUsername)).LastName, _doctorController.GetByUsername(appointment.DoctorUsername).ToString(), appointment.StartTime.ToString().Split(' ')[0], appointment.StartTime.ToString().Split(' ')[1], "30", appointment.RoomId });
                 }
 
                 pdfGrid.DataSource = dataTable;
@@ -79,7 +67,7 @@ namespace hospital.View.UserControls
                 isCorrected[i] = true;
             }
 
-            if(dpFrom.Text.Trim() == "")
+            if (dpFrom.Text.Trim() == "")
             {
                 isCorrected[0] = false;
                 errFrom.Text = "Must be filled.";

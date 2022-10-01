@@ -1,18 +1,7 @@
 ﻿using Controller;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace hospital.View
 {
@@ -21,7 +10,7 @@ namespace hospital.View
     /// </summary>
     public partial class RoomRenovationPage : Page
     {
-        private UserController uc;
+        private readonly UserController uc;
         public RoomRenovationPage()
         {
             InitializeComponent();

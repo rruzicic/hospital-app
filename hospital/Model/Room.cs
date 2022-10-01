@@ -1,12 +1,9 @@
-using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 
 namespace Model
 {
-    public class Room: INotifyPropertyChanged
+    public class Room : INotifyPropertyChanged
     {
         public Room(string name, string purpose, int floor, string id)
         {
@@ -17,24 +14,19 @@ namespace Model
             equipment = new List<Equipment>();
         }
 
-        public string _Name { 
-            get
-            {
-                return name;
-            }
-            set 
+        public string _Name
+        {
+            get => name;
+            set
             {
                 name = value;
                 OnPropertyChanged();
-            } 
+            }
         }
 
         public string _Purpose
         {
-            get
-            {
-                return purpose;
-            }
+            get => purpose;
 
             set
             {
@@ -43,7 +35,7 @@ namespace Model
             }
         }
 
-        private void OnPropertyChanged(string name="")
+        private void OnPropertyChanged(string name = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
@@ -56,9 +48,12 @@ namespace Model
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public void AddEquipment(Equipment equipment) {
-            foreach (Equipment e in this.equipment) {
-                if (e.type.Equals(equipment.type)) {
+        public void AddEquipment(Equipment equipment)
+        {
+            foreach (Equipment e in this.equipment)
+            {
+                if (e.type.Equals(equipment.type))
+                {
                     e.quantity += equipment.quantity;
                     return;
                 }

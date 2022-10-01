@@ -4,18 +4,14 @@ using Model;
 using Service;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace hospital.Service
 {
     public class ScheduledAdvancedRenovationService
     {
-        private IScheduledAdvancedRenovationRepository scheduledRenovationRepository;
-        private TimeSchedulerService timeSchedulerService;
-        private RoomService roomService;
+        private readonly IScheduledAdvancedRenovationRepository scheduledRenovationRepository;
+        private readonly TimeSchedulerService timeSchedulerService;
+        private readonly RoomService roomService;
 
         public ScheduledAdvancedRenovationService(IScheduledAdvancedRenovationRepository scheduledRenovationRepository, TimeSchedulerService timeSchedulerService, RoomService roomService)
         {
@@ -66,25 +62,36 @@ namespace hospital.Service
             foreach (ScheduledAdvancedRenovation renovation in renovations)
             {
                 if (renovation._Interval._End.Date.CompareTo(now.Date) <= 0)
+                {
                     FinishRenovation(renovation);
+                }
                 else if (renovation._Interval._Start.Date.CompareTo(now.Date) >= 0)
+                {
                     StartRenovation(renovation);
+                }
             }
         }
 
-        private void FinishRenovation(ScheduledAdvancedRenovation renovation) {
-            App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+        private void FinishRenovation(ScheduledAdvancedRenovation renovation)
+        {
+            App.Current.Dispatcher.Invoke(delegate // <--- HERE
             {
                 if (renovation.flag.Equals("split"))
+                {
                     SplitRoom(renovation);
+                }
                 else if (renovation.flag.Equals("merge"))
+                {
                     MergeRooms(renovation);
+                }
+
                 DeleteById(renovation._Id);
             });
         }
 
-        private void StartRenovation(ScheduledAdvancedRenovation renovation) {
-            App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+        private void StartRenovation(ScheduledAdvancedRenovation renovation)
+        {
+            App.Current.Dispatcher.Invoke(delegate // <--- HERE
             {
                 MoveEquipmentToWarehouse(renovation);
             });
@@ -107,12 +114,17 @@ namespace hospital.Service
         private void MoveEquipmentToWarehouse(ScheduledAdvancedRenovation renovation)
         {
             if (renovation.flag.Equals("split"))
+            {
                 MoveEquipmentToWarehouseFromRoom(renovation, renovation._Room);
+            }
             else if (renovation.flag.Equals("merge"))
+            {
                 MoveEquipmentToWarehouseFromRooms(renovation);
+            }
         }
 
-        private void MoveEquipmentToWarehouseFromRoom(ScheduledAdvancedRenovation renovation, Room room) {
+        private void MoveEquipmentToWarehouseFromRoom(ScheduledAdvancedRenovation renovation, Room room)
+        {
             foreach (Equipment eq in room.equipment)
             {
                 roomService.FindRoomByPurpose("warehouse").AddEquipment(eq);
@@ -120,12 +132,13 @@ namespace hospital.Service
             room.equipment.Clear();
         }
 
-        private void MoveEquipmentToWarehouseFromRooms(ScheduledAdvancedRenovation renovation) {
+        private void MoveEquipmentToWarehouseFromRooms(ScheduledAdvancedRenovation renovation)
+        {
             MoveEquipmentToWarehouseFromRoom(renovation, renovation.rooms[0]);
             MoveEquipmentToWarehouseFromRoom(renovation, renovation.rooms[1]);
         }
 
 
-      
+
     }
 }

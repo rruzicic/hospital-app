@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Model;
 using Repository;
-using Model;
 using System.Collections.ObjectModel;
-using System.Text;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace Service
 {
-   public  class UserService
+    public class UserService
     {
         private readonly UserRepository _userRepository;
 
@@ -42,12 +37,13 @@ namespace Service
             return _userRepository.UpdateByUsername(username, user);
         }
 
-        public User CheckCredentials(string username,string password)
+        public User CheckCredentials(string username, string password)
         {
-           ObservableCollection<User> users = _userRepository.FindAll();
+            ObservableCollection<User> users = _userRepository.FindAll();
 
-            foreach (User u in users){
-                if(u.Username.Equals(username) && u.Password.Equals(ComputeSha256Hash(password)))
+            foreach (User u in users)
+            {
+                if (u.Username.Equals(username) && u.Password.Equals(ComputeSha256Hash(password)))
                 {
                     return u;
                 }

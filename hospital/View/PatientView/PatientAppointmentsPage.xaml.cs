@@ -2,21 +2,11 @@
 using hospital.View.PatientView;
 using Model;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace hospital.View
 {
@@ -25,10 +15,10 @@ namespace hospital.View
     /// </summary>
     public partial class PatientAppointmentsPage : Page
     {
-        private AppointmentManagementController ac;
-        private PatientController pc;
-        private UserController uc;
-        private App app;
+        private readonly AppointmentManagementController ac;
+        private readonly PatientController pc;
+        private readonly UserController uc;
+        private readonly App app;
         public ObservableCollection<Appointment> Appointments
         {
             get;
@@ -128,7 +118,7 @@ namespace hospital.View
 
         private void btnLeaveNote_Click(object sender, RoutedEventArgs e)
         {
-            if(appointmentTable.SelectedItem != null && (appointmentTable.SelectedItem as Appointment).StartTime <= DateTime.Now)
+            if (appointmentTable.SelectedItem != null && (appointmentTable.SelectedItem as Appointment).StartTime <= DateTime.Now)
             {
                 GoToLeaveNotePage();
             }
@@ -136,7 +126,7 @@ namespace hospital.View
 
         private void appointmentTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(appointmentTable.SelectedItem != null)
+            if (appointmentTable.SelectedItem != null)
             {
                 Appointment selectedAppointment = (Appointment)appointmentTable.SelectedItem;
                 btnDelay.IsEnabled = ac.CanBeDelayed(selectedAppointment);

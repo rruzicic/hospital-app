@@ -4,9 +4,6 @@ using Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -22,50 +19,59 @@ namespace hospital.VM
         private string floor;
         private int floorIndex;
         public List<Equipment> Equipment { get; set; }
-        public int FloorIndex 
+        public int FloorIndex
         {
             get => floorIndex;
-            set  {
+            set
+            {
                 Console.WriteLine("Hit");
                 floorIndex = value;
                 Floor = (floorIndex + 1).ToString();
-            } 
-        }
-
-        public string Name {
-            get { return name; }
-            set { 
-                name = value;
-                OnPropertyChanged("Name");
-            } 
-        }
-
-        public string Id {
-            get { return id; }
-            set {
-                id = value; 
-                OnPropertyChanged("Id"); 
             }
         }
 
-        public string Purpose {
-            get { return purpose; }
-            set {
+        public string Name
+        {
+            get => name;
+            set
+            {
+                name = value;
+                OnPropertyChanged("Name");
+            }
+        }
+
+        public string Id
+        {
+            get => id;
+            set
+            {
+                id = value;
+                OnPropertyChanged("Id");
+            }
+        }
+
+        public string Purpose
+        {
+            get => purpose;
+            set
+            {
                 purpose = value;
                 OnPropertyChanged("Purpose");
             }
         }
 
-        public string Floor {
-            get { return floor; }
-            set {
+        public string Floor
+        {
+            get => floor;
+            set
+            {
                 Console.WriteLine("stigao" + value);
                 floor = value;
                 OnPropertyChanged("Floor");
             }
         }
 
-        private RoomController roomController;
+        private readonly RoomController roomController;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -74,11 +80,12 @@ namespace hospital.VM
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
-        public EditRoomWindowViewModel(Room room) {
+        public EditRoomWindowViewModel(Room room)
+        {
             Equipment = new List<Equipment>();
             App app = Application.Current as App;
             roomController = app.roomController;
-            Name = room._Name; 
+            Name = room._Name;
             Id = room.id;
             Purpose = room._Purpose;
             Floor = room.floor.ToString();
@@ -90,7 +97,7 @@ namespace hospital.VM
         {
             try
             {
-                if (!Int32.TryParse(floor, out int res))
+                if (!int.TryParse(floor, out int res))
                 {
                     MessageBox.Show("Not valid input for floor", "Error");
                     return;
@@ -109,9 +116,10 @@ namespace hospital.VM
     public class EditRoomCommand : ICommand
     {
         public event EventHandler CanExecuteChanged;
-        private EditRoomWindowViewModel viewModel;
+        private readonly EditRoomWindowViewModel viewModel;
 
-        public EditRoomCommand(EditRoomWindowViewModel vm) {
+        public EditRoomCommand(EditRoomWindowViewModel vm)
+        {
             viewModel = vm;
         }
 

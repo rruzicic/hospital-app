@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Model;
 using Service;
-using Model;
 
 namespace Controller
 {
@@ -15,7 +10,7 @@ namespace Controller
 
         public void Create(Order newOrder)
         {
-             _orderService.Create(newOrder);
+            _orderService.Create(newOrder);
         }
     }
 }

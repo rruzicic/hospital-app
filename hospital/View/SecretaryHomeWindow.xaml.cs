@@ -1,28 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Controller;
+using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using Controller;
 
 namespace hospital.View
 {
     public partial class SecretaryHomeWindow : Window
     {
         public UserController uc;
-       
+
         public SecretaryHomeWindow()
         {
             InitializeComponent();
-            this.DataContext = this;
+            DataContext = this;
             App app = Application.Current as App;
             uc = app.userController;
             Console.WriteLine(DateTime.Now.ToString());
@@ -31,8 +21,8 @@ namespace hospital.View
         private void handlingAccount_Click(object sender, RoutedEventArgs e)
         {
             CloseAllUserControl();
-            btnhandlingAccount.BorderBrush = (Brush)(new BrushConverter().ConvertFrom("#c8d8e4")); 
-            btnhandlingAccount.BorderThickness = new Thickness(3,0,0,0);
+            btnhandlingAccount.BorderBrush = (Brush)(new BrushConverter().ConvertFrom("#c8d8e4"));
+            btnhandlingAccount.BorderThickness = new Thickness(3, 0, 0, 0);
             handlingAccountUserControl.Visibility = Visibility.Visible;
         }
 
@@ -47,18 +37,16 @@ namespace hospital.View
         private void btnUser_Click(object sender, RoutedEventArgs e)
         {
             if (AlertPopup.IsOpen == false)
-                AlertPopup.IsOpen = true;
-            else
-                AlertPopup.IsOpen = false;
-            
-        }
-
-        public string LoggedName {
-            get
             {
-                return uc.CurentLoggedUser.Username;
+                AlertPopup.IsOpen = true;
+            }
+            else
+            {
+                AlertPopup.IsOpen = false;
             }
         }
+
+        public string LoggedName => uc.CurentLoggedUser.Username;
 
         private void btnAppointment_Click(object sender, RoutedEventArgs e)
         {
@@ -103,7 +91,7 @@ namespace hospital.View
             revisionOfRestUserControl.Visibility = Visibility.Collapsed;
 
             scheduleMeetingsUserControl.Visibility = Visibility.Collapsed;
-            
+
             btnhandlingAccount.BorderBrush = Brushes.Transparent;
             btnhandlingMedRecord.BorderBrush = Brushes.Transparent;
             btnAppointment.BorderBrush = Brushes.Transparent;

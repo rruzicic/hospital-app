@@ -1,19 +1,10 @@
 ﻿using Controller;
-using hospital.VM;
 using Model;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace hospital.View
 {
@@ -22,12 +13,12 @@ namespace hospital.View
     /// </summary>
     public partial class AddMedicineWindow : Window
     {
-        private MedicineController medicineController;
-        private RoomController roomController;
-        private List<string> ingridients = new List<string>();
+        private readonly MedicineController medicineController;
+        private readonly RoomController roomController;
+        private readonly List<string> ingridients = new List<string>();
         public AddMedicineWindow()
         {
-            this.DataContext = this;
+            DataContext = this;
             InitializeComponent();
             App app = Application.Current as App;
             medicineController = app.medicineController;
@@ -62,32 +53,43 @@ namespace hospital.View
         {
             string id = codeField.Text;
             if (medicineController.FindById(id) != null)
+            {
                 throw new Exception("Medicine with this id already exists!");
+            }
         }
 
         private void ValidateQuantity()
         {
             int value;
-            bool isValid = Int32.TryParse(quanityField.Text, out value);
+            bool isValid = int.TryParse(quanityField.Text, out value);
 
             if (!isValid)
+            {
                 throw new Exception("Quantity should be a number!");
+            }
 
             if (value < 0)
+            {
                 throw new Exception("Quantity should be positive!");
+            }
         }
 
         private void ValidateIngridients()
         {
             if (GetIngridients().Count == 0)
+            {
                 throw new Exception("There should be at least one ingredient!");
+            }
         }
 
         private void AddMedicine()
         {
-            Medicine medicine = new Medicine(codeField.Text, nameField.Text, GetIngridients(), nameField.Text, Int32.Parse(quanityField.Text));
+            Medicine medicine = new Medicine(codeField.Text, nameField.Text, GetIngridients(), nameField.Text, int.Parse(quanityField.Text));
             if (!IsMedicineNew(medicine))
+            {
                 return;
+            }
+
             medicine.Alternatives = GetAlternatives();
             medicineController.Create(medicine);
             AddMedicineAsEquipment();
@@ -105,7 +107,7 @@ namespace hospital.View
 
         private void AddMedicineAsEquipment()
         {
-            Equipment equipment = new Equipment(nameField.Text, Int32.Parse(quanityField.Text));
+            Equipment equipment = new Equipment(nameField.Text, int.Parse(quanityField.Text));
             roomController.FindRoomByPurpose("warehouse").AddEquipment(equipment);
         }
 
@@ -130,7 +132,7 @@ namespace hospital.View
         }
         private void Cancel_Medicine_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void IsFormFilled(object sender, TextChangedEventArgs e)
@@ -156,7 +158,9 @@ namespace hospital.View
         private void Close_Window(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
+            {
                 Close();
+            }
         }
     }
 }

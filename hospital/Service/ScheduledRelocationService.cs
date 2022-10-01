@@ -2,19 +2,15 @@
 using hospital.Repository;
 using Model;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace hospital.Service
 {
     public class ScheduledRelocationService
     {
-        private IScheduledRelocationRepository scheduledRelocationRepository;
-        private TimeSchedulerService timeSchedulerService;
+        private readonly IScheduledRelocationRepository scheduledRelocationRepository;
+        private readonly TimeSchedulerService timeSchedulerService;
 
         public ScheduledRelocationService(IScheduledRelocationRepository scheduledRelocationRepository, TimeSchedulerService timeSchedulerService)
         {
@@ -25,7 +21,10 @@ namespace hospital.Service
         public void Create(ScheduledRelocation relocation)
         {
             if (relocation._FromRoom.id.Equals(relocation._ToRoom.id))
+            {
                 throw new Exception("Cant relocate to same room");
+            }
+
             scheduledRelocationRepository.Create(relocation);
         }
 
@@ -63,7 +62,8 @@ namespace hospital.Service
             }
         }
 
-        private void ExecuteRelocation(ScheduledRelocation rel) {
+        private void ExecuteRelocation(ScheduledRelocation rel)
+        {
             Room toRoom = rel._ToRoom;
             string equipmentType = rel._TypeOfEquipment;
             int quantity = rel._Quantity;
@@ -71,7 +71,8 @@ namespace hospital.Service
             DeleteById(rel._Id);
         }
 
-        public List<TimeInterval> FindRelocationIntervals(int relocationDuration) {
+        public List<TimeInterval> FindRelocationIntervals(int relocationDuration)
+        {
             return timeSchedulerService.FindRelocationIntervals(relocationDuration);
         }
 

@@ -3,11 +3,7 @@ using hospital.Controller;
 using hospital.View;
 using Model;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -20,9 +16,9 @@ namespace hospital.ViewModel
         public ICommand EditMedicineCommand => new EditWindowCommand();
         public ICommand AddMedicineCommand => new AddMedicineCommand();
         public ICommand AddIngridientCommand => new AddIngridientCommand();
-        private App app;
-        private MedicineController medicineController;
-        private IngridientsController ingridientsController;
+        private readonly App app;
+        private readonly MedicineController medicineController;
+        private readonly IngridientsController ingridientsController;
         public MedicinePageViewModel()
         {
             app = Application.Current as App;

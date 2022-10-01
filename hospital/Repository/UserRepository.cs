@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using hospital.FileHandler;
 using Model;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using hospital.FileHandler;
+using System.Linq;
 
 namespace Repository
 {
@@ -18,7 +15,7 @@ namespace Repository
         {
             userFileHandler = new UserFileHandler();
 
-            
+
             List<User> deserializedList = userFileHandler.Read();
             if (deserializedList != null)
             {
@@ -34,8 +31,8 @@ namespace Repository
 
         public bool Create(User user)
         {
-            this.users.Add(user);
-            userFileHandler.Write(this.users.ToList());
+            users.Add(user);
+            userFileHandler.Write(users.ToList());
             return true;
         }
 
@@ -60,7 +57,7 @@ namespace Repository
         public bool DeleteByUsername(string username)
         {
             bool reVal = users.Remove(FindByUsername(username));
-            userFileHandler.Write(this.users.ToList());
+            userFileHandler.Write(users.ToList());
             return reVal;
         }
 

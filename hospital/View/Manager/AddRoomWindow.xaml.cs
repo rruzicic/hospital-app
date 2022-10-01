@@ -1,12 +1,5 @@
-﻿using Controller;
-using Model;
-using System;
+﻿using hospital.VM;
 using System.Windows;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Collections.Generic;
-using System.Windows.Input;
-using hospital.VM;
 
 namespace hospital.View
 {
@@ -17,7 +10,7 @@ namespace hospital.View
     {
         public AddRoomWindow()
         {
-            this.DataContext = new AddRoomWindowViewModel();
+            DataContext = new AddRoomWindowViewModel();
             InitializeComponent();
         }
     }

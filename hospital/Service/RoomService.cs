@@ -1,12 +1,11 @@
+using hospital.Model;
+using hospital.Repository;
+using hospital.Service;
 using Model;
 using Repository;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Model;
-using hospital.Service;
-using hospital.Model;
-using hospital.Repository;
 
 namespace Service
 {
@@ -19,8 +18,8 @@ namespace Service
         public RoomService(IRoomRepository roomRepository, AppointmentRepository appointmentRepository, ScheduledBasicRenovationService basicRenovation)
         {
             this.roomRepository = roomRepository;
-            this._appointmentRepository = appointmentRepository;
-            this._basicRenovation = basicRenovation;
+            _appointmentRepository = appointmentRepository;
+            _basicRenovation = basicRenovation;
         }
 
         public void Create(Room room)
@@ -29,16 +28,18 @@ namespace Service
             roomRepository.Create(room);
         }
 
-        public Room FindRoomById(String id)
+        public Room FindRoomById(string id)
         {
             return roomRepository.FindById(id);
         }
 
-        public Room FindRoomByName(string name) {
+        public Room FindRoomByName(string name)
+        {
             return roomRepository.FindByName(name);
         }
 
-        public Room FindRoomByPurpose(string purpose) {
+        public Room FindRoomByPurpose(string purpose)
+        {
             return roomRepository.FindByPurpose(purpose);
         }
         public List<Room> FindRoomsByPurpose(string purpose)
@@ -46,15 +47,18 @@ namespace Service
             return roomRepository.FindRoomsByPurpose(purpose);
         }
 
-        public ObservableCollection<Room> FindRoomsByEquipmentType(string type) {
+        public ObservableCollection<Room> FindRoomsByEquipmentType(string type)
+        {
             return roomRepository.FindRoomsByEquipmentType(type);
         }
 
-        public ObservableCollection<Room> FindRoomsByEquipmentQuantity(int quantity) {
+        public ObservableCollection<Room> FindRoomsByEquipmentQuantity(int quantity)
+        {
             return roomRepository.FindRoomsByEquipmentQuantity(quantity);
         }
 
-        public ObservableCollection<Room> FindRoomsByEquipmentTypeAndQuantity(string type, int quantity) {
+        public ObservableCollection<Room> FindRoomsByEquipmentTypeAndQuantity(string type, int quantity)
+        {
             return roomRepository.FindRoomsByEquipmentTypeAndQuantity(type, quantity);
         }
         public ref ObservableCollection<Room> FindAll()
@@ -62,7 +66,7 @@ namespace Service
             return ref roomRepository.FindAll();
         }
 
-        public bool UpdateById(String id, Room room)
+        public bool UpdateById(string id, Room room)
         {
             return roomRepository.UpdateById(id, room);
         }
@@ -77,7 +81,7 @@ namespace Service
             ObservableCollection<Room> roomsForOperation = new ObservableCollection<Room>();
             foreach (Room room in FindAll())
             {
-                if(room.purpose == "operation")
+                if (room.purpose == "operation")
                 {
                     roomsForOperation.Add(room);
                 }
@@ -86,10 +90,10 @@ namespace Service
         }
         public Room FindRoomForOperationByTime(DateTime dateTime)
         {
-            foreach(Room room in FindAllOperationRooms())
+            foreach (Room room in FindAllOperationRooms())
             {
                 bool isBussy = false;
-                foreach(Appointment appointment in _appointmentRepository.FindAll())
+                foreach (Appointment appointment in _appointmentRepository.FindAll())
                 {
                     if (dateTime == appointment.StartTime && appointment.RoomId == room.id)
                     {
@@ -97,7 +101,10 @@ namespace Service
                         break;
                     }
                 }
-                if (!isBussy && IsRenovation(room.id,dateTime)) return room;
+                if (!isBussy && IsRenovation(room.id, dateTime))
+                {
+                    return room;
+                }
             }
             return null;
         }

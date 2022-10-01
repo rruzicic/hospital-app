@@ -1,19 +1,7 @@
 ﻿using Controller;
 using Model;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace hospital.View
 {
@@ -23,12 +11,12 @@ namespace hospital.View
     public partial class DoctorMedicineWindow : Window
     {
         public ObservableCollection<Medicine> medicineList { get; set; }
-        private MedicineController mc;
-        private InvalidMedicineReportController imrc;
+        private readonly MedicineController mc;
+        private readonly InvalidMedicineReportController imrc;
         public DoctorMedicineWindow()
         {
             InitializeComponent();
-            this.DataContext = this;
+            DataContext = this;
             App app = Application.Current as App;
             mc = app.medicineController;
             imrc = app.invalidMedicineReportController;
@@ -37,7 +25,7 @@ namespace hospital.View
 
         private void btnReport_Click(object sender, RoutedEventArgs e)
         {
-            if(medicineTable.SelectedIndex != -1 && tbNote.Text != "")
+            if (medicineTable.SelectedIndex != -1 && tbNote.Text != "")
             {
                 Medicine selectedMedicine = (Medicine)medicineTable.SelectedItem;
                 InvalidMedicineReport newReport = new InvalidMedicineReport(selectedMedicine.Id, tbNote.Text, -1);

@@ -1,27 +1,26 @@
 ﻿using hospital.FileHandler;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace hospital.Repository
 {
     public class IngridientsRepository
     {
-        private IngridientsFileHandler ingridientsFileHandler;
-        private List<string> ingridients;
+        private readonly IngridientsFileHandler ingridientsFileHandler;
+        private readonly List<string> ingridients;
 
-        public IngridientsRepository() {
-            this.ingridientsFileHandler = new IngridientsFileHandler();
+        public IngridientsRepository()
+        {
+            ingridientsFileHandler = new IngridientsFileHandler();
             ingridients = new List<string>();
         }
 
-        public List<string> FindAll() {
+        public List<string> FindAll()
+        {
             return ingridients;
         }
 
-        public void Create(string ingridient) {
+        public void Create(string ingridient)
+        {
             ingridients.Add(ingridient);
             WriteIngridientsData();
         }
@@ -36,7 +35,8 @@ namespace hospital.Repository
             }
         }
 
-        public void WriteIngridientsData() {
+        public void WriteIngridientsData()
+        {
             ingridientsFileHandler.Write(ingridients);
         }
     }

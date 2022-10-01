@@ -1,19 +1,10 @@
-﻿using hospital.Model;
-using Model;
+﻿using Model;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace hospital.View.Manager
 {
@@ -23,7 +14,7 @@ namespace hospital.View.Manager
     public partial class MergeRoomsWindow : Window
     {
         public Room room { get; set; }
-        private bool demoStarted;
+        private readonly bool demoStarted;
         private Timer timer;
 
         public MergeRoomsWindow(bool demoStarted)
@@ -31,12 +22,16 @@ namespace hospital.View.Manager
             InitializeComponent();
             scheduleBtn.IsEnabled = false;
             this.demoStarted = demoStarted;
-            if (demoStarted) StartDemo();
+            if (demoStarted)
+            {
+                StartDemo();
+            }
         }
 
         private void IsFormFilled(object sender, TextChangedEventArgs e)
         {
-            if (newRoom.Text != "" && newCode.Text != "" && newPurpose.Text != "") {
+            if (newRoom.Text != "" && newCode.Text != "" && newPurpose.Text != "")
+            {
                 scheduleBtn.IsEnabled = true;
                 return;
             }
@@ -55,7 +50,7 @@ namespace hospital.View.Manager
 
         private void CreateRoom()
         {
-            Room room = new Room(newRoom.Text, newPurpose.Text, Int32.Parse(floor.Text), newCode.Text);
+            Room room = new Room(newRoom.Text, newPurpose.Text, int.Parse(floor.Text), newCode.Text);
             this.room = room;
             Close();
         }
@@ -78,7 +73,7 @@ namespace hospital.View.Manager
                 new FillTxtFieldCommand(newCode, "ME0"),
                 new FillTxtFieldCommand(newCode, "ME00"),
                 new FillTxtFieldCommand(newCode, "ME003"),
-                
+
                 new FillTxtFieldCommand(newPurpose, "m"),
                 new FillTxtFieldCommand(newPurpose, "me"),
                 new FillTxtFieldCommand(newPurpose, "mee"),
@@ -89,7 +84,7 @@ namespace hospital.View.Manager
                 new ActionExecuteCommand(FocusOnSaveButton),
                 new ActionExecuteCommand(CreateRoom)
             };
-            timer = new Timer((Object o) => TimerCallback(commands, timer), null, 0, 500);
+            timer = new Timer((object o) => TimerCallback(commands, timer), null, 0, 500);
 
         }
 

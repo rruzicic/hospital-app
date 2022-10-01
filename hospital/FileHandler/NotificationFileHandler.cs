@@ -1,15 +1,11 @@
-﻿using System;
+﻿using Model;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Model;
 
 namespace FileHandler
 {
     public class NotificationFileHandler
     {
-        
+
         private readonly string path = @"../../Resources/Data/NotificationData.txt";
 
         public List<Notification> Read()

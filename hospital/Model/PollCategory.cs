@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace hospital.Model
 {
@@ -26,7 +23,7 @@ namespace hospital.Model
         public double CalculateCategoryGradeSum()
         {
             double sum = 0;
-            foreach(PollQuestion question in _pollQuestions)
+            foreach (PollQuestion question in _pollQuestions)
             {
                 sum += question.Grade;
             }
@@ -34,7 +31,8 @@ namespace hospital.Model
             return sum;
         }
 
-        public PollQuestion FindQuestionById(int id) {
+        public PollQuestion FindQuestionById(int id)
+        {
             return _pollQuestions.FirstOrDefault(x => x.Id == id);
         }
 

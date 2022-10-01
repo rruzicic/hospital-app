@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Model;
+﻿using Model;
 
 namespace DTO
 {
@@ -16,14 +11,14 @@ namespace DTO
 
         public EmergencyDTO(string patientUsername, Specialization requiredSpecialization, bool isOperation)
         {
-            this._patientUsername = patientUsername;
-            this._requiredSpecialization = requiredSpecialization; 
-            this._isOperation = isOperation;
+            _patientUsername = patientUsername;
+            _requiredSpecialization = requiredSpecialization;
+            _isOperation = isOperation;
         }
 
-        public string PatientUsername { get { return _patientUsername; } set { _patientUsername = value; } }
-        public Specialization RequiredSpecialization { get { return _requiredSpecialization; } set { _requiredSpecialization = value; } }
-        public bool IsOperation { get { return _isOperation; } set { _isOperation = value; } }
+        public string PatientUsername { get => _patientUsername; set => _patientUsername = value; }
+        public Specialization RequiredSpecialization { get => _requiredSpecialization; set => _requiredSpecialization = value; }
+        public bool IsOperation { get => _isOperation; set => _isOperation = value; }
 
     }
 }

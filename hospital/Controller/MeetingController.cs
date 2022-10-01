@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Model;
+﻿using Model;
 using Service;
+using System.Collections.ObjectModel;
 
 namespace Controller
 {
@@ -21,7 +16,7 @@ namespace Controller
         }
         private void MakeNotification(Meeting meeting)
         {
-            foreach(string tmp in meeting.Doctors)
+            foreach (string tmp in meeting.Doctors)
             {
                 _notificationService.Create(new Notification(tmp, "New meeting is scheduled."));
             }

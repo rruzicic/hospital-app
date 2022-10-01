@@ -1,11 +1,8 @@
 ﻿using FileHandler;
 using Model;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Repository
 {
@@ -30,7 +27,7 @@ namespace Repository
         {
             vacationRequest.Id = generateId();
             vacationRequests.Add(vacationRequest);
-            vacationRequestFileHandler.Write(this.vacationRequests.ToList());
+            vacationRequestFileHandler.Write(vacationRequests.ToList());
             return true;
         }
         private int generateId()
@@ -39,7 +36,9 @@ namespace Repository
             foreach (VacationRequest v in FindAll())
             {
                 if (v.Id > maxId)
+                {
                     maxId = v.Id;
+                }
             }
             return maxId + 1;
         }
@@ -49,9 +48,9 @@ namespace Repository
         }
         public VacationRequest FindById(int id)
         {
-            foreach(VacationRequest vacationRequest in vacationRequests)
+            foreach (VacationRequest vacationRequest in vacationRequests)
             {
-                if(vacationRequest.Id == id)
+                if (vacationRequest.Id == id)
                 {
                     return vacationRequest;
                 }
@@ -69,15 +68,15 @@ namespace Repository
             }
             return null;
         }
-        public void UpdateStatus(int requestId,Status status)
+        public void UpdateStatus(int requestId, Status status)
         {
             FindById(requestId).Status = status;
-            vacationRequestFileHandler.Write(this.vacationRequests.ToList());
+            vacationRequestFileHandler.Write(vacationRequests.ToList());
         }
         public bool DeleteById(int id)
         {
             vacationRequests.Remove(FindById(id));
-            vacationRequestFileHandler.Write(this.vacationRequests.ToList());
+            vacationRequestFileHandler.Write(vacationRequests.ToList());
             return true;
         }
     }

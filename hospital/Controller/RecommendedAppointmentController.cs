@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Model;
 using Service;
-using Model;
+using System;
 using System.Collections.ObjectModel;
 
 namespace Controller
@@ -25,7 +21,7 @@ namespace Controller
 
         public RecommendedAppointmentController(RecommendedAppointmentService recommendedAppointmentService)
         {
-            this._recommendedAppointmentService = recommendedAppointmentService;
+            _recommendedAppointmentService = recommendedAppointmentService;
         }
         public bool TryMakeAppointment(string patientUsername, DateTime newDate, Doctor doctor)
         {
@@ -37,13 +33,13 @@ namespace Controller
         }
         public Appointment RecommendedOne
         {
-            set { _recommendedAppointmentService.RecommendedOne = value; }
-            get { return _recommendedAppointmentService.RecommendedOne; }
+            set => _recommendedAppointmentService.RecommendedOne = value;
+            get => _recommendedAppointmentService.RecommendedOne;
         }
         public Appointment RecommendedTwo
         {
-            set { _recommendedAppointmentService.RecommendedTwo = value; }
-            get { return _recommendedAppointmentService.RecommendedTwo; }
+            set => _recommendedAppointmentService.RecommendedTwo = value;
+            get => _recommendedAppointmentService.RecommendedTwo;
         }
         public void FindFreeBack(ObservableCollection<Appointment> apointments, DateTime time)
         {
